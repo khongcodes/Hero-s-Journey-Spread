@@ -34,110 +34,453 @@ DATA = {
       desc: "",
     },
     {
-      name: "",
+      name: "The Hierophant",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Lovers",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Chariot",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "Strength",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Hermit",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "Wheel of Fortune",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "Justice",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Hanged Man",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "Death",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "Temperance",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Devil",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Tower",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Star",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Moon",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The Sun",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "Judgement",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
     },
     {
-      name: "",
+      name: "The World",
       meaning_up: "",
       meaning_rev: "",
       desc: "",
-    },
-    
+    }
+  ],
   :minor => {
-
+    :wands => [
+      {
+        name:"Ace of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Two of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Three of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Four of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Five of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Six of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Seven of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Eight of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Nine of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Ten of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Page of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Knight of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Queen of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"King of Wands",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      }
+    ],
+    :cups => [
+      {
+        name:"Ace of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Two of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Three of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Four of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Five of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Six of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Seven of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Eight of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Nine of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Ten of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Page of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Knight of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Queen of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"King of Cups",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      }
+    ],
+    :swords => [
+      {
+        name:"Ace of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Two of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Three of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Four of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Five of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Six of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Seven of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Eight of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Nine of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Ten of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Page of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Knight of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Queen of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"King of Swords",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      }
+    ],
+    :pentacles => [
+      {
+        name:"Ace of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Two of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Three of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Four of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Five of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Six of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Seven of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Eight of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Nine of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Ten of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Page of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Knight of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"Queen of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      },
+      {
+        name:"King of Pentacles",
+        meaning_up:"",
+        meaning_rev:"",
+        desc:"",
+      }
+    ]
   }
 }
 
@@ -149,6 +492,11 @@ end
 def make_cards
   DATA[:major].each_with_index do |card,index|
     new_card = Card.create(card_type:"major", value:index, name:card[:name], meaning_up:card[:meaning_up], meaning_rev:card[:meaning_rev], desc:card[:desc])
+  end
+  DATA[:minor].each do |key, value|
+    value.each_with_index do |card, index|
+      new_card = Card.create(card_type:"minor", value:index+1, suit:key, name:card[:name], meaning_up:card[:meaning_up], meaning_rev:card[:meaning_rev], desc:card[:desc])
+    end
   end
 end
 
