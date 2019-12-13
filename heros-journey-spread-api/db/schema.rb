@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_232820) do
+ActiveRecord::Schema.define(version: 2019_12_13_143747) do
+
+  create_table "card_points", id: false, force: :cascade do |t|
+    t.integer "card_id"
+    t.integer "point_id"
+    t.index ["card_id"], name: "index_card_points_on_card_id"
+    t.index ["point_id"], name: "index_card_points_on_point_id"
+  end
 
   create_table "cards", force: :cascade do |t|
     t.string "name"
@@ -20,6 +27,28 @@ ActiveRecord::Schema.define(version: 2019_12_11_232820) do
     t.string "desc"
     t.string "suit"
     t.string "value"
+  end
+
+  create_table "characters", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "journeys", force: :cascade do |t|
+    t.string "name"
+    t.integer "character_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["character_id"], name: "index_journeys_on_character_id"
+  end
+
+  create_table "points", force: :cascade do |t|
+    t.integer "querent_ref"
+    t.string "description"
+    t.string "querent_type"
+    t.integer "querent_id"
+    t.index ["querent_type", "querent_id"], name: "index_points_on_querent_type_and_querent_id"
   end
 
 end

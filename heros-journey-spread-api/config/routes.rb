@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
-  resources :cards
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get '/cards/random/:id', to: 'cards#random', as: :random
+  resources :cards, only: [:index, :show]
+
+  resources :points
+  resources :characters
+  resources :journeys
+
+  
+  
 end
