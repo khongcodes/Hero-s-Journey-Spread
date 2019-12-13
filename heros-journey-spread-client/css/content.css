@@ -1,19 +1,29 @@
+div#journey-title {
+  margin-bottom: 5%;
+}
+
+div#journey-circle-container {
+  /* background:rgba(0, 0, 255, 0.315); */
+  margin: 0 auto;
+  padding:40px;
+}
+
 div#journey-circle {
-  border: 1px solid rgb(82, 82, 82);
-  width: 48em;
-  height: 48em;
+  border: 0.5px solid rgb(129, 129, 129);
+  width: 40em;
+  height: 40em;
   border-radius: 50%;
   position: relative;
-  margin: 8% auto;
+  margin: 10px auto;
 }
 
 div.point-container {
-  width: 4.8em;
-  height: 8em;
+  width: 3.6em;
+  height: 6em;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -4em -2.4em;
+  margin: -3em -1.8em;
 
   background-image:
   linear-gradient(
@@ -24,7 +34,7 @@ div.point-container {
   background-size: contain;
 
   text-align: center;
-  line-height: 5em;
+  line-height: 3.6em;
   color:white;
 }
 
@@ -34,49 +44,49 @@ div.point-container:hover {
 }
 
 div.point-container.point1 {
-  transform: rotate(-90deg) translate(24em) rotate(90deg);
+  transform: rotate(-90deg) translate(20em) rotate(90deg);
 }
 
 div.point-container.point2 {
-  transform: rotate(-60deg) translate(24em) rotate(60deg);
+  transform: rotate(-60deg) translate(20em) rotate(60deg);
 }
 
 div.point-container.point3 {
-  transform: rotate(-30deg) translate(24em) rotate(30deg);
+  transform: rotate(-30deg) translate(20em) rotate(30deg);
 }
 
 div.point-container.point4 {
-  transform: rotate(0deg) translate(24em) rotate(0deg);
+  transform: rotate(0deg) translate(20em) rotate(0deg);
 }
 
 div.point-container.point5 {
-  transform: rotate(30deg) translate(24em) rotate(-30deg);
+  transform: rotate(30deg) translate(20em) rotate(-30deg);
 }
 
 div.point-container.point6 {
-  transform: rotate(60deg) translate(24em) rotate(-60deg);
+  transform: rotate(60deg) translate(20em) rotate(-60deg);
 }
 
 div.point-container.point7 {
-  transform: rotate(90deg) translate(24em) rotate(-90deg);
+  transform: rotate(90deg) translate(20em) rotate(-90deg);
 }
 
 div.point-container.point8 {
-  transform: rotate(120deg) translate(24em) rotate(-120deg);
+  transform: rotate(120deg) translate(20em) rotate(-120deg);
 }
 
 div.point-container.point9 {
-  transform: rotate(150deg) translate(24em) rotate(-150deg);
+  transform: rotate(150deg) translate(20em) rotate(-150deg);
 }
 
 div.point-container.point10 {
-  transform: rotate(180deg) translate(24em) rotate(-180deg);
+  transform: rotate(180deg) translate(20em) rotate(-180deg);
 }
 
 div.point-container.point11 {
-  transform: rotate(210deg) translate(24em) rotate(-210deg);
+  transform: rotate(210deg) translate(20em) rotate(-210deg);
 }
 
 div.point-container.point12 {
-  transform: rotate(240deg) translate(24em) rotate(-240deg);
+  transform: rotate(240deg) translate(20em) rotate(-240deg);
 }

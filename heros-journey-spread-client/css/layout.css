@@ -1,3 +1,7 @@
+body {
+  color:rgb(41, 41, 41);
+}
+
 div#view-wrapper {
   /* background-color: aqua; */
   position:absolute;
@@ -7,13 +11,13 @@ div#view-wrapper {
   display: grid;
   grid-template:
     [top-end]
-    1.2fr [title-end]
+    160px [title-end]
     10fr [main-end]
     1fr [bottom-end] /
     [left-end]
-    2fr [sidebar-end]
-    3fr [col-1-end]
-    3fr [right-end];
+    380px [sidebar-end]
+    4fr [col-1-end]
+    4fr [right-end];
 }
 
 div#menu {
@@ -27,8 +31,9 @@ div#menu {
 }
 
 div#title-area {
-  grid-area: top-end/left-end/title-end/right-end;
+  grid-area: top-end/left-end/title-end/sidebar-end;
   text-align:center;
+  color:black;
   /* background-color:rgb(255, 225, 230); */
 }
 
@@ -37,15 +42,18 @@ div#sidebar {
   /* background-color: rgb(252, 252, 212); */
   padding: 10px 0 10px 10px;
   font-size:90%;
-  
 }
 
 div#main {
-  grid-area: title-end/sidebar-end/bottom-end/right-end;
+  grid-area: top-end/sidebar-end/bottom-end/right-end;
   /* background-color: rgb(205, 239, 255); */
-  padding: 0 5%;
-  /* text-align: center; */
+  padding: 10px 20px;
+  text-align: center;
+  border-left: 0.5px solid rgb(212, 212, 212);
 }
+
+
+
 
 @media only screen and (max-width:665px) {
   div#view-wrapper {
