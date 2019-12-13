@@ -1,0 +1,33 @@
+img.card {
+  width: 3.6em;
+  height: 6em;
+}
+
+div.card-overlay {
+  background:black;
+  width:3.6em;
+  height:6em;
+  position:absolute;
+  top:0;
+  left:0;
+  opacity:0.33;
+}
+
+div.card-overlay:hover {
+  opacity: 0;
+  transition: 0.2s ease
+}
+
+div.journey-img-overlay-container:hover .card-overlay {
+  opacity: 0;
+  transition: 0.2s ease
+}
+
+div.text-overlay {
+  position:absolute;
+  top:0;
+  left:40%;
+  opacity: 1;
+  color:white;
+  line-height: 3.6em;
+}

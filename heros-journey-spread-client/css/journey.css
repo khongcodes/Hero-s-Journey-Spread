@@ -1,5 +1,9 @@
 div#journey-title {
-  margin-bottom: 5%;
+
+}
+
+div#save-journey-button {
+  margin: 2% 0 3%;
 }
 
 div#journey-circle-container {
@@ -24,23 +28,18 @@ div.point-container {
   top: 50%;
   left: 50%;
   margin: -3em -1.8em;
-
-  background-image:
-  linear-gradient(
-    rgba(0, 0, 0, 0.4), 
-    rgba(0, 0, 0, 0.3)
-  ),
-  url('../assets/card-images/x-small.jpg');
-  background-size: contain;
-
-  text-align: center;
-  line-height: 3.6em;
-  color:white;
 }
 
-div.point-container:hover {
-  background-image: url('../assets/card-images/x-small.jpg');
+div.img-and-overlay-container {
+  position:relative;
+}
 
+div.point11 .text-overlay {
+  left: 30%;
+}
+
+div.point12 .text-overlay, div.point10 .text-overlay {
+  left: 28%;
 }
 
 div.point-container.point1 {

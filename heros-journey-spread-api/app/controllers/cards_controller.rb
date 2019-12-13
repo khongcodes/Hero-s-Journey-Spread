@@ -11,6 +11,8 @@ class CardsController < ApplicationController
 
   def random
     card = Card.random(params[:id].to_i)
+    # card_ser = CardFlipper.new(card).to_serialized_json
+    # render json: card_ser
     render json: card
   end
 end

@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel='stylesheet' type='text/css' href='css/layout.css'>
-  <link rel='stylesheet' type='text/css' href='css/content.css'>
+  <link rel='stylesheet' type='text/css' href='css/character.css'>
+  <link rel='stylesheet' type='text/css' href='css/journey.css'>
+  <link rel='stylesheet' type='text/css' href='css/cards.css'>
   <title>Hero's Journey Spread</title>
 </head>
 
@@ -26,27 +28,156 @@
       <h2>Character</h2>
       <p>Select a character above or create a character below:</p>
       <form>
-        <input type='submit'>
+        <div class='create-character character-name'>
+          <label>Name</label>
+          <input type='text'>
+        </div>
+
+        <div class='character-point-card-container'>
+          <div class='character-point-description p1'>
+            Core - who is your character?
+          </div>
+          <div class='character-point-container p1'>
+            <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+            <div class='card-overlay'></div>
+          </div>
+
+          <div class='character-point-description p2'>
+            Desire - What does your character want?
+          </div>
+          <div class='character-point-container p2'>
+            <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+            <div class='card-overlay'></div>
+          </div>
+          
+          <div class='character-point-description p3'>
+            Bane - What does your character fear?
+          </div>
+          <div class='character-point-container p3'>
+            <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+            <div class='card-overlay'></div>
+          </div>
+
+          <div class='character-point-description p4'>
+            Boon - What assets does your character have?
+          </div>
+          <div class='character-point-container p4'>
+            <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+            <div class='card-overlay'></div>
+          </div>
+
+        </div>
+        <input type='submit' value='Save character'>
       </form>
     </div>
 
     <div id='main'>
       <div id='journey-title'><h2>Journey</h2></div>
+      <div id='save-journey-button'>
+        <button>Save Journey</button>
+      </div>
+      
       <div id='journey-circle-container'>
         <div id='journey-circle'>
-          <div class='point-container point1'><h2>1</h2></div>
-          <div class='point-container point2'><h2>2</h2></div>
-          <div class='point-container point3'><h2>3</h2></div>
-          <div class='point-container point4'><h2>4</h2></div>
-          <div class='point-container point5'><h2>5</h2></div>
-          <div class='point-container point6'><h2>6</h2></div>
-          <div class='point-container point7'><h2>7</h2></div>
-          <div class='point-container point8'><h2>8</h2></div>
-          <div class='point-container point9'><h2>9</h2></div>
-          <div class='point-container point10'><h2>10</h2></div>
-          <div class='point-container point11'><h2>11</h2></div>
-          <div class='point-container point12'><h2>12</h2></div>
+
+          <div class='point-container point1'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>1</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point2'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>2</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point3'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>3</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point4'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>4</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point5'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>5</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point6'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>6</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point7'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>7</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point8'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>8</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point9'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>9</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point10'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>10</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point11'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>11</h2></div>
+            </div>
+          </div>
+
+          <div class='point-container point12'>
+            <div class='journey-img-overlay-container'>
+              <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
+              <div class='card-overlay'></div>
+              <div class='text-overlay'><h2>12</h2></div>
+            </div>
+          </div>
+
         </div>
+        
       </div>
     </div>
     
