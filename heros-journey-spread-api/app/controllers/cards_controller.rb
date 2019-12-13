@@ -8,4 +8,9 @@ class CardsController < ApplicationController
     card = Card.find(params[:id])
     render json: card
   end
+
+  def random
+    card = Card.random(params[:id].to_i)
+    render json: card
+  end
 end
