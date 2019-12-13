@@ -11,5 +11,6 @@ class JourneysController < ApplicationController
 
   def create
     journey = Journey.create(name:params[:name])
+    render json: journey
   end
 end
