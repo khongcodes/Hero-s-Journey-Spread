@@ -1,0 +1,82 @@
+div#journey-circle {
+  border: 1px solid rgb(82, 82, 82);
+  width: 48em;
+  height: 48em;
+  border-radius: 50%;
+  position: relative;
+  margin: 8% auto;
+}
+
+div.point-container {
+  width: 4.8em;
+  height: 8em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -4em -2.4em;
+
+  background-image:
+  linear-gradient(
+    rgba(0, 0, 0, 0.4), 
+    rgba(0, 0, 0, 0.3)
+  ),
+  url('../assets/card-images/x-small.jpg');
+  background-size: contain;
+
+  text-align: center;
+  line-height: 5em;
+  color:white;
+}
+
+div.point-container:hover {
+  background-image: url('../assets/card-images/x-small.jpg');
+
+}
+
+div.point-container.point1 {
+  transform: rotate(-90deg) translate(24em) rotate(90deg);
+}
+
+div.point-container.point2 {
+  transform: rotate(-60deg) translate(24em) rotate(60deg);
+}
+
+div.point-container.point3 {
+  transform: rotate(-30deg) translate(24em) rotate(30deg);
+}
+
+div.point-container.point4 {
+  transform: rotate(0deg) translate(24em) rotate(0deg);
+}
+
+div.point-container.point5 {
+  transform: rotate(30deg) translate(24em) rotate(-30deg);
+}
+
+div.point-container.point6 {
+  transform: rotate(60deg) translate(24em) rotate(-60deg);
+}
+
+div.point-container.point7 {
+  transform: rotate(90deg) translate(24em) rotate(-90deg);
+}
+
+div.point-container.point8 {
+  transform: rotate(120deg) translate(24em) rotate(-120deg);
+}
+
+div.point-container.point9 {
+  transform: rotate(150deg) translate(24em) rotate(-150deg);
+}
+
+div.point-container.point10 {
+  transform: rotate(180deg) translate(24em) rotate(-180deg);
+}
+
+div.point-container.point11 {
+  transform: rotate(210deg) translate(24em) rotate(-210deg);
+}
+
+div.point-container.point12 {
+  transform: rotate(240deg) translate(24em) rotate(-240deg);
+}
