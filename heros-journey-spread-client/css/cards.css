@@ -13,12 +13,13 @@ div.card-overlay {
   opacity:0.33;
 }
 
-div.card-overlay:hover {
-  opacity: 0;
-  transition: 0.2s ease
+div.img-overlay-container {
+  position:relative;
+  width: 3.6em;
+  height: 6em;
 }
 
-div.journey-img-overlay-container:hover .card-overlay {
+div.img-overlay-container:hover .card-overlay {
   opacity: 0;
   transition: 0.2s ease
 }

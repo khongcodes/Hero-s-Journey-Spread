@@ -1,5 +1,4 @@
 div#journey-title {
-
 }
 
 div#save-journey-button {
@@ -7,7 +6,6 @@ div#save-journey-button {
 }
 
 div#journey-circle-container {
-  /* background:rgba(0, 0, 255, 0.315); */
   margin: 0 auto;
   padding:40px;
 }
@@ -21,17 +19,13 @@ div#journey-circle {
   margin: 10px auto;
 }
 
-div.point-container {
+div.point-container-circle {
   width: 3.6em;
   height: 6em;
   position: absolute;
   top: 50%;
   left: 50%;
   margin: -3em -1.8em;
-}
-
-div.img-and-overlay-container {
-  position:relative;
 }
 
 div.point11 .text-overlay {
@@ -42,50 +36,50 @@ div.point12 .text-overlay, div.point10 .text-overlay {
   left: 28%;
 }
 
-div.point-container.point1 {
+div.point-container-circle.point1 {
   transform: rotate(-90deg) translate(20em) rotate(90deg);
 }
 
-div.point-container.point2 {
+div.point-container-circle.point2 {
   transform: rotate(-60deg) translate(20em) rotate(60deg);
 }
 
-div.point-container.point3 {
+div.point-container-circle.point3 {
   transform: rotate(-30deg) translate(20em) rotate(30deg);
 }
 
-div.point-container.point4 {
+div.point-container-circle.point4 {
   transform: rotate(0deg) translate(20em) rotate(0deg);
 }
 
-div.point-container.point5 {
+div.point-container-circle.point5 {
   transform: rotate(30deg) translate(20em) rotate(-30deg);
 }
 
-div.point-container.point6 {
+div.point-container-circle.point6 {
   transform: rotate(60deg) translate(20em) rotate(-60deg);
 }
 
-div.point-container.point7 {
+div.point-container-circle.point7 {
   transform: rotate(90deg) translate(20em) rotate(-90deg);
 }
 
-div.point-container.point8 {
+div.point-container-circle.point8 {
   transform: rotate(120deg) translate(20em) rotate(-120deg);
 }
 
-div.point-container.point9 {
+div.point-container-circle.point9 {
   transform: rotate(150deg) translate(20em) rotate(-150deg);
 }
 
-div.point-container.point10 {
+div.point-container-circle.point10 {
   transform: rotate(180deg) translate(20em) rotate(-180deg);
 }
 
-div.point-container.point11 {
+div.point-container-circle.point11 {
   transform: rotate(210deg) translate(20em) rotate(-210deg);
 }
 
-div.point-container.point12 {
+div.point-container-circle.point12 {
   transform: rotate(240deg) translate(20em) rotate(-240deg);
 }
