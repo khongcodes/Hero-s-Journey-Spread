@@ -64,16 +64,16 @@ div#main {
   transition: ease;
 }
 
-.points-menu.journey {
-  display: block;
+.points-menu {
+  display: none;
 }
 
 .points-menu {
   display: none;
   position: fixed;
   background: white;
-  width: 80vw;
-  height: 40vw;
+  width: 1200px;
+  height: 600px;
   left: 10vw;
   top: 5vw;
 }
@@ -82,8 +82,6 @@ div.points-menu.content-container {
   display: grid;
   grid-template: 1fr 3fr 3fr / 1fr 1fr 1fr;
   /* background-color: rgba(100, 148, 237, 0.562); */
-  width: 80vw;
-  height: 40vw;
   margin: 0 auto;
 }
 

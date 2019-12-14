@@ -12,44 +12,73 @@ const cardsOpenPointMenuModal = function() {
   
   for (const node of cardContainerNodes) {
     node.addEventListener('click', function(event) {
-      modalCanOpen(event);
+      let pointMenuNode = characterOrJourneyPointsMenu(event, node);
+      modalCanOpen(event, pointMenuNode);
       window.addEventListener('click', function(event) {
         modalCanClose(event);
       });
-    });
+    }); 
   };
 };
 
-function modalCanOpen(event) {
+const modalCanOpen = function(event, pointMenuNode) {
   modalActive = true;
-  const pointContent = characterOrJourneyPointsMenu(event);
   pointsModal.style.display = 'block';
-  pointContent.style.display = 'block';
+  pointMenuNode.style.display = 'block';
+  pointMenuNode.classList.add("visible");
 }
 
-function modalCanClose(event) {
+const modalCanClose = function(event) {
   if (event.target === pointsModal && modalActive === true) {
     modalActive = false;
+    
+    let pointMenuNode = document.querySelector('.points-menu.visible');
+    unloadMenuNode(pointMenuNode);
+    pointMenuNode.style.display = 'none';
+    pointMenuNode.classList.remove("visible");
     pointsModal.style.display = 'none';
-    pointContent.style.display = 'none';
+  };
+}
+
+const characterOrJourneyPointsMenu = function(event, nodeClicked) {
+  let pointMenuNode;
+  if ([...event.target.classList].includes('character')) {
+    pointMenuNode = document.querySelector('div.points-menu.character');
+    loadCharacterPointContent(pointMenuNode, nodeClicked);
+  } else {
+    pointMenuNode = document.querySelector('div.points-menu.journey');
+    loadJourneyPointContent(pointMenuNode, nodeClicked);
+  };
+  return pointMenuNode;
+};
+
+// DEPENDS ON CLASSLIST STAYING IN SAME ORDER
+const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
+  let pointTitle = document.getElementById('point-title-journey');
+  let pointInfo = document.getElementById('point-info-journey');
+
+  pointTitle.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].title;
+  pointInfo.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].info;
+}
+
+const unloadMenuNode = function(menu) {
+  if ([...menu.classList].includes('character')) {
+    
+  } else {
+    document.getElementById('point-title-journey').innerText = "";
+    document.getElementById('point-info-journey').innerText = ""
   }
 }
 
-function characterOrJourneyPointsMenu(event) {
-  let pointContentContainer;
-  if ([...event.target.classList].includes('character')) {
-    pointContentContainer = document.querySelector('div.points-menu.character');
-  } else {
-    pointContentContainer = document.querySelector('div.points-menu.journey');
-  };
-  return pointContentContainer;
-};
-
-const cardsInPointCanDraw = function() {
-  document.querySelector('div.point-card-container .draw-card').addEventListener('click', function() {
-    return console.log('big bluh')
-  })
+const unloadJourneyPointContent = function() {
+  console.log("test")
 }
+
+const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
+  console.log(nodeClicked);
+}
+
+
 
 
 
