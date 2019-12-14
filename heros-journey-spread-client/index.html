@@ -13,10 +13,35 @@
 
 <body>
   
-  <div id='view-wrapper'>
+  <div id='modal'>
+    <div class='points-menu character'>character</div>
+    <div class='points-menu journey'>
+      <div class='points-menu content-container'>
+        <div class='points-menu-header'><h2>1. The Ordinary World</h2></div>
+        
+        <div class='points-menu-column c1'>
+          <p>The story begins with the character in their usual routine, unaware of the adventures about to unfold. This is a kind of safe place, or 'comfort zone', which they may or may not want to change. The protagonist's everyday life and routines are presented in a way which endears them to us, and makes us sympathize with their plight. In this stage, we learn important details about our hero, their outlook and personality, backstory, and what they're capable of.</p>
+          <form>
+            <label>Description:</label><br>
+            <textarea></textarea><br>
+            <input type='submit' value='Save story point'>
+          </form>
+        </div>
 
-    <div class='points-menu character'></div>
-    <div class='points-menu journey'></div>
+        <div class='points-menu-column c2'>
+          <div class='point-card-container'>
+            <img src='assets/card-images/x.jpg' alt='card-back' class='draw-card'>
+            <div class='point-card-overlay'></div>
+            <div class='point-card-text-overlay'><h2>Click to draw a card</h2></div>
+          </div>
+        </div>
+
+        <div class='points-menu-column c3'></div>
+      </div>
+    </div>
+  </div>
+
+  <div id='view-wrapper'>
     
     <div id='menu'>
       Menu
@@ -41,40 +66,40 @@
           <div class='point-description-grid character p1'>
             Core - who is your character?
           </div>
-          <div class='point-container-grid character p1'>
+          <div class='point-container character p1'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
-              <div class='card-overlay'></div>
+              <div class='card-overlay character'></div>
             </div>
           </div>
 
           <div class='point-description-grid character p2'>
             Desire - What does your character want?
           </div>
-          <div class='point-container-grid character p2'>
+          <div class='point-container character p2'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
-              <div class='card-overlay'></div>
+              <div class='card-overlay character'></div>
             </div>
           </div>
           
           <div class='point-description-grid character p3'>
             Bane - What does your character fear?
           </div>
-          <div class='point-container-grid character p3'>
+          <div class='point-container character p3'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
-              <div class='card-overlay'></div>
+              <div class='card-overlay character'></div>
             </div>
           </div>
 
           <div class='point-description-grid character p4'>
             Boon - What assets does your character have?
           </div>
-          <div class='point-container-grid character p4'>
+          <div class='point-container character p4'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
-              <div class='card-overlay'></div>
+              <div class='card-overlay character'></div>
             </div>
           </div>
 
@@ -92,7 +117,7 @@
       <div id='journey-circle-container'>
         <div id='journey-circle'>
 
-          <div class='point-container-circle journey point1'>
+          <div class='point-container journey point1'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -100,7 +125,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point2'>
+          <div class='point-container journey point2'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -108,7 +133,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point3'>
+          <div class='point-container journey point3'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -116,7 +141,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point4'>
+          <div class='point-container journey point4'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -124,7 +149,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point5'>
+          <div class='point-container journey point5'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -132,7 +157,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point6'>
+          <div class='point-container journey point6'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -140,7 +165,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point7'>
+          <div class='point-container journey point7'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -148,7 +173,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point8'>
+          <div class='point-container journey point8'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -156,7 +181,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point9'>
+          <div class='point-container journey point9'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -164,7 +189,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point10'>
+          <div class='point-container journey point10'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -172,7 +197,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point11'>
+          <div class='point-container journey point11'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -180,7 +205,7 @@
             </div>
           </div>
 
-          <div class='point-container-circle journey point12'>
+          <div class='point-container journey point12'>
             <div class='img-overlay-container'>
               <img class='card' src='assets/card-images/x-small.jpg' alt='Tarot card back'>
               <div class='card-overlay'></div>
@@ -195,7 +220,8 @@
 
   </div>
 
-  <script src="./javascripts/index.js"></script>
+  <script src="./javascripts/index.js"></script>  
+  <!-- <script src="./javascripts/api-talk.js"></script>   -->
 </body>
 
 </html>

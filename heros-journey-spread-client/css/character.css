@@ -11,6 +11,6 @@ div.point-description-grid.character {
   padding-right: 10%;
 }
 
-div.point-container-grid.character {
+div.point-container.character {
   grid-area: span 1 / span 1;
 }

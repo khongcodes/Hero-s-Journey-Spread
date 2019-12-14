@@ -1,18 +1,54 @@
-const RANDOM_CARD = 'http://localhost:3000/random/1'
-
-
+const RANDOM_CARD = 'http://localhost:3000/random/1';
+let modalActive = false;
+const pointsModal = document.querySelector('div#modal');
 
 document.addEventListener('DOMContentLoaded', () => {
-  cardOpensPointsMenu();
+  cardsOpenPointMenuModal();
+  cardsInPointCanDraw();
 });
 
-const journeyCardsOpenPointMenu = function() {
-  const cardContainerNodes = document.getElementsByClassName('journey-point-container');
+const cardsOpenPointMenuModal = function() {
+  const cardContainerNodes = document.getElementsByClassName('point-container');
+  
   for (const node of cardContainerNodes) {
-    node.addEventListener('click', function() {
-      
-    })
+    node.addEventListener('click', function(event) {
+      modalCanOpen(event);
+      window.addEventListener('click', function(event) {
+        modalCanClose(event);
+      });
+    });
+  };
+};
+
+function modalCanOpen(event) {
+  modalActive = true;
+  const pointContent = characterOrJourneyPointsMenu(event);
+  pointsModal.style.display = 'block';
+  pointContent.style.display = 'block';
+}
+
+function modalCanClose(event) {
+  if (event.target === pointsModal && modalActive === true) {
+    modalActive = false;
+    pointsModal.style.display = 'none';
+    pointContent.style.display = 'none';
   }
+}
+
+function characterOrJourneyPointsMenu(event) {
+  let pointContentContainer;
+  if ([...event.target.classList].includes('character')) {
+    pointContentContainer = document.querySelector('div.points-menu.character');
+  } else {
+    pointContentContainer = document.querySelector('div.points-menu.journey');
+  };
+  return pointContentContainer;
+};
+
+const cardsInPointCanDraw = function() {
+  document.querySelector('div.point-card-container .draw-card').addEventListener('click', function() {
+    return console.log('big bluh')
+  })
 }
 
 

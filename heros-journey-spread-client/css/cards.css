@@ -13,7 +13,7 @@ div.card-overlay {
   opacity:0.33;
 }
 
-div.img-overlay-container {
+div.point-container div.img-overlay-container {
   position:relative;
   width: 3.6em;
   height: 6em;
@@ -31,4 +31,49 @@ div.text-overlay {
   opacity: 1;
   color:white;
   line-height: 3.6em;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/****         POINT MENU MODAL       *****/
+
+div.point-card-container {
+  position:relative;
+  height: 30vw;
+  width: 18vw;
+  margin: 0 auto;
+}
+
+div.point-card-container img{
+  height: 30vw;
+  margin: 2% auto;
+}
+
+div.point-card-overlay {
+  height: 30vw;
+  width: 18vw;
+  margin: 2% auto;
+  top:0;
+  background-color: black;
+  opacity:0.4;
+  position: absolute;
+}
+
+div.point-card-text-overlay {
+  position: absolute;
+  left: 2vw;
+  top: 10vw;
+  font-style: italic;
+  color:white;
+  
+}
+
+div.point-card-container:hover .point-card-overlay {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+
+div.point-card-container:hover .point-card-text-overlay {
+  display:none;
 }

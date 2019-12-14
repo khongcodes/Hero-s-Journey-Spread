@@ -1,18 +1,3 @@
-* {
-  z-index: 0;
-}
-
-.points-menu {
-  position: fixed;
-  width: 80vw;
-  height: 40vw;
-  background-color: red;
-  z-index: 1;
-  left: 10vw;
-  top: 5vw;
-  display: none;
-}
-
 body {
   color:rgb(41, 41, 41);
 }
@@ -65,6 +50,67 @@ div#main {
   padding: 10px 20px;
   text-align: center;
   border-left: 0.5px solid rgb(212, 212, 212);
+}
+
+#modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.315);
+  transition: ease;
+}
+
+.points-menu.journey {
+  display: block;
+}
+
+.points-menu {
+  display: none;
+  position: fixed;
+  background: white;
+  width: 80vw;
+  height: 40vw;
+  left: 10vw;
+  top: 5vw;
+}
+
+div.points-menu.content-container {
+  display: grid;
+  grid-template: 1fr 3fr 3fr / 1fr 1fr 1fr;
+  /* background-color: rgba(100, 148, 237, 0.562); */
+  width: 80vw;
+  height: 40vw;
+  margin: 0 auto;
+}
+
+div.points-menu-header {
+  grid-area: span 1 / span 3;
+  /* background-color: rgb(226, 205, 208); */
+  box-sizing: border-box;
+  padding: 1% 2% 0;
+}
+
+div.points-menu-column.c1 {
+  /* background-color: cornflowerblue; */
+  padding:0 1.8em;
+  text-align: left;
+}
+
+div.points-menu-column.c1 textarea {
+  width: 100%;
+  height: 6em;
+  resize: none;
+  border: 0.4px solid rgb(189, 189, 189);
+}
+
+div.points-menu-column {
+  grid-area: span 2/ span 1;
+  background-color: white;
+  text-align: center;
 }
 
 
