@@ -2,10 +2,27 @@ const RANDOM_CARD = 'http://localhost:3000/random/1';
 let modalActive = false;
 const pointsModal = document.querySelector('div#modal');
 
+// class IndexPoints {
+//   constructor(pointNum, stage=1, card=undefined, querentRef='' ) {
+//     this.pointNum = pointNum;
+//     this.stage = stage;
+//     this.cards = card;
+//     this.querentRef = querentRef;
+//   }
+// }
+
 document.addEventListener('DOMContentLoaded', () => {
+  // preparePointObjects();
   cardsOpenPointMenuModal();
   cardsInPointCanDraw();
 });
+
+// const preparePointObjects = function() {
+//   const pointContainerNodes = document.getElementsByClassName('point-container');
+//   for (const node of cardContainerNodes ) {
+//     const 
+//   }
+// }
 
 const cardsOpenPointMenuModal = function() {
   const cardContainerNodes = document.getElementsByClassName('point-container');
@@ -14,7 +31,7 @@ const cardsOpenPointMenuModal = function() {
     node.addEventListener('click', function(event) {
       let pointMenuNode = characterOrJourneyPointsMenu(event, node);
       modalCanOpen(event, pointMenuNode);
-      window.addEventListener('click', function(event) {
+      document.getElementById('modal').addEventListener('click', event => {
         modalCanClose(event);
       });
     }); 
@@ -52,26 +69,13 @@ const characterOrJourneyPointsMenu = function(event, nodeClicked) {
   return pointMenuNode;
 };
 
-// DEPENDS ON CLASSLIST STAYING IN SAME ORDER
-const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
-  let pointTitle = document.getElementById('point-title-journey');
-  let pointInfo = document.getElementById('point-info-journey');
-
-  pointTitle.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].title;
-  pointInfo.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].info;
-}
-
 const unloadMenuNode = function(menu) {
   if ([...menu.classList].includes('character')) {
-    
-  } else {
-    document.getElementById('point-title-journey').innerText = "";
-    document.getElementById('point-info-journey').innerText = ""
-  }
-}
 
-const unloadJourneyPointContent = function() {
-  console.log("test")
+  } else {
+    document.querySelector('h2.points-menu.header-content').innerText = "";
+    document.querySelector('p.points-menu.info-content').innerText = ""
+  }
 }
 
 const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {

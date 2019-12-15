@@ -38,19 +38,19 @@ div.text-overlay {
 
 /****         POINT MENU MODAL       *****/
 
-div.point-card-container {
+div.points-menu.card-container {
   position:relative;
   height: 30vw;
   width: 18vw;
   margin: 0 auto;
 }
 
-div.point-card-container img{
+div.points-menu.card-container img.points-menu.draw-card {
   height: 30vw;
   margin: 2% auto;
 }
 
-div.point-card-overlay {
+div.points-menu.card-overlay {
   height: 30vw;
   width: 18vw;
   margin: 2% auto;
@@ -60,7 +60,7 @@ div.point-card-overlay {
   position: absolute;
 }
 
-div.point-card-text-overlay {
+div.points-menu.card-text-overlay {
   position: absolute;
   left: 2vw;
   top: 10vw;
@@ -69,11 +69,11 @@ div.point-card-text-overlay {
   
 }
 
-div.point-card-container:hover .point-card-overlay {
+div.points-menu.card-container:hover .points-menu.card-overlay {
   opacity: 0;
   transition: 0.2s ease;
 }
 
-div.point-card-container:hover .point-card-text-overlay {
+div.points-menu.card-container:hover .points-menu.card-text-overlay {
   display:none;
 }

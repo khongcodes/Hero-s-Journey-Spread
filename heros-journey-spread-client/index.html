@@ -14,35 +14,38 @@
 <body>
   
   <div id='modal'>
-    <div class='points-menu character'>
-      <div class='points-menu content-container'>
-        CONTENTCONTENCONTESDFCHARACTER
-      </div>
+  </div>
+
+  <div class='points-menu character'>
+    <div class='points-menu content-container'>
+      CONTENTCONTENCONTESDFCHARACTER
     </div>
+  </div>
 
-    <div class='points-menu journey'>
-      <div class='points-menu content-container'>
-        <div class='points-menu-header'><h2 id='point-title-journey'>1. The Ordinary World</h2></div>
-        
-        <div class='points-menu-column c1'>
-          <p id='point-info-journey'>The story begins with the character in their usual routine, unaware of the adventures about to unfold. This is a kind of safe place, or 'comfort zone', which they may or may not want to change. The protagonist's everyday life and routines are presented in a way which endears them to us, and makes us sympathize with their plight. In this stage, we learn important details about our hero, their outlook and personality, backstory, and what they're capable of.</p>
-          <form>
-            <label>Description:</label><br>
-            <textarea></textarea><br>
-            <input type='submit' value='Save story point'>
-          </form>
-        </div>
-
-        <div class='points-menu-column c2'>
-          <div class='point-card-container'>
-            <img src='assets/card-images/x.jpg' alt='card-back' class='draw-card'>
-            <div class='point-card-overlay'></div>
-            <div class='point-card-text-overlay'><h2>Click to draw a card</h2></div>
-          </div>
-        </div>
-
-        <div class='points-menu-column c3'></div>
+  <div class='points-menu journey'>
+    <div class='points-menu content-container'>
+      <div class='points-menu header-container'>
+        <h2 class='points-menu header-content'></h2>
       </div>
+      
+      <div class='points-menu column c1'>
+        <p class='points-menu info-content'></p>
+        <form>
+          <label>Description (optional):</label><br>
+          <textarea placeholder="How does this card relate to this story point?&#10What do we open on?"></textarea><br>
+          <input type='submit' value='Save story point'>
+        </form>
+      </div>
+
+      <div class='points-menu column c2'>
+        <div class='points-menu card-container'>
+          <img src='assets/card-images/x.jpg' alt='card-back' class='points-menu draw-card'>
+          <div class='points-menu card-overlay'></div>
+          <div class='points-menu card-text-overlay'><h2>Click to draw a card</h2></div>
+        </div>
+      </div>
+
+      <div class='points-menu column c3'></div>
     </div>
   </div>
 
@@ -228,7 +231,7 @@
 
   <script src="./javascripts/index.js"></script>  
   <script src="./javascripts/api-talk.js"></script>  
-  <script src="./javascripts/points-info.js"></script>  
+  <script src="./javascripts/journey-point-menu.js"></script>  
 </body>
 
 </html>

@@ -4,7 +4,7 @@ class CreatePoints < ActiveRecord::Migration[6.0]
       t.integer :querent_ref
       t.string :description
 
-      t.references :querent, polymorphic: true
+      t.references :querent, polymorphic: true, optional: true
     end
 
     create_table :card_points, id: false do |t|
