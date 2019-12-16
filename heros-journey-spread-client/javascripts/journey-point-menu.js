@@ -81,7 +81,7 @@ const menuLibrary = (function() {
         cardImage.className = 'points-menu drawn-card';
         
         if (configObj.state = 'inverted') {
-          this.classList.add('inverted-card');
+          cardImage.classList.add('inverted-card');
         }
       };      
       this.appendChild(cardImage);
@@ -116,12 +116,12 @@ const menuLibrary = (function() {
       cardMeaning.className = 'points-menu card-meaning-list'
       let assignMeaning;
 
-      if (configObj.state = 'upright') {
+      if (configObj.state === 'upright') {
         cardTitle.innerText = configObj.name;
         assignMeaning = configObj.meaning_up;
       } else {
-        cardTitle.innerText = `Inverted ${configObj.name}`;
-        assignMeaning = configObj.meaning_down;
+        cardTitle.innerText = `${configObj.name}, Inverted`;
+        assignMeaning = configObj.meaning_inv;
       }
 
       cardDesc.innerText = configObj.desc;
@@ -185,8 +185,8 @@ const changeJourneyPointStage0to1 = function() {
   .then(card => {
     const configObj = Object.assign({}, card[0], {
       drawn: true,
-      state: cardState(),
-    })
+      state: cardState()
+    })  
     
     pointState.journey[currentPoint].cards.push({
       id: card[0].id,
@@ -211,12 +211,13 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
   .then(resp => resp.json())
   .then(obj => {
     
-    const configObj = Object.assign({}, obj, {
+    const configObj = Object.assign({}, {
       drawn:true,
       state:pointState.journey[currentPoint].cards[0].state
-    })
+    }, obj)
+
     menuLibrary.placeImage.call(cardContainer, configObj);
-    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('div.column.c3'), configObj)
+    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('div.column.c3'), configObj);
     
     // while fetching ALSO pull up description
   })
