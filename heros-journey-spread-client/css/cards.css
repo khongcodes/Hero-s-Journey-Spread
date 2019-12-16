@@ -77,3 +77,7 @@ div.points-menu.card-container:hover .points-menu.card-overlay {
 div.points-menu.card-container:hover .points-menu.card-text-overlay {
   display:none;
 }
+
+form.points-menu.description-form {
+  margin-top: 10%;
+}

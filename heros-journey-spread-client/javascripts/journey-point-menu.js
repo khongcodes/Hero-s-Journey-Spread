@@ -49,12 +49,135 @@ const JOURNEYPOINTSDATA = {
   }
 }
 
+const menuLibrary = (function() {
+  return {
+    placeInfoContent: function(nodeClicked) {
+      const infoContent = document.createElement('p');
+      infoContent.className = 'points-menu info-content';
+      infoContent.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].info;
+      this.appendChild(infoContent);
+    },
+    
+    placeCardContainer: function() {
+      const cardContainer = document.createElement('div');
+      cardContainer.className = 'points-menu card-container';
+      this.appendChild(cardContainer);
+      return cardContainer;
+    },
+
+    placeImage: function(configObj) {
+      const cardImage = document.createElement('img');
+      if (!configObj.drawn) {
+        cardImage.src = 'assets/card-images/x.jpg';
+        cardImage.alt = 'card-back';
+        cardImage.className = 'points-menu draw-card';
+      } else {
+        if (configObj.card_type === 'major') {
+          cardImage.src = `assets/card-images/major/${configObj.value}.jpg`;
+        } else {
+          cardImage.src = `assets/card-images/minor/${configObj.suit}/${configObj.value}.jpg`;
+        };
+        cardImage.alt = `${configObj.name}`;
+        cardImage.className = 'points-menu drawn-card';
+      };
+      this.appendChild(cardImage);
+    },
+
+    placeCardOverlay: function() {
+      const overlayDiv = document.createElement('div');
+      overlayDiv.className = 'points-menu card-overlay';
+      this.appendChild(overlayDiv);
+    },
+
+    placeCardTextOverlay: function() {
+      const textOverlay = document.createElement('div');
+      textOverlay.className = 'points-menu card-text-overlay';
+      textOverlay.appendChild(document.createElement('h2'));
+      textOverlay.childNodes[0].innerText = 'Click to draw a card'
+      this.appendChild(textOverlay);
+    }
+
+  }
+})();
+
+
 // DEPENDS ON CLASSLIST STAYING IN SAME ORDER
 const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
-  let pointTitle = document.querySelector('h2.points-menu.header-content');
-  let pointInfo = document.querySelector('p.points-menu.info-content');
-
+  let pointTitle = pointMenuNode.querySelector('h2.points-menu.header-content');
   pointTitle.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].title;
-  pointInfo.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].info;
+  menuLibrary.placeInfoContent.call(pointMenuNode.querySelector('.column.c1'), nodeClicked);
+
+  switch (pointState.journey[nodeClicked.classList[2]].cards.length) {
+    case 0:
+      loadJourneyPointStage0(pointMenuNode, nodeClicked);
+      break;
+    case 1:
+      loadJourneyPointStage1(pointMenuNode, nodeClicked);
+      break;
+
+  }
 }
 
+const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+  menuLibrary.placeImage.call(cardContainer, {drawn: false});
+  menuLibrary.placeCardOverlay.call(cardContainer);
+  menuLibrary.placeCardTextOverlay.call(cardContainer);
+
+  pointMenuNode.querySelector('div.card-container').addEventListener('click', changeJourneyPointStage1);
+}
+
+const changeJourneyPointStage1 = function() {
+  document.querySelector('div.points-menu div.card-container').removeEventListener('click', changeJourneyPointStage1);
+  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+  fetch(RANDOM_CARD)
+  .then(resp => resp.json())
+  .then(card => {
+    pointState.journey[currentPoint].cards.push(card[0].id);
+    
+    changeCardPicture.apply(document.querySelector('div.points-menu.c2 img'),[true, card[0]]);
+    removeImageOverlay();
+    listifyCardDescriptionAndForm(card[0]);
+    makeDescriptionForm();
+  
+
+    console.log(card[0]);
+  })
+}
+
+const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+  menuLibrary.placeImage.call(cardContainer, {drawn: true});
+}
+
+const changeCardPicture = function(drawn, card) {
+  if (!drawn) {
+    this.src = 'assets/card-images/x.jpg';
+  } else if (card.card_type === "major") {
+    this.src = `assets/card-images/major/${card.value}.jpg`;
+  } else if (card.card_type === "minor") {
+    this.src = `assets/card-images/minor/${card.suit}/${card.value}.jpg`;
+  }
+}
+
+const removeImageOverlay = function() {
+  const cardContainer = document.querySelector('div.points-menu.card-container');
+  [document.querySelector('.points-menu.card-overlay'), document.querySelector('.points-menu.card-text-overlay')].map(x => cardContainer.removeChild(x));
+}
+
+const listifyCardDescriptionAndForm = function(card) {
+  const descriptionContainer = document.createElement('div');
+  descriptionContainer.className = 'points-menu card-desc-container';
+  descriptionContainer.innerHTML = 
+  `<h3 class='points-menu card-name'>${card.name}</h3>
+  <ul class='points-menu card-traits'>
+    <li>test change</li>
+    <li>Meaning_up</li>
+    <li>Meaning_down</li>
+  </ul>`;
+  document.querySelector('div.points-menu.column.c3').prepend(descriptionContainer);
+}
+
+// const makeDescriptionForm = function() {
+//   document.querySelector('form.points-menu.description-form').style.display = 'block';
+// }
