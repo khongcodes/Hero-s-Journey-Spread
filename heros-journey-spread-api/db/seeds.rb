@@ -178,7 +178,7 @@ DATA = {
         name:"Seven of Wands",
         meaning_up:"Competition, protection and defense, perseverance, maintaining control",
         meaning_inv:"Giving up, overwhelmed, avoiding conflict",
-        desc:"a man who is standing on a tall hill and being challenged by six opponents below.",
+        desc:"A figure stands on a tall hill and being challenged by six opponents below.",
       },
       {
         name:"Eight of Wands",

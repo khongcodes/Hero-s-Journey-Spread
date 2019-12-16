@@ -80,7 +80,7 @@ const menuLibrary = (function() {
         cardImage.alt = `${configObj.name}`;
         cardImage.className = 'points-menu drawn-card';
         
-        if (configObj.state = 'inverted') {
+        if (configObj.state === 'inverted') {
           cardImage.classList.add('inverted-card');
         }
       };      
@@ -144,11 +144,13 @@ const menuLibrary = (function() {
 const cardState = function() {
   const invertedFactor = 40;
   const randNum = Math.floor(Math.random() * 100);
+  let cardState;
   if (randNum <= invertedFactor) {
-    return 'inverted'
+    cardState = 'inverted'
   } else {
-    return 'upright'
-  };
+    cardState = 'upright'
+  }
+  return cardState;
 };
 
 // DEPENDS ON CLASSLIST STAYING IN SAME ORDER
@@ -195,7 +197,7 @@ const changeJourneyPointStage0to1 = function() {
     
     clearChildren(cardContainer);
     menuLibrary.placeImage.call(cardContainer, configObj);
-    listifyCardDescriptionAndForm(card[0]);
+    menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
     makeDescriptionForm();
   
 
