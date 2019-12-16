@@ -146,8 +146,14 @@ const changeJourneyPointStage1 = function() {
 }
 
 const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
-  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
-  menuLibrary.placeImage.call(cardContainer, {drawn: true});
+  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+  fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0]}`)
+  .then(resp => resp.json())
+  .then(obj => {
+    const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+    const configObj = Object.assign({}, obj, {drawn: true});
+    menuLibrary.placeImage.call(cardContainer, configObj);
+  });
 }
 
 const changeCardPicture = function(drawn, card) {

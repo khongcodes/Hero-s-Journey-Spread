@@ -1,4 +1,8 @@
-const RANDOM_CARD = 'http://localhost:3000/cards/random/1';
+const BASE_URL = 'http://localhost:3000';
+const GET_CARD = `${BASE_URL}/cards`;
+const RANDOM_CARD = `${GET_CARD}/random/1`;
+const RANDOM_THREE = `${GET_CARD}/random/3`;
+
 let modalActive = false;
 let journeyPersisted = false;
 let characterPersisted = false;

@@ -45,7 +45,7 @@ div.points-menu.card-container {
   margin: 0 auto;
 }
 
-div.points-menu.card-container img.points-menu.draw-card {
+img.points-menu.draw-card, img.points-menu.drawn-card {
   height: 30vw;
   margin: 2% auto;
 }
