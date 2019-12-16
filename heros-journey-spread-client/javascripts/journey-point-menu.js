@@ -104,13 +104,10 @@ const menuLibrary = (function() {
     placeCardDescription: function(configObj) {
       const descriptionContainer = document.createElement('div');
       descriptionContainer.className = 'points-menu card-desc-container';
-      
       const cardTitle = document.createElement('h3');
       cardTitle.className = 'points-menu card-name';
-
       const cardTraits = document.createElement('div');
       cardTraits.className = 'points-menu card-traits';
-
       const cardDesc = document.createElement('p');
       const cardMeaning = document.createElement('ul');
       cardMeaning.className = 'points-menu card-meaning-list'
@@ -123,7 +120,6 @@ const menuLibrary = (function() {
         cardTitle.innerText = `${configObj.name}, Inverted`;
         assignMeaning = configObj.meaning_inv;
       }
-
       cardDesc.innerText = configObj.desc;
       for (const meaning of assignMeaning.split(", ")) {
         const listItem = document.createElement('li');
@@ -134,6 +130,31 @@ const menuLibrary = (function() {
       cardTraits.append(cardDesc, cardMeaning);
       descriptionContainer.append(cardTitle, cardTraits);
       this.appendChild(descriptionContainer);
+    },
+
+    placeDescriptionForm: function() {
+      const br = function() {
+        return document.createElement('br')
+      }
+      const formHolder = document.createElement('div');
+      formHolder.className = 'points-menu description-form-container';
+      
+      const descriptionForm = document.createElement('form');
+      descriptionForm.className = 'points-menu description-form';
+
+      const descriptionLabel = document.createElement('label');
+      descriptionLabel.innerText = 'Description (optional): ';
+
+      const descriptionInput = document.createElement('textarea');
+      descriptionInput.placeholder = "How does this card relate to this story point?\nWhat do we open on?"
+
+      const descriptionSubmit = document.createElement('input');
+      descriptionSubmit.type = 'submit';
+      descriptionSubmit.value = 'Save story point';
+
+      descriptionForm.append(descriptionLabel, br(), descriptionInput, br(), descriptionSubmit)
+      formHolder.appendChild(descriptionForm);
+      this.appendChild(formHolder);
     },
 
 
@@ -188,7 +209,7 @@ const changeJourneyPointStage0to1 = function() {
     const configObj = Object.assign({}, card[0], {
       drawn: true,
       state: cardState()
-    })  
+    })
     
     pointState.journey[currentPoint].cards.push({
       id: card[0].id,
@@ -198,10 +219,7 @@ const changeJourneyPointStage0to1 = function() {
     clearChildren(cardContainer);
     menuLibrary.placeImage.call(cardContainer, configObj);
     menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
-    makeDescriptionForm();
-  
-
-    console.log(card[0]);
+    menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'));
   })
 }
 
@@ -212,7 +230,6 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
   fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0].id}`)
   .then(resp => resp.json())
   .then(obj => {
-    
     const configObj = Object.assign({}, {
       drawn:true,
       state:pointState.journey[currentPoint].cards[0].state
@@ -220,24 +237,6 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
 
     menuLibrary.placeImage.call(cardContainer, configObj);
     menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('div.column.c3'), configObj);
-    
-    // while fetching ALSO pull up description
+    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('div.column.c1'));
   })
 };
-
-const listifyCardDescriptionAndForm = function(card) {
-  const descriptionContainer = document.createElement('div');
-  descriptionContainer.className = 'points-menu card-desc-container';
-  descriptionContainer.innerHTML = 
-  `<h3 class='points-menu card-name'>${card.name}</h3>
-  <ul class='points-menu card-traits'>
-    <li>test change</li>
-    <li>Meaning_up</li>
-    <li>Meaning_down</li>
-  </ul>`;
-  document.querySelector('div.points-menu.column.c3').prepend(descriptionContainer);
-}
-
-// const makeDescriptionForm = function() {
-//   document.querySelector('form.points-menu.description-form').style.display = 'block';
-// }
