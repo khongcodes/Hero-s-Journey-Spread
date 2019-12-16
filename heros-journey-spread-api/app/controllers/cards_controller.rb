@@ -9,18 +9,20 @@ class CardsController < ApplicationController
     render json: card
   end
 
+  # shows both meanings
+  # was going to have this only show, at random, upright OR inverted meaning but decided that at the main API level, it should render an object with consistently available properties
   def random
     card = Card.random(params[:id].to_i)
-    # card_ser = CardFlipper.new(card).to_serialized_json
-    # render json: card_ser
     render json: card
   end
 
+  # only show upright meaning
   def random_up
     card = Card.random(params[:id].to_i)
-    render json: card, except: [:meaning_down]
+    render json: card, except: [:meaning_inv]
   end
 
+  # only show inverted meaning
   def random_inv
     card = Card.random(params[:id].to_i)
     render json: card, except: [:meaning_up]

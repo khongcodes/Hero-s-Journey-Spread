@@ -1,5 +1,6 @@
 body {
   color:rgb(41, 41, 41);
+  line-height: 1.2em;
 }
 
 div#view-wrapper {
@@ -80,25 +81,27 @@ div.points-menu.content-container {
   grid-template: 1fr 3fr 3fr / 1fr 1fr 1fr;
   /* background-color: rgba(100, 148, 237, 0.562); */
   margin: 0 auto;
+  padding: 0.8em 3em;
 }
 
 div.points-menu.header-container {
   grid-area: span 1 / span 3;
   /* background-color: rgb(226, 205, 208); */
-  box-sizing: border-box;
-  padding: 1% 2% 0;
 }
 
 div.points-menu.column.c1 {
   /* background-color: cornflowerblue; */
-  padding:0 1.8em;
+  padding-right: 1.4em;
   text-align: left;
+}
+
+div.points-menu.column.c3 {
+  padding-right: 3em;
 }
 
 form.points-menu.description-form {
   display:none;
 }
-
 
 div.points-menu.column.c3 textarea {
   width: 90%;
@@ -110,7 +113,6 @@ div.points-menu.column.c3 textarea {
 div.points-menu.column {
   grid-area: span 2/ span 1;
   background-color: white;
-  /* text-align: center; */
 }
 
 

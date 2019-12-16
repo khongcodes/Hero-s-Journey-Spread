@@ -76,10 +76,14 @@ const menuLibrary = (function() {
           cardImage.src = `assets/card-images/major/${configObj.value}.jpg`;
         } else {
           cardImage.src = `assets/card-images/minor/${configObj.suit}/${configObj.value}.jpg`;
-        };
+        }
         cardImage.alt = `${configObj.name}`;
         cardImage.className = 'points-menu drawn-card';
-      };
+        
+        if (configObj.state = 'inverted') {
+          this.classList.add('inverted-card');
+        }
+      };      
       this.appendChild(cardImage);
     },
 
@@ -93,27 +97,59 @@ const menuLibrary = (function() {
       const textOverlay = document.createElement('div');
       textOverlay.className = 'points-menu card-text-overlay';
       textOverlay.appendChild(document.createElement('h2'));
-      textOverlay.childNodes[0].innerText = 'Click to draw a card'
+      textOverlay.childNodes[0].innerText = 'Click to draw a card';
       this.appendChild(textOverlay);
     },
 
-    placeCardDescription: function() {
+    placeCardDescription: function(configObj) {
       const descriptionContainer = document.createElement('div');
       descriptionContainer.className = 'points-menu card-desc-container';
       
       const cardTitle = document.createElement('h3');
       cardTitle.className = 'points-menu card-name';
 
-      const cardTraits = document.createElement('ul');
+      const cardTraits = document.createElement('div');
       cardTraits.className = 'points-menu card-traits';
-      
-    }
+
+      const cardDesc = document.createElement('p');
+      const cardMeaning = document.createElement('ul');
+      cardMeaning.className = 'points-menu card-meaning-list'
+      let assignMeaning;
+
+      if (configObj.state = 'upright') {
+        cardTitle.innerText = configObj.name;
+        assignMeaning = configObj.meaning_up;
+      } else {
+        cardTitle.innerText = `Inverted ${configObj.name}`;
+        assignMeaning = configObj.meaning_down;
+      }
+
+      cardDesc.innerText = configObj.desc;
+      for (const meaning of assignMeaning.split(", ")) {
+        const listItem = document.createElement('li');
+        listItem.innerText = meaning;
+        cardMeaning.appendChild(listItem);
+      };
+
+      cardTraits.append(cardDesc, cardMeaning);
+      descriptionContainer.append(cardTitle, cardTraits);
+      this.appendChild(descriptionContainer);
+    },
 
 
 
   }
 })();
 
+const cardState = function() {
+  const invertedFactor = 40;
+  const randNum = Math.floor(Math.random() * 100);
+  if (randNum <= invertedFactor) {
+    return 'inverted'
+  } else {
+    return 'upright'
+  };
+};
 
 // DEPENDS ON CLASSLIST STAYING IN SAME ORDER
 const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
@@ -129,28 +165,36 @@ const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
       loadJourneyPointStage1(pointMenuNode, nodeClicked);
       break;
 
-  }
-}
+  };
+};
 
 const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
   const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
   menuLibrary.placeImage.call(cardContainer, {drawn: false});
   menuLibrary.placeCardOverlay.call(cardContainer);
   menuLibrary.placeCardTextOverlay.call(cardContainer);
-
-  pointMenuNode.querySelector('div.card-container').addEventListener('click', changeJourneyPointStage1);
+  cardContainer.addEventListener('click', changeJourneyPointStage0to1);
 }
 
-const changeJourneyPointStage1 = function() {
-  document.querySelector('div.points-menu div.card-container').removeEventListener('click', changeJourneyPointStage1);
+const changeJourneyPointStage0to1 = function() {
+  const cardContainer = document.querySelector('div.points-menu.card-container');
+  cardContainer.removeEventListener('click', changeJourneyPointStage0to1);
   const currentPoint = document.querySelector('div.points-menu.container').classList[3];
   fetch(RANDOM_CARD)
   .then(resp => resp.json())
   .then(card => {
-    pointState.journey[currentPoint].cards.push(card[0].id);
+    const configObj = Object.assign({}, card[0], {
+      drawn: true,
+      state: cardState(),
+    })
     
-    changeCardPicture.apply(document.querySelector('div.points-menu.c2 img'),[true, card[0]]);
-    removeImageOverlay();
+    pointState.journey[currentPoint].cards.push({
+      id: card[0].id,
+      state: configObj.state,
+    })
+    
+    clearChildren(cardContainer);
+    menuLibrary.placeImage.call(cardContainer, configObj);
     listifyCardDescriptionAndForm(card[0]);
     makeDescriptionForm();
   
@@ -163,31 +207,20 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
   const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
 
   const currentPoint = document.querySelector('div.points-menu.container').classList[3];
-  fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0]}`)
+  fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0].id}`)
   .then(resp => resp.json())
   .then(obj => {
     
-    const configObj = Object.assign({}, obj, {drawn: true});
+    const configObj = Object.assign({}, obj, {
+      drawn:true,
+      state:pointState.journey[currentPoint].cards[0].state
+    })
     menuLibrary.placeImage.call(cardContainer, configObj);
+    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('div.column.c3'), configObj)
     
     // while fetching ALSO pull up description
-  });
-}
-
-const changeCardPicture = function(drawn, card) {
-  if (!drawn) {
-    this.src = 'assets/card-images/x.jpg';
-  } else if (card.card_type === "major") {
-    this.src = `assets/card-images/major/${card.value}.jpg`;
-  } else if (card.card_type === "minor") {
-    this.src = `assets/card-images/minor/${card.suit}/${card.value}.jpg`;
-  }
-}
-
-const removeImageOverlay = function() {
-  const cardContainer = document.querySelector('div.points-menu.card-container');
-  [document.querySelector('.points-menu.card-overlay'), document.querySelector('.points-menu.card-text-overlay')].map(x => cardContainer.removeChild(x));
-}
+  })
+};
 
 const listifyCardDescriptionAndForm = function(card) {
   const descriptionContainer = document.createElement('div');

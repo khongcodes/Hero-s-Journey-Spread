@@ -10,6 +10,13 @@ const pointsModal = document.querySelector('div#modal');
 
 const pointState = {
   journey: {
+    // point0: {
+    //   cards: [
+    //     {id:45, state:'upright'},
+    //     {id:26, state:'inverted'}
+    //   ],
+    //   description: "user inputted text"
+    // },
     point1: {
       cards: [],
       description: "",
@@ -149,21 +156,25 @@ const characterOrJourneyPointsMenu = function(event, nodeClicked) {
 
 const unloadMenuNode = function(menu) {
   if ([...menu.classList].includes('character')) {
-
+    // stuff here
   } else {
     menu.querySelector('h2.points-menu.header-content').innerText = "";
     menu.querySelector('p.points-menu.info-content').innerText = ""
-  };
+  }
   
   menu.className = 'points-menu container'
 
   for (const column of menu.getElementsByClassName('column')) {
-    while (column.lastChild) {
-      column.removeChild(column.lastChild);
-    };
-  };
+    clearChildren(column)
+  }
   
-}
+};
+
+const clearChildren = function(node) {
+  while (node.lastChild) {
+    node.removeChild(node.lastChild);
+  }
+};
 
 const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
   console.log(nodeClicked);

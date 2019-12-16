@@ -50,6 +50,10 @@ img.points-menu.draw-card, img.points-menu.drawn-card {
   margin: 2% auto;
 }
 
+img.inverted-card {
+  transform: rotate(180deg);
+}
+
 div.points-menu.card-overlay {
   height: 30vw;
   width: 18vw;
@@ -76,6 +80,10 @@ div.points-menu.card-container:hover .points-menu.card-overlay {
 
 div.points-menu.card-container:hover .points-menu.card-text-overlay {
   display:none;
+}
+
+div.points-menu ul.card-meaning-list {
+  
 }
 
 form.points-menu.description-form {
