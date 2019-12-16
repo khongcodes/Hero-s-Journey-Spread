@@ -95,7 +95,21 @@ const menuLibrary = (function() {
       textOverlay.appendChild(document.createElement('h2'));
       textOverlay.childNodes[0].innerText = 'Click to draw a card'
       this.appendChild(textOverlay);
+    },
+
+    placeCardDescription: function() {
+      const descriptionContainer = document.createElement('div');
+      descriptionContainer.className = 'points-menu card-desc-container';
+      
+      const cardTitle = document.createElement('h3');
+      cardTitle.className = 'points-menu card-name';
+
+      const cardTraits = document.createElement('ul');
+      cardTraits.className = 'points-menu card-traits';
+      
     }
+
+
 
   }
 })();
@@ -146,13 +160,17 @@ const changeJourneyPointStage1 = function() {
 }
 
 const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+
   const currentPoint = document.querySelector('div.points-menu.container').classList[3];
   fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0]}`)
   .then(resp => resp.json())
   .then(obj => {
-    const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+    
     const configObj = Object.assign({}, obj, {drawn: true});
     menuLibrary.placeImage.call(cardContainer, configObj);
+    
+    // while fetching ALSO pull up description
   });
 }
 

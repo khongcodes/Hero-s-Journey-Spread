@@ -15,4 +15,11 @@ class CardsController < ApplicationController
     # render json: card_ser
     render json: card
   end
+
+  # def random_up
+    
+  # end
+
+  # def random_down
+  # end
 end
