@@ -5,7 +5,7 @@ class CardFlipper
 
   def to_serialized_json
     if rand(1..10) <= 4
-      options = {except: [:meaning_rev]}
+      options = {except: [:meaning_inv]}
     else
       options = {except: [:meaning_up]}
     end
