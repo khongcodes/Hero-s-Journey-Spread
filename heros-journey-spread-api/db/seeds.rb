@@ -240,7 +240,7 @@ DATA = {
         name:"Three of Cups",
         meaning_up:"Celebration, friendship, community, collaboration",
         meaning_inv:"Soured or neglected relationships, isolation, overindulgence",
-        desc:"Three figures lift their cups in the air in celebration. THey wear wreaths and flowers in their hair.",
+        desc:"Three figures lift their cups in the air in celebration. They wear wreaths and flowers in their hair.",
       },
       {
         name:"Four of Cups",

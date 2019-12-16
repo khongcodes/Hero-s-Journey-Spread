@@ -87,7 +87,7 @@ const pointState = {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  handlePointStateOnIndex();
+  // handlePointStateOnIndex();
   cardsOpenPointMenuModal();
 
 });
@@ -114,7 +114,7 @@ const cardsOpenPointMenuModal = function() {
   for (const node of cardContainerNodes) {
     node.addEventListener('click', function(event) {
       let pointMenuNode = characterOrJourneyPointsMenu(event, node);
-      modalCanOpen(event, pointMenuNode);
+      modalCanOpen(pointMenuNode);
       document.getElementById('modal').addEventListener('click', event => {
         modalCanClose(event, node);
       });
@@ -122,14 +122,14 @@ const cardsOpenPointMenuModal = function() {
   };
 };
 
-const modalCanOpen = function(event, pointMenuNode) {
+const modalCanOpen = function(pointMenuNode) {
   modalActive = true;
   pointsModal.style.display = 'block';
   pointMenuNode.style.display = 'block';
   pointMenuNode.classList.add("visible");
 }
 
-const modalCanClose = function(event, nodeClicked) {
+const modalCanClose = function(event) {
   if (event.target === pointsModal && modalActive === true) {
     modalActive = false;
     
@@ -144,7 +144,7 @@ const modalCanClose = function(event, nodeClicked) {
 const characterOrJourneyPointsMenu = function(event, nodeClicked) {
   let pointMenuNode = document.querySelector('div.points-menu');
   if ([...event.target.classList].includes('character')) {;
-    pointMenuNode.classList.add('character')
+    pointMenuNode.classList.add('character', nodeClicked.classList[2])
     loadCharacterPointContent(pointMenuNode, nodeClicked);
   } else {
     console.log(nodeClicked.classList[2])
@@ -177,9 +177,6 @@ const clearChildren = function(node) {
   }
 };
 
-const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
-  console.log(nodeClicked);
-}
 
 
 
