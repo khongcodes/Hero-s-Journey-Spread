@@ -99,10 +99,6 @@ div.points-menu.column.c3 {
   padding-right: 3em;
 }
 
-/* form.points-menu.description-form {
-  display:none;
-} */
-
 form.points-menu.description-form textarea {
   width: 90%;
   height: 6em;

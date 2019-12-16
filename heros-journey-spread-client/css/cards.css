@@ -36,6 +36,11 @@ div.text-overlay {
   user-select: none;
 }
 
+div.img-overlay-container.drawn-card:hover .text-overlay {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+
 /****         POINT MENU MODAL       *****/
 
 div.points-menu.card-container {
@@ -70,20 +75,14 @@ div.points-menu.card-text-overlay {
   top: 10vw;
   font-style: italic;
   color:white;
-  
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-div.points-menu.card-container:hover .points-menu.card-overlay {
+div.points-menu.card-container:hover .card-overlay, div.points-menu.card-container:hover .card-text-overlay {
   opacity: 0;
   transition: 0.2s ease;
-}
-
-div.points-menu.card-container:hover .points-menu.card-text-overlay {
-  display:none;
-}
-
-div.points-menu ul.card-meaning-list {
-  
 }
 
 form.points-menu.description-form {

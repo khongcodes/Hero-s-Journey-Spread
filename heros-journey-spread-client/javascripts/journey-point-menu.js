@@ -65,6 +65,20 @@ const menuLibrary = (function() {
       return cardContainer;
     },
 
+    // getImageSrc: function(configObj) {
+    //   let imageSrc;
+    //   if (!configObj.drawn) {
+    //     imageSrc = 'assets/card-images/x.jpg';
+    //   } else {
+    //     if (configObj.card_type === 'major') {
+    //       imageSrc = `assets/card-images/major/${configObj.value}.jpg`;
+    //     } else {
+    //       imageSrc = `assets/card-images/minor/${configObj.suit}/${configObj.value}.jpg`;
+    //     }
+    //   }
+    //   return imageSrc;
+    // }
+
     placeImage: function(configObj) {
       const cardImage = document.createElement('img');
       if (!configObj.drawn) {
@@ -84,7 +98,7 @@ const menuLibrary = (function() {
           cardImage.classList.add('inverted-card');
         }
       };      
-      this.appendChild(cardImage);
+      return cardImage;
     },
 
     placeCardOverlay: function() {
@@ -123,7 +137,7 @@ const menuLibrary = (function() {
       cardDesc.innerText = configObj.desc;
       for (const meaning of assignMeaning.split(", ")) {
         const listItem = document.createElement('li');
-        listItem.innerText = meaning;
+        listItem.innerText = meaning[0].toUpperCase() + meaning.slice(1);
         cardMeaning.appendChild(listItem);
       };
 
@@ -193,7 +207,7 @@ const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
 
 const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
   const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
-  menuLibrary.placeImage.call(cardContainer, {drawn: false});
+  cardContainer.appendChild(menuLibrary.placeImage({drawn: false}));
   menuLibrary.placeCardOverlay.call(cardContainer);
   menuLibrary.placeCardTextOverlay.call(cardContainer);
   cardContainer.addEventListener('click', changeJourneyPointStage0to1);
@@ -217,9 +231,17 @@ const changeJourneyPointStage0to1 = function() {
     })
     
     clearChildren(cardContainer);
-    menuLibrary.placeImage.call(cardContainer, configObj);
+    cardContainer.appendChild(menuLibrary.placeImage(configObj))
     menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
     menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'));
+
+    const journeyPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
+    journeyPointImageContainer.removeChild(journeyPointImageContainer.querySelector('img.card'));
+    journeyPointImageContainer.prepend(menuLibrary.placeImage(configObj));
+    journeyPointImageContainer.childNodes[0].classList.remove('points-menu');
+    journeyPointImageContainer.childNodes[0].classList.add('card');
+    journeyPointImageContainer.classList.add('drawn-card');
+    
   })
 }
 
@@ -235,7 +257,7 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
       state:pointState.journey[currentPoint].cards[0].state
     }, obj)
 
-    menuLibrary.placeImage.call(cardContainer, configObj);
+    cardContainer.appendChild(menuLibrary.placeImage(configObj));
     menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('div.column.c3'), configObj);
     menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('div.column.c1'));
   })

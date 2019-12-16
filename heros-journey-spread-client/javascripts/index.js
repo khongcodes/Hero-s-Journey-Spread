@@ -89,7 +89,7 @@ const pointState = {
 document.addEventListener('DOMContentLoaded', () => {
   handlePointStateOnIndex();
   cardsOpenPointMenuModal();
-  // cardsInPointCanDraw();
+
 });
 
 const handlePointStateOnIndex = function() {
@@ -148,6 +148,7 @@ const characterOrJourneyPointsMenu = function(event, nodeClicked) {
     loadCharacterPointContent(pointMenuNode, nodeClicked);
   } else {
     console.log(nodeClicked.classList[2])
+    // add current point to classList of menu so eventhandler can know what point to reference
     pointMenuNode.classList.add('journey', nodeClicked.classList[2])
     loadJourneyPointContent(pointMenuNode, nodeClicked);
   };
