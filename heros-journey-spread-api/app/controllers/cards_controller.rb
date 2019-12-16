@@ -16,10 +16,13 @@ class CardsController < ApplicationController
     render json: card
   end
 
-  # def random_up
-    
-  # end
+  def random_up
+    card = Card.random(params[:id].to_i)
+    render json: card, except: [:meaning_down]
+  end
 
-  # def random_down
-  # end
+  def random_inv
+    card = Card.random(params[:id].to_i)
+    render json: card, except: [:meaning_up]
+  end
 end
