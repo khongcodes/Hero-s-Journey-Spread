@@ -1,5 +1,13 @@
 const menuLibrary = (function() {
   return {
+    placeInfoSubHeader: function(string) {
+      const actuallyParagraph = document.createElement('p');
+      console.log(string);
+      actuallyParagraph.innerText = string;
+      actuallyParagraph.className = 'points-menu subheader-info';
+      this.appendChild(actuallyParagraph);
+    },
+    
     placeInfoContent: function(nodeClicked) {
       const infoContent = document.createElement('p');
       infoContent.className = 'points-menu info-content';
@@ -141,7 +149,11 @@ const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
 };
 
 const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
-  console.log(nodeClicked);
+  let pointTitle = pointMenuNode.querySelector('h2.points-menu.header-content');
+  pointTitle.innerText = CHARACTERPOINTSDATA[nodeClicked.classList[2]].title;
+  console.log(CHARACTERPOINTSDATA[nodeClicked.classList[2]].info)
+  menuLibrary.placeInfoSubHeader.call(pointMenuNode.querySelector('.points-menu.header-container'), CHARACTERPOINTSDATA[nodeClicked.classList[2]].info);
+
 }
 
 const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
