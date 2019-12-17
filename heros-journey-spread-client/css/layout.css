@@ -66,77 +66,121 @@ div#main {
 }
 
 
-/*******************************************/
-/**********      Points Menu      *********/
-/*******************************************/
 
-.points-menu.container {
-  z-index: 2;
-  display: none;
-  position: fixed;
-  background: white;
-  width: 1200px;
-  height: fit-content;
-  min-height: 600px;
-  left: 10vw;
-  top: 5vw;
-}
+/*****************************************************/
+/********     Character sidebar section      ********/
+/***************************************************/
 
-div.points-menu.content-container {
+div.character-point-cards-container {
+  margin: 1em 0;
   display: grid;
-  grid-template: 1fr 3fr 3fr / 1fr 1fr 1fr;
-  /* background-color: rgba(100, 148, 237, 0.562); */
+  grid-template: repeat(4, 1fr) / 2fr 1fr;
+  grid-row-gap: 1em;
+}
+
+div.point-description-grid.character {
+  grid-area: span 1 / span 1;
+  padding-top: 2%;
+  padding-right: 10%;
+}
+
+div.point-container.character {
+  grid-area: span 1 / span 1;
+}
+
+
+/*****************************************************/
+/*********      Journey circle section      *********/
+/***************************************************/
+
+div#save-journey-button {
+  margin: 2% 0 3%;
+}
+
+div#journey-circle-container {
   margin: 0 auto;
-  padding: 0.8em 3em;
+  padding:40px;
 }
 
-div.points-menu.header-container {
-  grid-area: span 1 / span 3;
-  /* background-color: rgb(226, 205, 208); */
+div#journey-circle {
+  border: 0.5px solid rgb(129, 129, 129);
+  width: 40em;
+  height: 40em;
+  border-radius: 50%;
+  position: relative;
+  margin: 10px auto;
 }
 
-p.points-menu.subheader-info {
-  margin: -0.5em 0 1em;
+div.point-container.journey {
+  width: 3.6em;
+  height: 6em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -3em -1.8em;
 }
 
-div.points-menu.column.c1 {
-  /* background-color: cornflowerblue; */
-  text-align: left;
+div.point11 .text-overlay {
+  left: 30%;
 }
 
-form.points-menu.description-form textarea {
-  width: 90%;
-  margin-top: 0.4em;
-  min-height: 8em;
-  resize: none;
-  border: 0.4px solid rgb(189, 189, 189);
+div.point12 .text-overlay, div.point10 .text-overlay {
+  left: 28%;
 }
 
-div.points-menu.journey.point12 form.description-form textarea {
-  min-height: 6.6em;
+div.point-container.journey.point1 {
+  transform: rotate(-90deg) translate(20em) rotate(90deg);
 }
 
-div.points-menu.column {
-  grid-area: span 2/ span 1;
-  background-color: white;
+div.point-container.journey.point2 {
+  transform: rotate(-60deg) translate(20em) rotate(60deg);
 }
 
-.points-menu.column.c1 p.info-content {
-  max-width: 345px;
+div.point-container.journey.point3 {
+  transform: rotate(-30deg) translate(20em) rotate(30deg);
 }
 
-.points-menu.column.c3 div.card-desc-container {
-  max-width: 320px;
-  padding-left: 10px;
+div.point-container.journey.point4 {
+  transform: rotate(0deg) translate(20em) rotate(0deg);
 }
 
-p + div.description-form-container {
-  margin-top: 2em;
+div.point-container.journey.point5 {
+  transform: rotate(30deg) translate(20em) rotate(-30deg);
+}
+
+div.point-container.journey.point6 {
+  transform: rotate(60deg) translate(20em) rotate(-60deg);
+}
+
+div.point-container.journey.point7 {
+  transform: rotate(90deg) translate(20em) rotate(-90deg);
+}
+
+div.point-container.journey.point8 {
+  transform: rotate(120deg) translate(20em) rotate(-120deg);
+}
+
+div.point-container.journey.point9 {
+  transform: rotate(150deg) translate(20em) rotate(-150deg);
+}
+
+div.point-container.journey.point10 {
+  transform: rotate(180deg) translate(20em) rotate(-180deg);
+}
+
+div.point-container.journey.point11 {
+  transform: rotate(210deg) translate(20em) rotate(-210deg);
+}
+
+div.point-container.journey.point12 {
+  transform: rotate(240deg) translate(20em) rotate(-240deg);
 }
 
 
 
-
+/*****************************************************/
+/*********      Breakpoints management      *********/
+/***************************************************/
 
 @media only screen and (max-width:665px) {
   div#view-wrapper {

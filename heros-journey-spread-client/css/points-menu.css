@@ -1,0 +1,81 @@
+.points-menu.container {
+  z-index: 2;
+  display: none;
+  position: fixed;
+  background: white;
+  width: 1200px;
+  height: fit-content;
+  min-height: 600px;
+  left: 10vw;
+  top: 5vw;
+}
+
+div.points-menu.content-container {
+  display: grid;
+  grid-template: 1fr 3fr 3fr / 1fr 1fr 1fr;
+  margin: 0 auto;
+  padding: 0.8em 3em;
+}
+
+div.points-menu.header-container {
+  grid-area: span 1 / span 3;
+}
+
+div.points-menu.column {
+  grid-area: span 2/ span 1;
+  background-color: white;
+}
+
+div.points-menu.column.c1 {
+  text-align: left;
+}
+
+
+/**********************************************/
+/************        Header       ************/
+/********************************************/
+
+p.points-menu.subheader-info {
+  margin: -0.5em 0 1em;
+}
+
+
+/**********************************************/
+/************       Elements      ************/
+/********************************************/
+
+.points-menu.column.c1 p.info-content {
+  max-width: 345px;
+}
+
+.points-menu.column.c3 div.card-desc-container {
+  max-width: 320px;
+  padding-left: 10px;
+}
+
+/* form elements */
+
+form.points-menu.description-form textarea {
+  width: 90%;
+  margin-top: 0.4em;
+  margin-bottom: 0.3em;
+  min-height: 8em;
+  resize: none;
+  border: 0.4px solid rgb(189, 189, 189);
+}
+
+p + div.description-form-container {
+  margin-top: 2em;
+}
+
+div.points-menu.journey.point12 form.description-form textarea {
+  min-height: 6.6em;
+}
+
+div.description-form-container:only-child {
+  margin-top: 0.3em;
+}
+
+div.description-form-container:only-child textarea{
+  min-height:10em;
+}

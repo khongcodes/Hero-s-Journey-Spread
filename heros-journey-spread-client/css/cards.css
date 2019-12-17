@@ -1,8 +1,16 @@
+/* applies just to view wrapper */
 img.card {
   width: 3.6em;
   height: 6em;
 }
 
+/* applies just to view wrapper */
+div.img-overlay-container:hover .card-overlay {
+  opacity: 0;
+  transition: 0.2s ease
+}
+
+/* applies to points-menu and view wrapper */
 div.card-overlay {
   background:black;
   width:3.6em;
@@ -13,17 +21,14 @@ div.card-overlay {
   opacity:0.33;
 }
 
+/* applies just to character sidebar section */
 div.point-container div.img-overlay-container {
   position:relative;
   width: 3.6em;
   height: 6em;
 }
 
-div.img-overlay-container:hover .card-overlay {
-  opacity: 0;
-  transition: 0.2s ease
-}
-
+/* applies just to journey-circle section */
 div.text-overlay {
   position:absolute;
   top:0;
@@ -37,13 +42,16 @@ div.text-overlay {
   user-select: none;
 }
 
-div.img-overlay-container.drawn-card:hover .text-overlay {
-  opacity: 0;
-  transition: 0.2s ease;
-}
+/* applies to drawn cards in journey-circle section */
+  div.img-overlay-container.drawn-card:hover .text-overlay {
+    opacity: 0;
+    transition: 0.2s ease;
+  }
 
 
-/****         POINT MENU MODAL       *****/
+/**********************************************/
+/******         POINT MENU MODAL       *******/
+/********************************************/
 
 div.points-menu.card-container {
   position:relative;
@@ -53,8 +61,8 @@ div.points-menu.card-container {
 }
 
 img.points-menu.draw-card, img.points-menu.drawn-card {
-  height: 30vw;
-  width: 18vw;
+  height: 100%;
+  width: 100%;
   margin: 2% auto;
 }
 
@@ -72,6 +80,15 @@ div.points-menu.card-overlay {
   position: absolute;
 }
 
+div.points-menu.container.character div.card-overlay {
+  opacity: 55%;
+}
+
+div.points-menu.card-container:hover .card-overlay, div.points-menu.card-container:hover .card-text-overlay, div.points-menu.container.character .card-container:hover .card-overlay {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+
 div.points-menu.card-text-overlay {
   position: absolute;
   width: 100%;
@@ -84,23 +101,6 @@ div.points-menu.card-text-overlay {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-}
-
-div.points-menu.card-container:hover .card-overlay, div.points-menu.card-container:hover .card-text-overlay, div.points-menu.container.character .card-container:hover .card-overlay {
-  opacity: 0;
-  transition: 0.2s ease;
-}
-
-div.description-form-container:only-child {
-  margin-top: 0.3em;
-}
-
-div.description-form-container:only-child textarea{
-  min-height:120px;
-}
-
-div.points-menu.container.character .card-overlay {
-  opacity: 55%;
 }
 
 div.points-menu.container.character .card-text-overlay {
