@@ -86,7 +86,7 @@ div.points-menu.card-text-overlay {
   user-select: none;
 }
 
-div.points-menu.card-container:hover .card-overlay, div.points-menu.card-container:hover .card-text-overlay {
+div.points-menu.card-container:hover .card-overlay, div.points-menu.card-container:hover .card-text-overlay, div.points-menu.container.character .card-container:hover .card-overlay {
   opacity: 0;
   transition: 0.2s ease;
 }

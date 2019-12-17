@@ -192,8 +192,11 @@ const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
     case 0:
       loadCharacterPointStage0(pointMenuNode, nodeClicked);
       break;
+    case 3:
+      loadCharacterPointStage1(pointMenuNode, nodeClicked);
+      break;
     case 1:
-      console.log('has one card');
+      loadCharacterPointStage2(pointMenuNode, nodeClicked);
       break;
     // future feature - draw another card for additional context, case 2
   }
@@ -293,14 +296,32 @@ const changeCharacterPointStage0to1 = function() {
         state: configObj.state,
       });
 
-      const cardContainer = menuLibrary.placeCardContainer.call(document.querySelector(`div.column.c${cards.indexOf(card)+1}`));
+      const cardContainer = menuLibrary.placeCardContainer.call(document.querySelector(`div.column.c${cards.indexOf(card)+1}`), configObj.id);
       cardContainer.appendChild(menuLibrary.makeImage(configObj));
       menuLibrary.placeCardOverlay.call(cardContainer);
-
       menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
-
+      cardContainer.addEventListener('click', changeCharacterPointStage1to2);
     }
+  });
+}
 
+const changeCharacterPointStage1to2 = function(event) {
+  
+  console.log(getCardClicked(event.target));
+  // for (const node of [document.querySelector('div.points-menu.column.c1'), document.querySelector('div.points-menu.column.c3')]) {
+  //   clearChildren(node);
+  // }
+  // const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
+  // cardContainer.removeEventListener('click', changeCharacterPointStage1to2);
+}
 
-  })
+const getCardClicked = function(node) {
+  if (([...node.childNodes]!==undefined && [...node.childNodes].length!==0) && [...node.childNodes].map(child => /card-container/.test(child.className)).includes(true)) {
+    node = node.querySelector('.card-container');
+  } else {
+    while (![...node.classList].includes('card-container')) {
+      node = node.parentNode;
+    }
+  }
+  return node;
 }
