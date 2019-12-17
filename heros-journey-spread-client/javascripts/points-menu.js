@@ -117,7 +117,7 @@ const menuLibrary = (function() {
       this.appendChild(descriptionContainer);
     },
 
-    placeDescriptionForm: function() {
+    placeDescriptionForm: function(configObj) {
       const br = function() {
         return document.createElement('br')
       }
@@ -131,7 +131,12 @@ const menuLibrary = (function() {
       descriptionLabel.innerText = 'Description (optional): ';
 
       const descriptionInput = document.createElement('textarea');
-      descriptionInput.placeholder = "How does this card relate to this story point?\nWhat do we open on?"
+      if (configObj.point_type === 'journey') {
+        descriptionInput.placeholder = "How does this card relate to this story point?\nWhat do we see?";
+      } else {
+        descriptionInput.placeholder = "How does this card relate to your character?";
+      };
+      
 
       const descriptionSubmit = document.createElement('input');
       descriptionSubmit.type = 'submit';
@@ -223,7 +228,8 @@ const changeJourneyPointStage0to1 = function() {
   .then(card => {
     const configObj = Object.assign({}, card[0], {
       drawn: true,
-      state: cardState()
+      state: cardState(),
+      point_type: 'journey'
     })
     
     pointState.journey[currentPoint].cards.push({
@@ -234,7 +240,7 @@ const changeJourneyPointStage0to1 = function() {
     clearChildren(cardContainer);
     cardContainer.appendChild(menuLibrary.makeImage(configObj))
     menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
-    menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'));
+    menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
 
     const journeyPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
     journeyPointImageContainer.removeChild(journeyPointImageContainer.querySelector('img.card'));
@@ -253,14 +259,15 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
   fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0].id}`)
   .then(resp => resp.json())
   .then(obj => {
-    const configObj = Object.assign({}, {
-      drawn:true,
-      state:pointState.journey[currentPoint].cards[0].state
-    }, obj)
+    const configObj = Object.assign({}, obj, {
+      drawn: true,
+      state: pointState.journey[currentPoint].cards[0].state,
+      point_type: 'journey'
+    })
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
     menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('div.column.c3'), configObj);
-    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('div.column.c1'));
+    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('div.column.c1'), configObj);
   })
 };
 
@@ -318,7 +325,29 @@ const changeCharacterPointStage1to2 = function(event) {
   cardContainer.className = 'points-menu card-container';
   clearChildren(cardContainer);
 
-  
+  fetch(`${GET_CARD}/${cardKeep}`)
+  .then(resp => resp.json())
+  .then(card => {
+    const configObj = Object.assign({}, card, {
+      drawn: true,
+      state: pointState.character[currentPoint].cards[0].state,
+      point_type: 'character'
+    });
+
+    cardContainer.appendChild(menuLibrary.makeImage(configObj));
+    menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
+    const col1 = document.querySelector('div.points-menu.column.c1');
+    col1.appendChild(document.createElement('h3'));
+    col1.childNodes[0].innerText = 'You chose:'
+    menuLibrary.placeDescriptionForm.call(col1, configObj);
+
+    const characterPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
+    characterPointImageContainer.removeChild(characterPointImageContainer.querySelector('img.card'));
+    characterPointImageContainer.prepend(menuLibrary.makeImage(configObj));
+    characterPointImageContainer.childNodes[0].classList.remove('points-menu');
+    characterPointImageContainer.childNodes[0].classList.add('card');
+    characterPointImageContainer.classList.add('drawn-card');
+  })
   
 }
 
