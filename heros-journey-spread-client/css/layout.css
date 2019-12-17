@@ -65,7 +65,10 @@ div#main {
   transition: ease;
 }
 
+
+/*******************************************/
 /**********      Points Menu      *********/
+/*******************************************/
 
 .points-menu.container {
   z-index: 2;
@@ -98,15 +101,19 @@ p.points-menu.subheader-info {
 
 div.points-menu.column.c1 {
   /* background-color: cornflowerblue; */
-  /* padding-right: 1.4em; */
   text-align: left;
 }
 
 form.points-menu.description-form textarea {
   width: 90%;
-  height: 6em;
+  margin-top: 0.4em;
+  min-height: 8em;
   resize: none;
   border: 0.4px solid rgb(189, 189, 189);
+}
+
+div.points-menu.journey.point12 form.description-form textarea {
+  min-height: 6.6em;
 }
 
 div.points-menu.column {
@@ -114,10 +121,20 @@ div.points-menu.column {
   background-color: white;
 }
 
-div.character.points-menu div.column.c1 h3{
-  text-align: right;
-  margin-right: 1.5em;
+.points-menu.column.c1 p.info-content {
+  max-width: 345px;
 }
+
+.points-menu.column.c3 div.card-desc-container {
+  max-width: 320px;
+  padding-left: 10px;
+}
+
+p + div.description-form-container {
+  margin-top: 2em;
+}
+
+
 
 
 

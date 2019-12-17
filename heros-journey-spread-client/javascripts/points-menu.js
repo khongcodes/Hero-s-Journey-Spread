@@ -26,10 +26,13 @@ const menuLibrary = (function() {
     },
     
     placeInfoContent: function(nodeClicked) {
-      const infoContent = document.createElement('p');
-      infoContent.className = 'points-menu info-content';
-      infoContent.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].info;
-      this.appendChild(infoContent);
+      const contentSplit = JOURNEYPOINTSDATA[nodeClicked.classList[2]].info.split('\n').map(par => {
+        const infoContent = document.createElement('p');
+        infoContent.innerText = par;
+        infoContent.className = 'points-menu info-content'
+        return infoContent;
+      })
+      this.append(...contentSplit);
     },
     
     placeCardContainer: function(classOption=false) {
@@ -377,11 +380,7 @@ const changeCharacterPointStage1to2 = function(event) {
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
     menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
-    const col1 = document.querySelector('div.points-menu.column.c1');
-    const youChose = document.createElement('h3');
-    col1.appendChild(youChose);
-    youChose.innerText = 'You chose:';
-    menuLibrary.placeDescriptionForm.call(col1, configObj);
+    menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
 
     const characterPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
     characterPointImageContainer.removeChild(characterPointImageContainer.querySelector('img.card'));

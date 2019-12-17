@@ -91,8 +91,12 @@ div.points-menu.card-container:hover .card-overlay, div.points-menu.card-contain
   transition: 0.2s ease;
 }
 
-form.points-menu.description-form {
-  margin-top: 4%;
+div.description-form-container:only-child {
+  margin-top: 0.3em;
+}
+
+div.description-form-container:only-child textarea{
+  min-height:120px;
 }
 
 div.points-menu.container.character .card-overlay {
