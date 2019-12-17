@@ -257,7 +257,7 @@ DATA = {
       {
         name:"Six of Cups",
         meaning_up:"Familiarity, revisiting happy memories, healing, innocence",
-        meaning_inv:"Painful reminders of the past, or clinging to the past",
+        meaning_inv:"Painful reminders of the past, clinging to the past",
         desc:"Six cups filled with whtie flowers. One child passes a cup to another, in a castle.",
       },
       {
@@ -390,7 +390,7 @@ DATA = {
       },
       {
         name:"King of Swords",
-        meaning_up:"Mental clarity, discipline, truth, authority, 'head over heart'",
+        meaning_up:"Mental clarity, discipline, truth, authority, head over heart",
         meaning_inv:"Manipulation, cruelty, suppressing new ideas, censorship",
         desc:"A king seated on a throne with carved butterflies and angels, holding a sword upwards. They wear a blue robe, colored as the sky. They loom large over a landscape of lightly rolling hills and trees.",
       }
@@ -417,7 +417,7 @@ DATA = {
       {
         name:"Four of Pentacles",
         meaning_up:"Conserving resources, security, frugality, saving money",
-        meaning_inv:"Greed, possessiveness, or possibly reckless spending",
+        meaning_inv:"Greed, possessiveness, possibly reckless spending",
         desc:"A figure sitting on a stool, who is holding onto one pentacle in a very defensive and tight posture. One pentacle is balanced precariously on their head, and two more are secured under the figure's feet. A city behind the figure.",
       },
       {
@@ -441,7 +441,7 @@ DATA = {
       {
         name:"Eight of Pentacles",
         meaning_up:"Apprenticeship, skill development, diligence, attention to craftsmanship",
-        meaning_inv:"Tedious work, uninspired or unmotivated, or possibly detrimental perfectionism",
+        meaning_inv:"Tedious work, uninspired or unmotivated, possibly detrimental perfectionism",
         desc:"A young figure etches a pentacle into eight golden coins. A town is far in the background.",
       },
       {
@@ -453,7 +453,7 @@ DATA = {
       {
         name:"Ten of Pentacles",
         meaning_up:"Wealth, financial security, long-term success, family, legacy",
-        meaning_inv:"Fleeting security and resources, wealth squandered or lost, or possibly self-worth tied up in wealth",
+        meaning_inv:"Fleeting security and resources, wealth squandered or lost, possibly self-worth tied up in wealth",
         desc:"An old figure, wearing a robe decorated with crescents and grapevines, seated in an archway leading to a great estate, with a dog at their feet. A happy couple talk behind them, and further back, a child plays with another dog. Ten pentacles symmetrically overlay the image.",
       },
       {

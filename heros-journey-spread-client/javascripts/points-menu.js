@@ -1,4 +1,21 @@
+//////////////////////////////////////////////////////////////////
+/////////////////    BEGINNING functional library for points-menu
+/////////////////////////////////////////////////////////////////
+
 const menuLibrary = (function() {
+  const nameIncludeState = function(configObj) {
+    return (configObj.state ==='upright' ? configObj.name : `${configObj.name}, Inverted`);
+  };
+
+  const cardMeaningListIncludeState = function(configObj) {
+    let assignMeaning = (configObj.state === 'upright' ? configObj.meaning_up : configObj.meaning_inv);
+    return assignMeaning.split(", ").map(meaning => {
+      const listItem = document.createElement('li');
+      listItem.innerText = meaning[0].toUpperCase() + meaning.slice(1);
+      return listItem;
+    });
+  };
+  
   return {
     placeInfoSubHeader: function(string) {
       const actuallyParagraph = document.createElement('p');
@@ -15,9 +32,12 @@ const menuLibrary = (function() {
       this.appendChild(infoContent);
     },
     
-    placeCardContainer: function() {
+    placeCardContainer: function(classOption=false) {
       const cardContainer = document.createElement('div');
       cardContainer.className = 'points-menu card-container';
+      if (classOption) {
+        cardContainer.classList.add(classOption);
+      }
       this.appendChild(cardContainer);
       return cardContainer;
     },
@@ -50,11 +70,30 @@ const menuLibrary = (function() {
       this.appendChild(overlayDiv);
     },
 
-    placeCardTextOverlay: function() {
+    placeCardTextOverlay: function(string) {
       const textOverlay = document.createElement('div');
       textOverlay.className = 'points-menu card-text-overlay';
       textOverlay.appendChild(document.createElement('h2'));
-      textOverlay.childNodes[0].innerText = 'Click to draw a card';
+      textOverlay.childNodes[0].innerText = string;
+      this.appendChild(textOverlay);
+    },
+
+    place3CardTextOverlay: function(configObj) {
+      const textOverlay = document.createElement('div');
+      textOverlay.className = 'points-menu card-text-overlay';
+
+      const cardName = document.createElement('h2');
+      cardName.innerText = (configObj.state ==='upright' ? configObj.name : `${configObj.name}, \nInverted`);
+      textOverlay.appendChild(cardName);
+
+      let assignMeaning = (configObj.state === 'upright' ? configObj.meaning_up : configObj.meaning_inv);
+      let meanings = assignMeaning.split(", ").map(meaning => {
+        const meaningItem = document.createElement('p');
+        meaningItem.innerText = meaning[0].toUpperCase() + meaning.slice(1);
+        return meaningItem;
+      });
+      textOverlay.append(...meanings);
+
       this.appendChild(textOverlay);
     },
 
@@ -68,22 +107,11 @@ const menuLibrary = (function() {
       const cardDesc = document.createElement('p');
       const cardMeaning = document.createElement('ul');
       cardMeaning.className = 'points-menu card-meaning-list'
-      let assignMeaning;
 
-      if (configObj.state === 'upright') {
-        cardTitle.innerText = configObj.name;
-        assignMeaning = configObj.meaning_up;
-      } else {
-        cardTitle.innerText = `${configObj.name}, Inverted`;
-        assignMeaning = configObj.meaning_inv;
-      }
+      cardTitle.innerText = nameIncludeState(configObj);
+      cardMeaning.append(...cardMeaningListIncludeState(configObj));  
       cardDesc.innerText = configObj.desc;
-      for (const meaning of assignMeaning.split(", ")) {
-        const listItem = document.createElement('li');
-        listItem.innerText = meaning[0].toUpperCase() + meaning.slice(1);
-        cardMeaning.appendChild(listItem);
-      };
-
+    
       cardTraits.append(cardDesc, cardMeaning);
       descriptionContainer.append(cardTitle, cardTraits);
       this.appendChild(descriptionContainer);
@@ -119,6 +147,13 @@ const menuLibrary = (function() {
   }
 })();
 
+
+
+//////////////////////////////////////////////////////////////////
+///////////////////////    END functional library for points-menu
+/////////////////////////////////////////////////////////////////
+
+
 const cardState = function() {
   const invertedFactor = 40;
   const randNum = Math.floor(Math.random() * 100);
@@ -151,16 +186,28 @@ const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
 const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
   let pointTitle = pointMenuNode.querySelector('h2.points-menu.header-content');
   pointTitle.innerText = CHARACTERPOINTSDATA[nodeClicked.classList[2]].title;
-  console.log(CHARACTERPOINTSDATA[nodeClicked.classList[2]].info)
   menuLibrary.placeInfoSubHeader.call(pointMenuNode.querySelector('.points-menu.header-container'), CHARACTERPOINTSDATA[nodeClicked.classList[2]].info);
 
+  switch (pointState.character[nodeClicked.classList[2]].cards.length) {
+    case 0:
+      loadCharacterPointStage0(pointMenuNode, nodeClicked);
+      break;
+    case 1:
+      console.log('has one card');
+      break;
+    // future feature - draw another card for additional context, case 2
+  }
 }
+
+/////////////////////////////////////////////////////////////
+////////////////////////////////    JOURNEY POINTS MENU WORK
+////////////////////////////////////////////////////////////
 
 const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
   const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
   cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
   menuLibrary.placeCardOverlay.call(cardContainer);
-  menuLibrary.placeCardTextOverlay.call(cardContainer);
+  menuLibrary.placeCardTextOverlay.call(cardContainer, 'Click to draw a card');
   cardContainer.addEventListener('click', changeJourneyPointStage0to1);
 }
 
@@ -213,3 +260,47 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
     menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('div.column.c1'));
   })
 };
+
+
+/////////////////////////////////////////////////////////////
+//////////////////////////////     CHARACTER POINTS MENU WORK
+/////////////////////////////////////////////////////////////
+
+const loadCharacterPointStage0 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('div.column.c2'));
+  cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
+  menuLibrary.placeCardOverlay.call(cardContainer);
+  menuLibrary.placeCardTextOverlay.call(cardContainer, 'Draw three\nChoose one');
+  cardContainer.addEventListener('click', changeCharacterPointStage0to1);
+}
+
+const changeCharacterPointStage0to1 = function() {
+  document.querySelector('div.points-menu.card-container').removeEventListener('click', changeCharacterPointStage0to1);
+  clearChildren(document.querySelector('div.points-menu.column.c2'));
+  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+
+  fetch(RANDOM_THREE)
+  .then(resp => resp.json())
+  .then(cards => {
+    for (const card of cards) {
+      const configObj = Object.assign({}, card, {
+        drawn: true,
+        state: cardState()
+      });
+
+      pointState.character[currentPoint].cards.push({
+        id: card.id,
+        state: configObj.state,
+      });
+
+      const cardContainer = menuLibrary.placeCardContainer.call(document.querySelector(`div.column.c${cards.indexOf(card)+1}`));
+      cardContainer.appendChild(menuLibrary.makeImage(configObj));
+      menuLibrary.placeCardOverlay.call(cardContainer);
+
+      menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
+
+    }
+
+
+  })
+}

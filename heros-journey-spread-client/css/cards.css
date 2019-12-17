@@ -30,6 +30,7 @@ div.text-overlay {
   left:40%;
   opacity: 1;
   color:white;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.253);
   line-height: 3.6em;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -40,6 +41,7 @@ div.img-overlay-container.drawn-card:hover .text-overlay {
   opacity: 0;
   transition: 0.2s ease;
 }
+
 
 /****         POINT MENU MODAL       *****/
 
@@ -52,6 +54,7 @@ div.points-menu.card-container {
 
 img.points-menu.draw-card, img.points-menu.drawn-card {
   height: 30vw;
+  width: 18vw;
   margin: 2% auto;
 }
 
@@ -71,10 +74,13 @@ div.points-menu.card-overlay {
 
 div.points-menu.card-text-overlay {
   position: absolute;
-  left: 2vw;
+  width: 100%;
+  text-align: center;
+  line-height: 2em;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.267);
   top: 10vw;
   font-style: italic;
-  color:white;
+  color: white;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
@@ -87,4 +93,25 @@ div.points-menu.card-container:hover .card-overlay, div.points-menu.card-contain
 
 form.points-menu.description-form {
   margin-top: 10%;
+}
+
+div.points-menu.container.character .card-overlay {
+  opacity: 55%;
+}
+
+div.points-menu.container.character .card-text-overlay {
+  padding: 0 0.4em;
+  box-sizing: border-box;
+  top: 6vw;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.39);
+}
+
+div.card-text-overlay h2 {
+  font-size: 1.4em;
+}
+
+div.card-text-overlay p {
+  font-size: 1.1em;
+  line-height: 1.4em;
+  margin: 0.6em;
 }

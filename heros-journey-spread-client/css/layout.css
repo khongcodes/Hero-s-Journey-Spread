@@ -73,7 +73,8 @@ div#main {
   position: fixed;
   background: white;
   width: 1200px;
-  height: 600px;
+  height: fit-content;
+  min-height: 600px;
   left: 10vw;
   top: 5vw;
 }
@@ -92,17 +93,13 @@ div.points-menu.header-container {
 }
 
 p.points-menu.subheader-info {
-  margin: -0.5em 0 0.1em;
+  margin: -0.5em 0 1em;
 }
 
 div.points-menu.column.c1 {
   /* background-color: cornflowerblue; */
-  padding-right: 1.4em;
+  /* padding-right: 1.4em; */
   text-align: left;
-}
-
-div.points-menu.column.c3 {
-  padding-right: 3em;
 }
 
 form.points-menu.description-form textarea {
