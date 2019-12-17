@@ -4,6 +4,7 @@ const RANDOM_CARD = `${GET_CARD}/random/1`;
 const RANDOM_THREE = `${GET_CARD}/random/3`;
 
 let modalActive = false;
+let activeLoadMenu = 'character';
 let journeyPersisted = false;
 let characterPersisted = false;
 const pointsModal = document.querySelector('div#modal');

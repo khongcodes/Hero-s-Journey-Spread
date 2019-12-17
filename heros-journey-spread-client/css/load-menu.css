@@ -3,6 +3,7 @@ div.load-menu.tab.active {
   grid-area: title-end/col-1-end/main-end/right-end;
   position: absolute;
   right: 3em;
+  top: 4em;
   cursor: auto;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -13,6 +14,34 @@ div.load-menu.menu-container {
   z-index: 2;
   background-color: white;
   grid-area: top-end/left-end/title-end/right-end;
+  height: 14em;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+
+  display: grid;
+  grid-template:
+    [bar1-end]
+    1em [top-margin-end]
+    2fr [bar1-end]
+    4fr [bar2-start]
+    1fr [bar2-end] /
+    [left-end]
+    1em [left-margin-end]
+    1fr [col1-end]
+    1fr [col2-end]
+    1fr [col3-end]
+    1fr [right-margin-end]
+    1.6em [right-end];
+}
+
+div.load-menu.active-container {
+  /* background-color: rgb(148, 203, 248); */
+  grid-area: top-margin-end/left-margin-end/bar2-start/right-margin-end;
+}
+
+div.load-menu.inactive-container {
+  background-color: rgb(226, 226, 226);
+  grid-area: bar2-start/left-end/bar2-end/right-end;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
 }

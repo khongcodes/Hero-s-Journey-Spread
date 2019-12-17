@@ -117,7 +117,7 @@ div.point-container.character {
 
 #journey-title input[type='text']:focus {
   outline: none;
-  color:blue;
+  color:rgb(0, 47, 255);
 }
 
 #journey-title input[type='submit'] {
