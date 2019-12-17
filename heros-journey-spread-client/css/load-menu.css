@@ -1,0 +1,18 @@
+div.load-menu.tab.active {
+  z-index: 2;
+  grid-area: title-end/col-1-end/main-end/right-end;
+  position: absolute;
+  right: 3em;
+  cursor: auto;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+div.load-menu.menu-container {
+  z-index: 2;
+  background-color: white;
+  grid-area: top-end/left-end/title-end/right-end;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}

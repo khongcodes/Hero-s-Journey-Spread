@@ -52,25 +52,27 @@ div#main {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.315);
-  transition: ease;
 }
 
-div#menu {
+div.load-menu.tab {
   position: fixed;
   height: 1.6em;
-  width: 7%;
-  top: -1.6em;
-  right: 3%;
-  background-color: rgb(204, 191, 235);
-  color: rgb(104, 85, 158);
+  width: 6em;
+  background-color: rgb(226, 226, 226);
+  color: rgb(117, 117, 117);
   padding: 0.5em 0 0 0.5em;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   cursor: pointer;
+}
+
+div.load-menu.tab.inactive {
+  top: -1.6em;
+  right: 3em;
   transition: 0.2s;
 }
 
-div#menu:hover {
+div.load-menu.tab.inactive:hover {
   top: 0;
   transition: 0.2s;
 }
@@ -102,8 +104,24 @@ div.point-container.character {
 /*********      Journey circle section      *********/
 /***************************************************/
 
-div#save-journey-button {
-  margin: 2% 0 3%;
+#journey-title input[type='text'] {
+  min-width: 80%;
+  color: rgb(41, 41, 41);
+  font-weight: bold;
+  font-family: serif;
+  text-align: center;
+  border: none;
+  margin: 0.6em 0;
+  font-size: 1.4em
+}
+
+#journey-title input[type='text']:focus {
+  outline: none;
+  color:blue;
+}
+
+#journey-title input[type='submit'] {
+  margin: 1em 0 2em;
 }
 
 div#journey-circle-container {

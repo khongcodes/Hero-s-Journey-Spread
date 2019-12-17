@@ -87,10 +87,36 @@ const pointState = {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // handlePointStateOnIndex();
   cardsOpenPointMenuModal();
+  loadMenuResponds();
 
 });
+
+//////////////////////////////////////////////////////////////////
+///////////////////////////       Utilities
+/////////////////////////////////////////////////////////////////
+
+const modalCanOpen = function() {
+  modalActive = true;
+  pointsModal.style.display = 'block';
+}
+
+const modalCanClose = function(event) {
+  if (event.target === pointsModal && modalActive === true) {
+    modalActive = false;
+    pointsModal.style.display = 'none';
+  };
+}
+
+const clearChildren = function(node) {
+  while (node.lastChild) {
+    node.removeChild(node.lastChild);
+  }
+};
+
+//////////////////////////////////////////////////////////////////
+///////////////////////////       Functions in main program
+/////////////////////////////////////////////////////////////////
 
 const handlePointStateOnIndex = function() {
   // handleif journey is loaded
@@ -113,69 +139,41 @@ const cardsOpenPointMenuModal = function() {
   
   for (const node of cardContainerNodes) {
     node.addEventListener('click', function(event) {
+      // enter [points-menu.js:197] on charcterOrJourneyPointsMenu
       let pointMenuNode = characterOrJourneyPointsMenu(event, node);
-      modalCanOpen(pointMenuNode);
+
+      pointMenuNode.style.display = 'block';
+      pointMenuNode.classList.add("visible");
+      modalCanOpen();
       document.getElementById('modal').addEventListener('click', event => {
-        modalCanClose(event, node);
+        modalCanClose(event);
+        
+        unloadPointsMenuNode(pointMenuNode);
+        pointMenuNode.style.display = 'none';
+        pointMenuNode.classList.remove("visible");
       });
     }); 
   };
 };
 
-const modalCanOpen = function(pointMenuNode) {
-  modalActive = true;
-  pointsModal.style.display = 'block';
-  pointMenuNode.style.display = 'block';
-  pointMenuNode.classList.add("visible");
+const loadMenuResponds = function() {
+  document.querySelector('.load-menu.tab.inactive').addEventListener('click', function() {
+    if (!modalActive) {
+      // enter [load-menu.js:1] on loadMenuOpens()
+    loadMenuOpens();
+
+    modalCanOpen();
+    document.getElementById('modal').addEventListener('click', event => {
+      modalCanClose(event);
+      loadMenuCloses();
+    })
+    }
+  });
 }
 
-const modalCanClose = function(event) {
-  if (event.target === pointsModal && modalActive === true) {
-    modalActive = false;
-    
-    let pointMenuNode = document.querySelector('.points-menu');
-    unloadMenuNode(pointMenuNode);
-    pointMenuNode.style.display = 'none';
-    pointMenuNode.classList.remove("visible");
-    pointsModal.style.display = 'none';
-  };
+const loadMenuTabResponds = function() {
+  
 }
-
-const characterOrJourneyPointsMenu = function(event, nodeClicked) {
-  let pointMenuNode = document.querySelector('div.points-menu');
-  if ([...event.target.classList].includes('character')) {;
-    pointMenuNode.classList.add('character', nodeClicked.classList[2])
-    loadCharacterPointContent(pointMenuNode, nodeClicked);
-  } else {
-    console.log(nodeClicked.classList[2])
-    // add current point to classList of menu so eventhandler can know what point to reference
-    pointMenuNode.classList.add('journey', nodeClicked.classList[2])
-    loadJourneyPointContent(pointMenuNode, nodeClicked);
-  };
-  return pointMenuNode;
-};
-
-const unloadMenuNode = function(menu) {
-  if ([...menu.classList].includes('character')) {
-    menu.querySelector('div.points-menu.header-container').removeChild(menu.querySelector('p'));
-  } else {
-    menu.querySelector('h2.points-menu.header-content').innerText = "";
-    menu.querySelector('p.points-menu.info-content').innerText = ""
-  }
-  
-  menu.className = 'points-menu container'
-
-  for (const column of menu.getElementsByClassName('column')) {
-    clearChildren(column)
-  }
-  
-};
-
-const clearChildren = function(node) {
-  while (node.lastChild) {
-    node.removeChild(node.lastChild);
-  }
-};
 
 
 

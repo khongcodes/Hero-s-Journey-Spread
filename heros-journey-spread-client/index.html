@@ -42,9 +42,7 @@
 
   <div id='view-wrapper'>
     
-    <div id='menu'>
-      Menu
-    </div>
+    <div class='load-menu tab inactive'>Load</div>
 
     <div id='title-area'>
       <h1>Hero's Journey Spread</h1>
@@ -109,9 +107,12 @@
     </div>
 
     <div id='main'>
-      <div id='journey-title'><h2>Journey</h2></div>
-      <div id='save-journey-button'>
-        <button>Save Journey</button>
+      <div id='journey-title'>
+        <form>
+          <input type='text' value='Journey (click to edit name)'>
+          <br>
+          <input type='submit' value= 'Save Journey'>
+        </form>
       </div>
       
       <div id='journey-circle-container'>
@@ -222,7 +223,7 @@
   </div>
 
   <script src="./javascripts/index.js"></script>  
-  <script src="./javascripts/api-talk.js"></script>  
+  <script src="./javascripts/load-menu.js"></script>  
   <script src="./javascripts/point-info-reference.js"></script>  
   <script src="./javascripts/points-menu.js"></script>  
 </body>

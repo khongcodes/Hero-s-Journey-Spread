@@ -158,7 +158,7 @@ const menuLibrary = (function() {
 
 
 //////////////////////////////////////////////////////////////////
-///////////////////////////       Other utilities
+///////////////////////////       Points-menu utilities
 /////////////////////////////////////////////////////////////////
 
 
@@ -192,6 +192,35 @@ const getCardClicked = function(node) {
 //////////////////////////////////////////////////////////////////
 ///////////////////////////       points-menu stage controller
 /////////////////////////////////////////////////////////////////
+
+
+// enter from INDEX.JS
+const characterOrJourneyPointsMenu = function(event, nodeClicked) {
+  let pointMenuNode = document.querySelector('div.points-menu');
+  if ([...event.target.classList].includes('character')) {;
+    pointMenuNode.classList.add('character', nodeClicked.classList[2])
+    loadCharacterPointContent(pointMenuNode, nodeClicked);
+  } else {
+    // add current point to classList of menu so eventhandler can know what point to reference
+    pointMenuNode.classList.add('journey', nodeClicked.classList[2])
+    loadJourneyPointContent(pointMenuNode, nodeClicked);
+  };
+  return pointMenuNode;
+};
+
+const unloadPointsMenuNode = function(menu) {
+  if ([...menu.classList].includes('character')) {
+    menu.querySelector('div.points-menu.header-container').removeChild(menu.querySelector('p'));
+  } else {
+    menu.querySelector('h2.points-menu.header-content').innerText = "";
+    menu.querySelector('p.points-menu.info-content').innerText = ""
+  }
+  menu.className = 'points-menu container'
+
+  for (const column of menu.getElementsByClassName('column')) {
+    clearChildren(column)
+  }
+};
 
 // DEPENDS ON CLASSLIST STAYING IN SAME ORDER
 const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
