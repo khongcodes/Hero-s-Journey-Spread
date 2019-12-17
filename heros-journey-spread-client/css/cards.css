@@ -7,7 +7,12 @@ img.card {
 /* applies just to view wrapper */
 div.img-overlay-container:hover .card-overlay {
   opacity: 0;
-  transition: 0.2s ease
+  transition: 0.2s ease;
+}
+
+/* applies just to view wrapper */
+div.point-container:hover {
+  cursor: pointer;
 }
 
 /* applies to points-menu and view wrapper */
@@ -87,6 +92,7 @@ div.points-menu.container.character div.card-overlay {
 div.points-menu.card-container:hover .card-overlay, div.points-menu.card-container:hover .card-text-overlay, div.points-menu.container.character .card-container:hover .card-overlay {
   opacity: 0;
   transition: 0.2s ease;
+  cursor: pointer;
 }
 
 div.points-menu.card-text-overlay {

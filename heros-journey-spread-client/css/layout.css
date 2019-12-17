@@ -21,16 +21,6 @@ div#view-wrapper {
     4fr [right-end];
 }
 
-div#menu {
-  position: fixed;
-  height: 3%;
-  width: 8%;
-  top: 0;
-  right: 3%;
-  background-color: purple;
-  visibility: hidden;
-}
-
 div#title-area {
   grid-area: top-end/left-end/title-end/sidebar-end;
   text-align:center;
@@ -65,7 +55,25 @@ div#main {
   transition: ease;
 }
 
+div#menu {
+  position: fixed;
+  height: 1.6em;
+  width: 7%;
+  top: -1.6em;
+  right: 3%;
+  background-color: rgb(204, 191, 235);
+  color: rgb(104, 85, 158);
+  padding: 0.5em 0 0 0.5em;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
+div#menu:hover {
+  top: 0;
+  transition: 0.2s;
+}
 
 /*****************************************************/
 /********     Character sidebar section      ********/
@@ -86,6 +94,7 @@ div.point-description-grid.character {
 
 div.point-container.character {
   grid-area: span 1 / span 1;
+  width: 3.6em;
 }
 
 
