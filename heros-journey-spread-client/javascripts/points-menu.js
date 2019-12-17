@@ -306,15 +306,24 @@ const changeCharacterPointStage0to1 = function() {
 }
 
 const changeCharacterPointStage1to2 = function(event) {
+  const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
+  cardContainer.removeEventListener('click', changeCharacterPointStage1to2);
+  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+  const cardKeep = getCardClicked(event.target).classList[2];
+  pointState.character[currentPoint].cards = pointState.character[currentPoint].cards.filter(card => card.id === parseInt(cardKeep, 10));
+
+  for (const node of [document.querySelector('div.points-menu.column.c1'), document.querySelector('div.points-menu.column.c3')]) {
+    clearChildren(node);
+  }
+  cardContainer.className = 'points-menu card-container';
+  clearChildren(cardContainer);
+
   
-  console.log(getCardClicked(event.target));
-  // for (const node of [document.querySelector('div.points-menu.column.c1'), document.querySelector('div.points-menu.column.c3')]) {
-  //   clearChildren(node);
-  // }
-  // const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
-  // cardContainer.removeEventListener('click', changeCharacterPointStage1to2);
+  
 }
 
+// Sometimes cursor is inaccurate
+// look for card-container div among parent and child nodes of event target
 const getCardClicked = function(node) {
   if (([...node.childNodes]!==undefined && [...node.childNodes].length!==0) && [...node.childNodes].map(child => /card-container/.test(child.className)).includes(true)) {
     node = node.querySelector('.card-container');
