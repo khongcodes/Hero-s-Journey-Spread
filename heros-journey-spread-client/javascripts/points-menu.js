@@ -60,7 +60,7 @@ const menuLibrary = (function() {
         if (configObj.state === 'inverted') {
           cardImage.classList.add('inverted-card');
         }
-      };      
+      };
       return cardImage;
     },
 
@@ -155,7 +155,7 @@ const menuLibrary = (function() {
 
 
 //////////////////////////////////////////////////////////////////
-///////////////////////    END functional library for points-menu
+///////////////////////////       Other utilities
 /////////////////////////////////////////////////////////////////
 
 
@@ -170,6 +170,25 @@ const cardState = function() {
   }
   return cardState;
 };
+
+// Sometimes cursor is inaccurate
+// look for card-container div among parent and child nodes of event target
+// used in characterPoint card select - when there is more than one card
+const getCardClicked = function(node) {
+  if (([...node.childNodes]!==undefined && [...node.childNodes].length!==0) && [...node.childNodes].map(child => /card-container/.test(child.className)).includes(true)) {
+    node = node.querySelector('.card-container');
+  } else {
+    while (![...node.classList].includes('card-container')) {
+      node = node.parentNode;
+    }
+  }
+  return node;
+}
+
+
+//////////////////////////////////////////////////////////////////
+///////////////////////////       points-menu stage controller
+/////////////////////////////////////////////////////////////////
 
 // DEPENDS ON CLASSLIST STAYING IN SAME ORDER
 const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
@@ -255,7 +274,7 @@ const changeJourneyPointStage0to1 = function() {
 const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
   const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
 
-  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+  const currentPoint = pointMenuNode.classList[3];
   fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0].id}`)
   .then(resp => resp.json())
   .then(obj => {
@@ -266,8 +285,8 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
     })
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
-    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('div.column.c3'), configObj);
-    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('div.column.c1'), configObj);
+    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
+    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
   })
 };
 
@@ -312,6 +331,28 @@ const changeCharacterPointStage0to1 = function() {
   });
 }
 
+const loadCharacterPointStage1 = function(pointMenuNode, nodeClicked) {
+  const currentPoint = nodeClicked.classList[2];
+  for (const card of pointState.character[currentPoint].cards) {
+    fetch(`${GET_CARD}/${card.id}`)
+    .then(resp => resp.json())
+    .then(card => {
+      const configObj = Object.assign({}, card, {
+        drawn: true,
+        state: pointState.character[currentPoint].cards.find(c => c.id === card.id).state,
+        point_type: 'character'
+      })
+
+      const whichColumn = pointState.character[currentPoint].cards.indexOf(pointState.character[currentPoint].cards.find(c => c.id === card.id)) + 1;
+      const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector(`div.column.c${whichColumn}`), configObj.id);
+      cardContainer.appendChild(menuLibrary.makeImage(configObj));
+      menuLibrary.placeCardOverlay.call(cardContainer);
+      menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
+      cardContainer.addEventListener('click', changeCharacterPointStage1to2);
+    })
+  }
+}
+
 const changeCharacterPointStage1to2 = function(event) {
   const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
   cardContainer.removeEventListener('click', changeCharacterPointStage1to2);
@@ -337,8 +378,9 @@ const changeCharacterPointStage1to2 = function(event) {
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
     menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
     const col1 = document.querySelector('div.points-menu.column.c1');
-    col1.appendChild(document.createElement('h3'));
-    col1.childNodes[0].innerText = 'You chose:'
+    const youChose = document.createElement('h3');
+    col1.appendChild(youChose);
+    youChose.innerText = 'You chose:';
     menuLibrary.placeDescriptionForm.call(col1, configObj);
 
     const characterPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
@@ -348,18 +390,22 @@ const changeCharacterPointStage1to2 = function(event) {
     characterPointImageContainer.childNodes[0].classList.add('card');
     characterPointImageContainer.classList.add('drawn-card');
   })
-  
 }
 
-// Sometimes cursor is inaccurate
-// look for card-container div among parent and child nodes of event target
-const getCardClicked = function(node) {
-  if (([...node.childNodes]!==undefined && [...node.childNodes].length!==0) && [...node.childNodes].map(child => /card-container/.test(child.className)).includes(true)) {
-    node = node.querySelector('.card-container');
-  } else {
-    while (![...node.classList].includes('card-container')) {
-      node = node.parentNode;
-    }
-  }
-  return node;
+const loadCharacterPointStage2 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+  const currentPoint = nodeClicked.classList[2];
+  fetch(`${GET_CARD}/${pointState.character[currentPoint].cards[0].id}`)
+  .then(resp => resp.json())
+  .then(card => {
+    const configObj = Object.assign({}, card, {
+      drawn: true,
+      state: pointState.character[currentPoint].cards[0].state,
+      point_type: 'character'
+    });
+
+    cardContainer.appendChild(menuLibrary.makeImage(configObj));
+    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
+    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
+  })
 }

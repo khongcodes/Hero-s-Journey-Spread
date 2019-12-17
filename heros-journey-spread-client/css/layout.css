@@ -114,6 +114,10 @@ div.points-menu.column {
   background-color: white;
 }
 
+div.character.points-menu div.column.c1 h3{
+  text-align: right;
+  margin-right: 1.5em;
+}
 
 
 
