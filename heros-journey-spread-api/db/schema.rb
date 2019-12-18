@@ -12,13 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2019_12_13_143747) do
 
-  create_table "card_points", id: false, force: :cascade do |t|
-    t.integer "card_id"
-    t.integer "point_id"
-    t.index ["card_id"], name: "index_card_points_on_card_id"
-    t.index ["point_id"], name: "index_card_points_on_point_id"
-  end
-
   create_table "cards", force: :cascade do |t|
     t.string "name"
     t.string "card_type"
@@ -27,6 +20,13 @@ ActiveRecord::Schema.define(version: 2019_12_13_143747) do
     t.string "desc"
     t.string "suit"
     t.string "value"
+  end
+
+  create_table "cards_points", id: false, force: :cascade do |t|
+    t.integer "card_id"
+    t.integer "point_id"
+    t.index ["card_id"], name: "index_cards_points_on_card_id"
+    t.index ["point_id"], name: "index_cards_points_on_point_id"
   end
 
   create_table "characters", force: :cascade do |t|
@@ -44,10 +44,12 @@ ActiveRecord::Schema.define(version: 2019_12_13_143747) do
   end
 
   create_table "points", force: :cascade do |t|
-    t.integer "querent_ref"
+    t.string "querent_ref"
     t.string "description"
     t.string "querent_type"
     t.integer "querent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["querent_type", "querent_id"], name: "index_points_on_querent_type_and_querent_id"
   end
 

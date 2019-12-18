@@ -486,6 +486,7 @@ DATA = {
 
 def main
   make_cards
+  make_test_subjects
 end
 
 # assign card_type and value here
@@ -498,6 +499,45 @@ def make_cards
       new_card = Card.create(card_type:"minor", value:index+1, suit:key, name:card[:name], meaning_up:card[:meaning_up], meaning_inv:card[:meaning_inv], desc:card[:desc])
     end
   end
+end
+
+def make_test_subjects
+  c1 = Character.create(name:"PersonA")
+  c2 = Character.create(name:"PersonB")
+  j1 = c1.journeys.create(name:"The Journey of Person A")
+  j2 = c2.journeys.create(name:"The long-winded travels of the extraordinary person b")
+  p1 = c1.points.create(querent_ref: "p1 inverted,", description: "boilerplate 1")
+  p1.cards.push(Card.random[0])
+  p2 = c1.points.create(querent_ref: "p2 upright", description: "boilerplate 2")
+  p2.cards.push(Card.random[0])
+  p3 = c1.points.create(querent_ref: "p3 upright", description: "boilerplate 3")
+  p3.cards.push(Card.random[0])
+  p4 = c1.points.create(querent_ref: "p4 inverted", description: "boilerplate 4")
+  p4.cards.push(Card.random[0])
+  p5 = c2.points.create(querent_ref: "p1 inverted", description: "boilerplate 1")
+  p5.cards.push(Card.random[0])
+  p6 = c2.points.create(querent_ref: "p2 upright", description: "boilerplate 2")
+  p6.cards.push(Card.random[0])
+  p7 = c2.points.create(querent_ref: "p3 upright", description: "boilerplate 3")
+  p7.cards.push(Card.random[0])
+  p8 = c2.points.create(querent_ref: "p4 inverted", description: "boilerplate 4")
+  p8.cards.push(Card.random[0])
+  p9 = j1.points.create(querent_ref: "point1 inverted,", description: "boilerplate 1")
+  p9.cards.push(Card.random[0])
+  p10 = j1.points.create(querent_ref: "point2 upright", description: "boilerplate 2")
+  p10.cards.push(Card.random[0])
+  p11 = j1.points.create(querent_ref: "point10 upright", description: "boilerplate 3")
+  p11.cards.push(Card.random[0])
+  p12 = j1.points.create(querent_ref: "point7 inverted", description: "boilerplate 4")
+  p12.cards.push(Card.random[0])
+  p13 = j2.points.create(querent_ref: "point1 inverted", description: "boilerplate 1")
+  p13.cards.push(Card.random[0])
+  p14 = j2.points.create(querent_ref: "point9 upright", description: "boilerplate 2")
+  p14.cards.push(Card.random[0])
+  p15 = j2.points.create(querent_ref: "point3 upright", description: "boilerplate 3")
+  p15.cards.push(Card.random[0])
+  p16 = j2.points.create(querent_ref: "point4 inverted", description: "boilerplate 4")
+  p16.cards.push(Card.random[0])
 end
 
 main
