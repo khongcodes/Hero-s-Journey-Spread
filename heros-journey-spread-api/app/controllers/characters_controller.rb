@@ -15,7 +15,7 @@ class CharactersController < ApplicationController
       :points => {
         :include => {:cards => {:only => [:id]}},
         :only => [:id, :querent_ref, :updated_at, :description]}
-    }, only: [:name])
+    }, only: [:name, :id])
   end
 
 end
