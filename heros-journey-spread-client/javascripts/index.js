@@ -5,8 +5,8 @@ const RANDOM_THREE = `${GET_CARD}/random/3`;
 
 let modalActive = false;
 let activeLoadMenuType = 'character';
-let journeyPersisted = false;
-let characterPersisted = false;
+let journeyId;
+let characterId;
 const pointsModal = document.querySelector('div#modal');
 
 const pointState = {
@@ -90,6 +90,8 @@ const pointState = {
 document.addEventListener('DOMContentLoaded', () => {
   cardsOpenPointMenuModal();
   loadMenuResponds();
+  saveButtonsSave();
+  disappearJourneyNameHelpText();
 
 });
 
@@ -172,10 +174,20 @@ const loadMenuResponds = function() {
   });
 }
 
-const loadMenuTabResponds = function() {
-  
+const saveButtonsSave = function() {
+  const characterButton = document.querySelector('div#sidebar form input[type="submit"]');
+  const journeyButton = document.querySelector('div#main form input[type="submit"]');
+  // characterButton.addEventListener('click', saveCharacterSaves)
+  // journeyButton.addEventListener('click', saveJourneySaves)
 }
 
-
-
+const disappearJourneyNameHelpText = function() {
+  const nameInput = document.querySelector('#journey-title input[type="text"]');
+  
+  function hideHelpText() {
+    nameInput.removeEventListener('click', hideHelpText);
+    document.querySelector('#journey-title p').classList.add('hide');
+  }
+  nameInput.addEventListener('click', hideHelpText)
+}
 

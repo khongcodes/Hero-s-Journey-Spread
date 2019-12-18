@@ -1,7 +1,10 @@
 class JourneysController < ApplicationController
   def index
     journeys = Journey.all
-    render json: journeys
+    render json: journeys.to_json(:include => {
+      :character => {:only => [:id, :name]},
+      :points => {:only => [:id, :querent_ref]}
+    }, :except => [:character_id, :created_at])
   end
 
   def show

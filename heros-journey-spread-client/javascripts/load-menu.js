@@ -1,3 +1,11 @@
+class LoadMenuItems {
+  constructor() {
+    
+  }
+
+}
+
+
 const loadMenuOpens = function() {
   const loadMenuContainer = document.createElement('div');
   loadMenuContainer.className = 'load-menu menu-container';
@@ -13,6 +21,10 @@ const loadMenuOpens = function() {
   inactiveLabel.innerText = `Load ${(activeLoadMenuType === 'character' ? 'Journey' : 'Character')}`
   inactiveLabel.addEventListener('click', switchActiveMenu);
   
+  // getActiveMenuItems();
+  // should have a card for new character under current journey
+  // should have a card for new journey under current character
+
   inactiveContainer.appendChild(inactiveLabel);
   loadMenuContainer.append(activeContainer, inactiveContainer);
   document.getElementById('view-wrapper').prepend(loadMenuContainer);
@@ -27,4 +39,4 @@ const loadMenuCloses = function() {
 const switchActiveMenu = function() {
   document.querySelector('.load-menu.inactive-label').innerText = `Load ${activeLoadMenuType[0].toUpperCase() + activeLoadMenuType.slice(1)}`;
   activeLoadMenuType = (activeLoadMenuType === 'character' ? 'journey' : 'character');
-}
+} 
