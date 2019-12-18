@@ -3,7 +3,7 @@ class CharactersController < ApplicationController
     characters = Character.all
     render json: characters.to_json(:include => {
       :points => {:only => [:id, :querent_ref]}
-    }, only: [:name])
+    }, except: [:created_at])
   end
 
   def show

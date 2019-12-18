@@ -24,6 +24,7 @@ div.card-overlay {
   top:0;
   left:0;
   opacity:0.33;
+  border-radius: 0.3em;
 }
 
 /* applies just to character sidebar section */

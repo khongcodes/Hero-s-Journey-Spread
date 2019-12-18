@@ -2,6 +2,8 @@ const BASE_URL = 'http://localhost:3000';
 const GET_CARD = `${BASE_URL}/cards`;
 const RANDOM_CARD = `${GET_CARD}/random/1`;
 const RANDOM_THREE = `${GET_CARD}/random/3`;
+const LOAD_CHARACTERS = `${BASE_URL}/characters`
+const LOAD_JOURNEYS = `${BASE_URL}/journeys`
 
 let modalActive = false;
 let activeLoadMenuType = 'character';
@@ -9,15 +11,34 @@ let journeyId;
 let characterId;
 const pointsModal = document.querySelector('div#modal');
 
+// Example of pointState
+// point0: {
+//   cards: [
+//     {id:45, state:'upright'},
+//     {id:26, state:'inverted'}
+//   ],
+//   description: "user inputted text"
+// },
 const pointState = {
-  journey: {
-    // point0: {
-    //   cards: [
-    //     {id:45, state:'upright'},
-    //     {id:26, state:'inverted'}
-    //   ],
-    //   description: "user inputted text"
-    // },
+  journey: {},
+  character: {}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  pointStateInitialize();
+  cardsOpenPointMenuModal();
+  loadMenuResponds();
+  saveButtonsSave();
+  disappearJourneyNameHelpText();
+
+});
+
+//////////////////////////////////////////////////////////////////
+///////////////////////////       Utilities
+/////////////////////////////////////////////////////////////////
+
+const pointStateInitialize = function() {
+  pointState.journey = {
     point1: {
       cards: [],
       description: "",
@@ -66,8 +87,8 @@ const pointState = {
       cards: [],
       description: "",
     }
-  },
-  character: {
+  };
+  pointState.character = {
     p1: {
       cards: [],
       description: "",
@@ -84,20 +105,8 @@ const pointState = {
       cards: [],
       description: "",
     }
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  cardsOpenPointMenuModal();
-  loadMenuResponds();
-  saveButtonsSave();
-  disappearJourneyNameHelpText();
-
-});
-
-//////////////////////////////////////////////////////////////////
-///////////////////////////       Utilities
-/////////////////////////////////////////////////////////////////
+  };
+};
 
 const modalCanOpen = function() {
   modalActive = true;
@@ -116,6 +125,10 @@ const clearChildren = function(node) {
     node.removeChild(node.lastChild);
   }
 };
+
+const activeLoadMenuTypeCapitalized = function() {
+  return activeLoadMenuType[0].toUpperCase() + activeLoadMenuType.slice(1);
+}
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////////       Functions in main program

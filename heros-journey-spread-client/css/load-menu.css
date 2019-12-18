@@ -20,11 +20,10 @@ div.load-menu.menu-container {
 
   display: grid;
   grid-template:
-    [bar1-end]
-    1em [top-margin-end]
+    [top-end]
     2fr [bar1-end]
-    4fr [bar2-start]
-    1fr [bar2-end] /
+    4fr [bar2-end]
+    1fr [bottom-end] /
     [left-end]
     1em [left-margin-end]
     1fr [col1-end]
@@ -35,13 +34,102 @@ div.load-menu.menu-container {
 }
 
 div.load-menu.active-container {
-  grid-area: top-margin-end/left-margin-end/bar2-start/right-margin-end;
-
+  grid-area: top-end/left-margin-end/bar2-end/right-margin-end;
 }
+
+div.load-menu.active-container h4{
+  margin: 1em 0 0.6em;
+}
+
+
+/*****************************************************/
+/*********       Active cards section        ********/
+/***************************************************/
+
+div.load-menu.active-container.cards-container {
+  /* background: gray; */
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  height: 8.3em;
+  display: flex;
+  align-items: center;
+}
+
+div.load-menu.menu-card {
+  display: inline-flex;
+  align-items: flex-start;
+  /* background-color: yellow; */
+  width: 16em;
+  height: 100%;
+  margin: 0 0.6em;
+}
+
+div.load-menu.menu-card:first-child {
+  margin-left: 0;
+}
+
+div.load-menu.menu-card:last-child {
+  margin-right: 0;
+}
+
+div.load-menu.menu-card-content.img-container {
+  height: 100%;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+div.load-menu.menu-card-content.img-container img {
+  height: 100%
+}
+
+div.load-menu.card-overlay {
+  height: 100%;
+  width: 100%;
+}
+
+div.load-menu.menu-card:not(:last-child) .card-overlay:not(:hover){
+  opacity: 0.1;
+}
+
+div.load-menu.img-container:hover .card-overlay, div.load-menu.img-container:hover .new-card-plus {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+
+div.load-menu.new-card-plus {
+  position: absolute;
+  width: 100%;
+  top: 37%;
+  font-family: monospace;
+  font-size: 4em;
+  text-align: center;
+  opacity: 0.9;
+  color: white;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+div.load-menu.menu-card-content.desc-container {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  padding-left: 0.5em;
+}
+
+div.load-menu.menu-card-content.desc-container p {
+  font-size: 0.9em;
+}
+
+/*****************************************************/
+/********     Inactive Container section     ********/
+/***************************************************/
 
 div.load-menu.inactive-container {
   background-color: rgb(226, 226, 226);
-  grid-area: bar2-start/left-end/bar2-end/right-end;
+  grid-area: bar2-end/left-end/bottom-end/right-end;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   padding: 0.4em 0 0.4em 1em;
@@ -58,8 +146,4 @@ span.load-menu.inactive-label {
 
 span.load-menu.inactive-label:hover {
   text-decoration:underline;
-}
-
-div.load-menu.menu-card {
-  background-color: yellow;
 }
