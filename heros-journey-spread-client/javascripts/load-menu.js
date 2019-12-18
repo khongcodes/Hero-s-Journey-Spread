@@ -6,7 +6,7 @@ const loadLibrary = (function() {
   return {
     makeImage: function() {
       const cardImage = document.createElement('img');
-      cardImage.src = 'assets/card-images/x-small.jpg';
+      // cardImage.src = 'assets/card-images/x-small.jpg';
       return cardImage;
     },
 
@@ -29,7 +29,6 @@ const loadLibrary = (function() {
       menuCard.append(document.createElement('div'), document.createElement('div'));
       menuCard.firstChild.className = 'load-menu menu-card-content img-container';
       menuCard.lastChild.className = 'load-menu menu-card-content desc-container';
-      
       menuCard.firstChild.appendChild(loadLibrary.makeImage());
       menuCard.firstChild.appendChild(loadLibrary.makeDarkOverlay());
 
@@ -37,10 +36,25 @@ const loadLibrary = (function() {
         menuCard.lastChild.appendChild(document.createElement('p'));
         menuCard.lastChild.firstChild.innerText = string;
       }
+
       return menuCard;
     }
   }
 })();
+
+
+
+//////////////////////////////////////////////////////////////////
+////////////////////        Helpful Utilities
+/////////////////////////////////////////////////////////////////
+
+const inActiveLoadMenuType = function() {
+  return (activeLoadMenuType==='character' ? 'journey' : 'character');
+}
+
+const capitalized = function() {
+  return this[0].toUpperCase() + this.slice(1);
+}
 
 
 //////////////////////////////////////////////////////////////////
@@ -61,6 +75,50 @@ class LoadMenuItems {
 
   static sortUpdatedAt(a,b) {
     return new Date(b.updated_at) - new Date(a.updated_at);
+  }
+
+  static pushPoints(pointsCollection) {
+    for (const point of pointsCollection) {
+      const pointName = point.querent_ref.split(", ")[0];
+      const pointCards = point.querent_ref.split(", ").slice(1);
+      for (const card of pointCards) {
+        this[pointName].cards.push({
+          id: card.split(" ")[0],
+          state: card.split(" ")[1]
+        })
+      }
+      this[pointName].description = point.description;
+    }
+  }
+
+  static loadToPointState() {
+    pointStateInitialize();
+    const resourceId = event.target.parentNode.parentNode.classList[3];
+    const loadResource = (activeLoadMenuType === 'character' ? LOAD_CHARACTERS : LOAD_JOURNEYS);
+    fetch(`${loadResource}/${resourceId}`)
+    .then(resp => resp.json())
+    .then(obj => {
+      
+      console.log(obj)
+      console.log(activeLoadMenuType)
+      
+      // querent_ref example:
+      // "p1, 4 inverted, 45 upright, 16 upright"
+
+      Object.assign(pointState[activeLoadMenuType], (({id, name}) => ({id, name}))(obj));
+      LoadMenuItems.pushPoints.call(pointState[activeLoadMenuType], obj.points);
+
+      if (activeLoadMenuType==='journey' && obj.hasOwnProperty('character')) {
+        Object.assign(pointState.character, (({id, name}) => ({id, name}))(obj.character));
+        LoadMenuItems.pushPoints.call(pointState.character, obj.character.points);
+      }
+    })
+  }
+
+  static loadToCardsFromPointState() {
+    
+    document.querySelectorAll('.img-overlay-container');
+    // document.querySelector('div.create-character input').value = 'test test'
   }
 }
 
@@ -95,7 +153,7 @@ const loadMenuOpens = function() {
   const activeContainer = document.createElement('div');
   activeContainer.className = 'load-menu active-container';
   const activeHeader = document.createElement('h4');
-  activeHeader.innerText = `Load ${activeLoadMenuTypeCapitalized()}`;
+  activeHeader.innerText = `Load ${capitalized.call(activeLoadMenuType)}`;
   const activeCardsContainer = document.createElement('div');
   activeCardsContainer.className = 'load-menu active-container cards-container';
 
@@ -104,12 +162,11 @@ const loadMenuOpens = function() {
   
   const inactiveLabel = document.createElement('span');
   inactiveLabel.className = 'load-menu inactive-label';
-  inactiveLabel.innerText = `Load ${(activeLoadMenuType === 'character' ? 'Journey' : 'Character')}`
+  inactiveLabel.innerText = `Load ${capitalized.call(inActiveLoadMenuType())}`
   inactiveLabel.addEventListener('click', switchActiveMenu);
   
   getActiveMenuItems();
-  // should have a card for new character under current journey
-  // should have a card for new journey under current character
+  
   activeContainer.append(activeHeader, activeCardsContainer);
   inactiveContainer.appendChild(inactiveLabel);
   loadMenuContainer.append(activeContainer, inactiveContainer);
@@ -117,42 +174,72 @@ const loadMenuOpens = function() {
   document.querySelector('div.load-menu.tab.inactive').className = 'load-menu tab active';
 }
 
+
 const getActiveMenuItems = function() {
   const loadResource = (activeLoadMenuType === 'character' ? LOAD_CHARACTERS : LOAD_JOURNEYS);
   fetch(loadResource)
   .then(resp => resp.json())
   .then(obj => {
-    let sortedItems;
+    let sortedItems, sortedPoints;
     if (activeLoadMenuType === 'character') {
-      sortedItems = obj.sort(LoadMenuItems.sortUpdatedAt).map(a => new LoadCharacterItems(a));
+      sortedItems = [...obj].sort(LoadMenuItems.sortUpdatedAt).map(a => {
+        sortedPoints = a.points.sort(LoadMenuItems.sortUpdatedAt)
+        return new LoadCharacterItems(a);
+        
+      });
     } else {
-      sortedItems = obj.sort(LoadMenuItems.sortUpdatedAt).map(a => new LoadJourneyItems(a));
+      sortedItems = obj.sort(LoadMenuItems.sortUpdatedAt).map(a => {
+        return new LoadJourneyItems(a)
+      });
     };
 
     const cardsContainer = document.querySelector('div.load-menu.cards-container');
     for (const item of sortedItems) {
       cardsContainer.appendChild(item.node);
+      fetch(`${GET_CARD}/${item.points[0].cards[0].id}`)
+      .then(resp => resp.json())
+      .then(obj => {
+        item.node.querySelector('img').src = (obj.card_type === 'major' ? `assets/card-images/major/${obj.value}.jpg` : `assets/card-images/minor/${obj.suit[0].toUpperCase() + obj.suit.slice(1)}/${obj.value}.jpg`);
+      })
+
+      if (item.points[0].querent_ref.split(" ")[1] === "inverted") {
+        item.node.querySelector('img').classList.add('inverted-card')
+      }
+      item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
+        LoadMenuItems.loadToPointState();
+        LoadMenuItems.loadToCardsFromPointState();
+        document.getElementById('modal').click();
+      });
     }
 
     const configObj = {
       paragraphText: [`Create new ${activeLoadMenuType}`]
     };
+
     cardsContainer.appendChild(loadLibrary.makeCard(configObj));
-    cardsContainer.querySelector('.load-menu.menu-card:last-child .img-container').appendChild(loadLibrary.makePlusOverlay());
+    const lastImageContainer = cardsContainer.querySelector('.load-menu.menu-card:last-child .img-container');
+    lastImageContainer.querySelector('img').src = 'assets/card-images/x-small.jpg';
+    lastImageContainer.appendChild(loadLibrary.makePlusOverlay());
+    lastImageContainer.addEventListener('click', () => {
+      pointStateInitialize();
+      LoadMenuItems.loadToCardsFromPointState();
+      document.getElementById('modal').click();
+    }, {once:true})
+
   })
 }
 
 const loadMenuCloses = function() {
+  modalCanClose(event);
   clearChildren(document.querySelector('div.load-menu.cards-container'));
   document.getElementById('view-wrapper').removeChild(document.querySelector('.load-menu.menu-container'));
   document.querySelector('div.load-menu.tab.active').className = 'load-menu tab inactive';
-
 }
 
 const switchActiveMenu = function() {
-  document.querySelector('.load-menu.inactive-label').innerText = `Load ${activeLoadMenuTypeCapitalized()}`;
-  activeLoadMenuType = (activeLoadMenuType === 'character' ? 'journey' : 'character');
-  document.querySelector('.load-menu.active-container h4').innerText = `Load ${activeLoadMenuTypeCapitalized()}`;
+  document.querySelector('.load-menu.inactive-label').innerText = `Load ${capitalized.call(activeLoadMenuType)}`;
+  activeLoadMenuType = inActiveLoadMenuType();
+  document.querySelector('.load-menu.active-container h4').innerText = `Load ${capitalized.call(activeLoadMenuType)}`;
 
   clearChildren(document.querySelector('div.load-menu.cards-container'));
   getActiveMenuItems();

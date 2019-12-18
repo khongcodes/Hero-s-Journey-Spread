@@ -1,4 +1,6 @@
 class CharactersController < ApplicationController
+  # JSON MAY NOT NEED CARDS
+  
   def index
     characters = Character.all
     render json: characters.to_json(:include => {

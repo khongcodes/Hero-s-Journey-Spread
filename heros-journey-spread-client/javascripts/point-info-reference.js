@@ -1,3 +1,43 @@
+// // pointState should look like
+// const pointState1 = {
+  
+//   character: {
+//     id: "",
+//     name: "",
+//     p1: {
+//       cards: [],
+//       description: ""
+//     },
+//     p2: {
+//       cards: [],
+//       description: ""
+//     },
+//     // ...
+//     p4: {
+//       cards: [],
+//       description: ""
+//     }
+//   },
+
+//   journey: {
+//     id: "",
+//     name: "",
+//     point1: {
+//       cards: [],
+//       description: ""
+//     },
+//     point2: {
+//       cards: [],
+//       description: ""
+//     },
+//     // ...
+//     point12: {
+//       cards: [],
+//       description: ""
+//     },
+//   }
+// }
+
 const JOURNEYPOINTSDATA = {
   point1: {
     title: "1. The Ordinary World",

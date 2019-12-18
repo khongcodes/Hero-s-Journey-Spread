@@ -267,12 +267,11 @@ const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
   cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
   menuLibrary.placeCardOverlay.call(cardContainer);
   menuLibrary.placeCardTextOverlay.call(cardContainer, 'Click to draw a card');
-  cardContainer.addEventListener('click', changeJourneyPointStage0to1);
+  cardContainer.addEventListener('click', changeJourneyPointStage0to1, {once:true});
 }
 
 const changeJourneyPointStage0to1 = function() {
   const cardContainer = document.querySelector('div.points-menu.card-container');
-  cardContainer.removeEventListener('click', changeJourneyPointStage0to1);
   const currentPoint = document.querySelector('div.points-menu.container').classList[3];
   fetch(RANDOM_CARD)
   .then(resp => resp.json())
@@ -332,11 +331,10 @@ const loadCharacterPointStage0 = function(pointMenuNode, nodeClicked) {
   cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
   menuLibrary.placeCardOverlay.call(cardContainer);
   menuLibrary.placeCardTextOverlay.call(cardContainer, 'Draw three\nChoose one');
-  cardContainer.addEventListener('click', changeCharacterPointStage0to1);
+  cardContainer.addEventListener('click', changeCharacterPointStage0to1, {once:true});
 }
 
 const changeCharacterPointStage0to1 = function() {
-  document.querySelector('div.points-menu.card-container').removeEventListener('click', changeCharacterPointStage0to1);
   clearChildren(document.querySelector('div.points-menu.column.c2'));
   const currentPoint = document.querySelector('div.points-menu.container').classList[3];
 
@@ -380,14 +378,13 @@ const loadCharacterPointStage1 = function(pointMenuNode, nodeClicked) {
       cardContainer.appendChild(menuLibrary.makeImage(configObj));
       menuLibrary.placeCardOverlay.call(cardContainer);
       menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
-      cardContainer.addEventListener('click', changeCharacterPointStage1to2);
+      cardContainer.addEventListener('click', changeCharacterPointStage1to2, {once:true});
     })
   }
 }
 
 const changeCharacterPointStage1to2 = function(event) {
   const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
-  cardContainer.removeEventListener('click', changeCharacterPointStage1to2);
   const currentPoint = document.querySelector('div.points-menu.container').classList[3];
   const cardKeep = getCardClicked(event.target).classList[2];
   pointState.character[currentPoint].cards = pointState.character[currentPoint].cards.filter(card => card.id === parseInt(cardKeep, 10));

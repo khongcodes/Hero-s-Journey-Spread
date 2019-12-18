@@ -7,8 +7,6 @@ const LOAD_JOURNEYS = `${BASE_URL}/journeys`
 
 let modalActive = false;
 let activeLoadMenuType = 'character';
-let journeyId;
-let characterId;
 const pointsModal = document.querySelector('div#modal');
 
 // Example of pointState
@@ -20,8 +18,8 @@ const pointsModal = document.querySelector('div#modal');
 //   description: "user inputted text"
 // },
 const pointState = {
-  journey: {},
-  character: {}
+  character: {},
+  journey: {}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,75 +35,28 @@ document.addEventListener('DOMContentLoaded', () => {
 ///////////////////////////       Utilities
 /////////////////////////////////////////////////////////////////
 
+class PointStatePointMaker {
+  constructor(num, type){
+    const key = (type==='character' ? `p${num}` : `point${num}`)
+    this[key] = {
+      cards: [],
+      description: ""
+    }
+  }
+}
+
 const pointStateInitialize = function() {
-  pointState.journey = {
-    point1: {
-      cards: [],
-      description: "",
-    },
-    point2: {
-      cards: [],
-      description: "",
-    },
-    point3: {
-      cards: [],
-      description: "",
-    },
-    point4: {
-      cards: [],
-      description: "",
-    },
-    point5: {
-      cards: [],
-      description: "",
-    },
-    point6: {
-      cards: [],
-      description: "",
-    },
-    point7: {
-      cards: [],
-      description: "",
-    },
-    point8: {
-      cards: [],
-      description: "",
-    },
-    point9: {
-      cards: [],
-      description: "",
-    },
-    point10: {
-      cards: [],
-      description: "",
-    },
-    point11: {
-      cards: [],
-      description: "",
-    },
-    point12: {
-      cards: [],
-      description: "",
-    }
-  };
-  pointState.character = {
-    p1: {
-      cards: [],
-      description: "",
-    },
-    p2: {
-      cards: [],
-      description: "",
-    },
-    p3: {
-      cards: [],
-      description: "",
-    },
-    p4: {
-      cards: [],
-      description: "",
-    }
-  };
+  for (let i=1; i<=4; i++) {
+    Object.assign(pointState.character, new PointStatePointMaker(i, "character"))
+  }
+
+  for (let i=1; i<=12; i++) {
+    Object.assign(pointState.journey, new PointStatePointMaker(i, "journey"))
+  }
+  
+  for (const hasNameAndId of [pointState.journey, pointState.character]) {
+    Object.assign(hasNameAndId, {id:'', name:''})
+  }
 };
 
 const modalCanOpen = function() {
@@ -126,29 +77,25 @@ const clearChildren = function(node) {
   }
 };
 
-const activeLoadMenuTypeCapitalized = function() {
-  return activeLoadMenuType[0].toUpperCase() + activeLoadMenuType.slice(1);
-}
-
 //////////////////////////////////////////////////////////////////
 ///////////////////////////       Functions in main program
 /////////////////////////////////////////////////////////////////
 
-const handlePointStateOnIndex = function() {
-  // handleif journey is loaded
-  const pointContainerNodes = document.getElementsByClassName('point-container');
-  for (const node of pointContainerNodes ) {
-    // switch (getPointStage(node)){
-    //   case 'stage1':
-    //     node.querySelector('img').src = 'assets/card-images/x-small.jpg';
-    //     break;
-    //   case 'stage2':
-    //     break;
-    //   case 'stage3':
-    //     break;
-    // }
-  }
-}
+// const handlePointStateOnIndex = function() {
+//   // handleif journey is loaded
+//   const pointContainerNodes = document.getElementsByClassName('point-container');
+//   for (const node of pointContainerNodes ) {
+//     // switch (getPointStage(node)){
+//     //   case 'stage1':
+//     //     node.querySelector('img').src = 'assets/card-images/x-small.jpg';
+//     //     break;
+//     //   case 'stage2':
+//     //     break;
+//     //   case 'stage3':
+//     //     break;
+//     // }
+//   }
+// }
 
 const cardsOpenPointMenuModal = function() {
   const cardContainerNodes = document.getElementsByClassName('point-container');
@@ -163,26 +110,30 @@ const cardsOpenPointMenuModal = function() {
       modalCanOpen();
       document.getElementById('modal').addEventListener('click', event => {
         modalCanClose(event);
-        
         unloadPointsMenuNode(pointMenuNode);
         pointMenuNode.style.display = 'none';
         pointMenuNode.classList.remove("visible");
-      });
+      }, {once:true});
     }); 
   };
 };
+
+// const pointMenuCloses = function(event) {
+//   const pointMenuNode = document.querySelector('div.points-menu');
+//   document.getElementById('modal').removeEventListener('click', pointMenuCloses);
+//   modalCanClose(event);
+//   unloadPointsMenuNode(pointMenuNode);
+//   pointMenuNode.style.display = 'none';
+//   pointMenuNode.classList.remove("visible");
+// };
 
 const loadMenuResponds = function() {
   document.querySelector('.load-menu.tab.inactive').addEventListener('click', function() {
     if (!modalActive) {
       // enter [load-menu.js:1] on loadMenuOpens()
-    loadMenuOpens();
-
-    modalCanOpen();
-    document.getElementById('modal').addEventListener('click', event => {
-      modalCanClose(event);
-      loadMenuCloses();
-    })
+      loadMenuOpens();
+      modalCanOpen();
+      document.getElementById('modal').addEventListener('click', loadMenuCloses, {once:true})
     }
   });
 }
