@@ -70,6 +70,8 @@ div.load-menu.tab.inactive {
   top: -1.6em;
   right: 3em;
   transition: 0.2s;
+  z-index: 3;
+  box-shadow: 1px 1px 1px 1px rgba(180, 180, 180, 0.068);
 }
 
 div.load-menu.tab.inactive:hover {

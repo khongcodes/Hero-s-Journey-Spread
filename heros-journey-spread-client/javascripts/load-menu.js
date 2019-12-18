@@ -230,6 +230,7 @@ const getActiveMenuItems = function() {
 }
 
 const loadMenuCloses = function() {
+  document.querySelector('.load-menu.menu-container').classList.add('disappear');
   modalCanClose(event);
   clearChildren(document.querySelector('div.load-menu.cards-container'));
   document.getElementById('view-wrapper').removeChild(document.querySelector('.load-menu.menu-container'));

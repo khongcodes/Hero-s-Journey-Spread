@@ -1,16 +1,19 @@
 div.load-menu.tab.active {
-  z-index: 2;
+  z-index: 3;
   grid-area: title-end/col-1-end/main-end/right-end;
-  position: absolute;
+  position: fixed;
   right: 3em;
-  top: 4em;
+  top: 14.2em;
   cursor: auto;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  transition: 0.2s ease;
 }
 
 div.load-menu.menu-container {
+  position:fixed;
+  width:100%;
   z-index: 2;
   background-color: white;
   grid-area: top-end/left-end/title-end/right-end;
@@ -31,6 +34,9 @@ div.load-menu.menu-container {
     1fr [col3-end]
     1fr [right-margin-end]
     1.6em [right-end];
+
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.068);
+    animation: slide-down 0.2s ease;
 }
 
 div.load-menu.active-container {
@@ -41,6 +47,10 @@ div.load-menu.active-container h4{
   margin: 1em 0 0.6em;
 }
 
+@keyframes slide-down {
+  from {transform: translateY(-14em);}
+  to {transform: translateY(0);}
+}
 
 /*****************************************************/
 /*********       Active cards section        ********/
