@@ -5,8 +5,7 @@ class CharactersController < ApplicationController
       :points => {
         :include => {
           :cards => {:only => [:id]}
-        },
-        :only => [:id, :querent_ref, :updated_at]}
+        }, :only => [:id, :querent_ref, :updated_at]}
     }, except: [:created_at])
   end
 
@@ -14,10 +13,8 @@ class CharactersController < ApplicationController
     character = Character.find(params[:id])
     render json: character.to_json(:include => {
       :points => {
-        :include => {
-          :cards => {:only => [:id]}
-        },
-        :only => [:id, :querent_ref, :updated_at]}
+        :include => {:cards => {:only => [:id]}},
+        :only => [:id, :querent_ref, :updated_at, :description]}
     }, only: [:name])
   end
 
