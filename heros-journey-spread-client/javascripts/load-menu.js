@@ -88,6 +88,7 @@ class LoadMenuItems {
         })
       }
       this[pointName].description = point.description;
+      this[pointName].id = point.id
     }
   }
 
@@ -217,19 +218,29 @@ const getActiveMenuItems = function() {
     const cardsContainer = document.querySelector('div.load-menu.cards-container');
     for (const item of sortedItems) {
       cardsContainer.appendChild(item.node);
-      fetch(`${GET_CARD}/${item.points[0].cards[0].id}`)
-      .then(resp => resp.json())
-      .then(obj => {
-        item.node.querySelector('img').src = (obj.card_type === 'major' ? `assets/card-images/major/${obj.value}.jpg` : `assets/card-images/minor/${obj.suit[0].toUpperCase() + obj.suit.slice(1)}/${obj.value}.jpg`);
-      })
+      if (item.points.length === 0) {
+        item.node.querySelector('img').src = 'assets/card-images/x.jpg';
+        item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
+          LoadMenuItems.loadToPointState(LoadMenuItems.loadToCardsFromPointState);
+          document.getElementById('modal').click();
+        });
 
-      if (item.points[0].querent_ref.split(" ")[1] === "inverted") {
-        item.node.querySelector('img').classList.add('inverted-card')
+      } else {
+        fetch(`${GET_CARD}/${item.points[0].cards[0].id}`)
+        .then(resp => resp.json())
+        .then(obj => {
+          item.node.querySelector('img').src = (obj.card_type === 'major' ? `assets/card-images/major/${obj.value}.jpg` : `assets/card-images/minor/${obj.suit[0].toUpperCase() + obj.suit.slice(1)}/${obj.value}.jpg`);
+        })
+
+        if (item.points[0].querent_ref.split(" ")[1] === "inverted") {
+          item.node.querySelector('img').classList.add('inverted-card')
+        }
+        item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
+          LoadMenuItems.loadToPointState(LoadMenuItems.loadToCardsFromPointState);
+          document.getElementById('modal').click();
+        });
       }
-      item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
-        LoadMenuItems.loadToPointState(LoadMenuItems.loadToCardsFromPointState);
-        document.getElementById('modal').click();
-      });
+      
     }
 
     const configObj = {

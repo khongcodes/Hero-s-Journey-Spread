@@ -4,6 +4,7 @@ const RANDOM_CARD = `${GET_CARD}/random/1`;
 const RANDOM_THREE = `${GET_CARD}/random/3`;
 const LOAD_CHARACTERS = `${BASE_URL}/characters`
 const LOAD_JOURNEYS = `${BASE_URL}/journeys`
+const SAVE_POINT = `${BASE_URL}/points`
 
 let modalActive = false;
 let activeLoadMenuType = 'character';
@@ -26,8 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
   pointStateInitialize();
   cardsOpenPointMenuModal();
   loadMenuResponds();
-  saveButtonsSave();
+  nameInputUpdatesPointState();
   disappearNameHelpText();
+  saveButtonsSave();
 
 });
 
@@ -39,6 +41,7 @@ class PointStatePointMaker {
   constructor(num, type){
     const key = (type==='character' ? `p${num}` : `point${num}`)
     this[key] = {
+      id: "",
       cards: [],
       description: ""
     }
@@ -102,15 +105,6 @@ const cardsOpenPointMenuModal = function() {
   };
 };
 
-// const pointMenuCloses = function(event) {
-//   const pointMenuNode = document.querySelector('div.points-menu');
-//   document.getElementById('modal').removeEventListener('click', pointMenuCloses);
-//   modalCanClose(event);
-//   unloadPointsMenuNode(pointMenuNode);
-//   pointMenuNode.style.display = 'none';
-//   pointMenuNode.classList.remove("visible");
-// };
-
 const loadMenuResponds = function() {
   document.querySelector('.load-menu.tab.inactive').addEventListener('click', function() {
     if (!modalActive) {
@@ -122,12 +116,16 @@ const loadMenuResponds = function() {
   });
 }
 
-const saveButtonsSave = function() {
-  const characterButton = document.querySelector('div#sidebar form input[type="submit"]');
-  const journeyButton = document.querySelector('div#main form input[type="submit"]');
-  // enter [save.js:1] on resourceSaves()
-  characterButton.addEventListener('click', nonPointResourceButton)
-  journeyButton.addEventListener('click', nonPointResourceButton)
+const nameInputUpdatesPointState = function() {
+  for (const element of  document.querySelectorAll('input[type="text"]')) {
+    element.addEventListener('change', () => {
+      if (element.parentNode.classList[1] === 'character-name') {
+        pointState.character.name = element.value;
+      } else {
+        pointState.journey.name = element.value;
+      }
+    })
+  }
 }
 
 const disappearNameHelpText = function() {
@@ -144,3 +142,10 @@ const disappearNameHelpText = function() {
   
 }
 
+const saveButtonsSave = function() {
+  const characterButton = document.querySelector('div#sidebar form input[type="submit"]');
+  const journeyButton = document.querySelector('div#main form input[type="submit"]');
+  // enter [save.js:1] on resourceSaves()
+  characterButton.addEventListener('click', nonPointResourceButton)
+  journeyButton.addEventListener('click', nonPointResourceButton)
+}

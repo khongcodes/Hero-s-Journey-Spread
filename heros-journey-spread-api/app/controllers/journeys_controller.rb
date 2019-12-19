@@ -29,4 +29,19 @@ class JourneysController < ApplicationController
     journey = Journey.create(name:params[:name])
     render json: journey
   end
+
+  def update
+    journey = Journey.find(params[:id])
+    journey.update(name: params[:name])
+    render json: journey.to_json(:include => {
+      :character => {:include => {
+        :points => {:include => {
+          :cards => {:only => [:id]}
+        }, only: [:id, :querent_ref, :updated_at, :description]}
+      }, only: [:id, :name]},
+      :points => {:include => {
+        :cards => {:only => [:id]}
+      }, only: [:id, :querent_ref, :updated_at, :description]}
+    }, :except => [:character_id, :created_at])
+  end
 end

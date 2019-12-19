@@ -134,13 +134,14 @@ const menuLibrary = (function() {
       descriptionLabel.innerText = 'Description (optional): ';
 
       const descriptionInput = document.createElement('textarea');
-      if (configObj.point_type === 'journey') {
+      if (configObj.pointType === 'journey') {
         descriptionInput.placeholder = "How does this card relate to this story point?\nWhat do we see?";
       } else {
         descriptionInput.placeholder = "How does this card relate to your character?";
       };
       
-
+      descriptionInput.innerText = pointState[configObj.pointType][configObj.currentPoint].description || '';
+      
       const descriptionSubmit = document.createElement('input');
       descriptionSubmit.type = 'submit';
       descriptionSubmit.value = 'Save story point';
@@ -148,6 +149,8 @@ const menuLibrary = (function() {
       descriptionForm.append(descriptionLabel, br(), descriptionInput, br(), descriptionSubmit)
       formHolder.appendChild(descriptionForm);
       this.appendChild(formHolder);
+
+      pointDescSaveToPointState.call(descriptionSubmit, descriptionInput);
     },
 
 
@@ -281,7 +284,8 @@ const changeJourneyPointStage0to1 = function() {
     const configObj = Object.assign({}, card[0], {
       drawn: true,
       state: cardState(),
-      point_type: 'journey',
+      pointType: 'journey',
+      currentPoint: currentPoint
     })
     
     pointState.journey[currentPoint].cards.push({
@@ -315,13 +319,16 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
     const configObj = Object.assign({}, obj, {
       drawn: true,
       state: pointState.journey[currentPoint].cards[0].state,
-      point_type: 'journey',
+      pointType: 'journey',
+      currentPoint: currentPoint
+
     })
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
-    cardContainer.querySelector('img').classList.add('points-menu')
+    cardContainer.querySelector('img').classList.add('points-menu');
     menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
     menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
+    document.querySelector('.points-menu.description-form textarea').innerText = pointState.journey[currentPoint].description;
   })
 };
 
@@ -376,7 +383,7 @@ const loadCharacterPointStage1 = function(pointMenuNode, nodeClicked) {
       const configObj = Object.assign({}, card, {
         drawn: true,
         state: pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10)).state,
-        point_type: 'character'
+        pointType: 'character'
       })
 
       const whichColumn = pointState.character[currentPoint].cards.indexOf(pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10))) + 1;
@@ -409,7 +416,8 @@ const changeCharacterPointStage1to2 = function(event) {
     const configObj = Object.assign({}, card, {
       drawn: true,
       state: pointState.character[currentPoint].cards[0].state,
-      point_type: 'character'
+      pointType: 'character',
+      currentPoint: currentPoint
     });
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
@@ -423,6 +431,7 @@ const changeCharacterPointStage1to2 = function(event) {
     characterPointImageContainer.childNodes[0].classList.remove('points-menu');
     characterPointImageContainer.childNodes[0].classList.add('card');
     characterPointImageContainer.classList.add('drawn-card');
+    return card
   })
 }
 
@@ -435,7 +444,8 @@ const loadCharacterPointStage2 = function(pointMenuNode, nodeClicked) {
     const configObj = Object.assign({}, card, {
       drawn: true,
       state: pointState.character[currentPoint].cards[0].state,
-      point_type: 'character'
+      pointType: 'character',
+      currentPoint: currentPoint
     });
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
