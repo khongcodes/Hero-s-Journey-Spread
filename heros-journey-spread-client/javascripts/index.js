@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cardsOpenPointMenuModal();
   loadMenuResponds();
   saveButtonsSave();
-  disappearJourneyNameHelpText();
+  disappearNameHelpText();
 
 });
 
@@ -81,22 +81,6 @@ const clearChildren = function(node) {
 ///////////////////////////       Functions in main program
 /////////////////////////////////////////////////////////////////
 
-// const handlePointStateOnIndex = function() {
-//   // handleif journey is loaded
-//   const pointContainerNodes = document.getElementsByClassName('point-container');
-//   for (const node of pointContainerNodes ) {
-//     // switch (getPointStage(node)){
-//     //   case 'stage1':
-//     //     node.querySelector('img').src = 'assets/card-images/x-small.jpg';
-//     //     break;
-//     //   case 'stage2':
-//     //     break;
-//     //   case 'stage3':
-//     //     break;
-//     // }
-//   }
-// }
-
 const cardsOpenPointMenuModal = function() {
   const cardContainerNodes = document.getElementsByClassName('point-container');
   
@@ -130,7 +114,7 @@ const cardsOpenPointMenuModal = function() {
 const loadMenuResponds = function() {
   document.querySelector('.load-menu.tab.inactive').addEventListener('click', function() {
     if (!modalActive) {
-      // enter [load-menu.js:1] on loadMenuOpens()
+      // enter [load-menu.js:170] on loadMenuOpens()
       loadMenuOpens();
       modalCanOpen();
       document.getElementById('modal').addEventListener('click', loadMenuCloses, {once:true})
@@ -141,17 +125,22 @@ const loadMenuResponds = function() {
 const saveButtonsSave = function() {
   const characterButton = document.querySelector('div#sidebar form input[type="submit"]');
   const journeyButton = document.querySelector('div#main form input[type="submit"]');
-  // characterButton.addEventListener('click', saveCharacterSaves)
-  // journeyButton.addEventListener('click', saveJourneySaves)
+  // enter [save.js:1] on resourceSaves()
+  characterButton.addEventListener('click', nonPointResourceButton)
+  journeyButton.addEventListener('click', nonPointResourceButton)
 }
 
-const disappearJourneyNameHelpText = function() {
-  const nameInput = document.querySelector('#journey-title input[type="text"]');
+const disappearNameHelpText = function() {
+  const jNameInput = document.querySelector('#journey-title input[type="text"]');
+  const cNameInput = document.querySelector('.create-character.character-name input[type="text"]');
   
-  function hideHelpText() {
-    nameInput.removeEventListener('click', hideHelpText);
-    document.querySelector('#journey-title p').classList.add('hide');
-  }
-  nameInput.addEventListener('click', hideHelpText)
+  jNameInput.addEventListener('click', () => {
+    document.querySelector('#journey-title p').classList.add('hide')
+  }, {once:true})
+  
+  cNameInput.addEventListener('click', () => {
+    document.querySelector('.create-character.character-name p').classList.add('hide')
+  }, {once:true})
+  
 }
 

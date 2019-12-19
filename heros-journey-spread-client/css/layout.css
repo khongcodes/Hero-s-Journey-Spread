@@ -31,7 +31,7 @@ div#title-area {
 div#sidebar {
   grid-area: title-end/left-end/bottom-end/sidebar-end;
   /* background-color: rgb(252, 252, 212); */
-  padding: 10px 0 10px 10px;
+  padding: 0 0 10px 1.4em;
   font-size:90%;
 }
 
@@ -53,6 +53,7 @@ div#main {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.37);
 }
+
 
 div.load-menu.tab {
   position: fixed;
@@ -79,36 +80,70 @@ div.load-menu.tab.inactive:hover {
   transition: 0.2s;
 }
 
+
+div#view-wrapper input[type="text"] {
+  min-width: 80%;
+  color: rgb(41, 41, 41);
+  font-weight: bold;
+  font-family: serif;
+  text-align: center;
+  border: none;
+  margin: 0.6em 0 0;
+  font-size: 1.5em
+}
+
+div#view-wrapper input[type="text"]:focus {
+  outline: none;
+  color:rgb(0, 47, 255);
+}
+
+
 /*****************************************************/
 /********     Character sidebar section      ********/
 /***************************************************/
 
 div.character-point-cards-container {
-  margin: 1em 0;
+  margin: 1.2em 0;
   display: grid;
-  grid-template: repeat(4, 1fr) / 2fr 1fr;
-  grid-row-gap: 1em;
+  grid-template: repeat(4, 1fr) / 3fr 1fr;
+  grid-row-gap: 1.2em;
 }
 
 div.point-description-grid.character {
   grid-area: span 1 / span 1;
-  padding-top: 2%;
-  padding-right: 10%;
+  padding-top: 0.3em;
+  padding-right: 1.5em;
 }
 
 div.point-container.character {
   grid-area: span 1 / span 1;
   width: 3.6em;
+  justify-self: end;
+  margin-right: 4em;
 }
 
-div#sidebar > h2 {
-  margin-bottom: 0;
+div#view-wrapper .character-name input[type="text"] {
+  text-align: left;
 }
 
-div#sidebar > p {
-  margin-block-start: 0.3em;
-  font-style: italic;
+div.character-name p {
+  margin: 0.2em 0 0;
   font-size: 0.9em;
+  font-style: italic;
+}
+
+div.character-name p.hide {
+  opacity: 0;
+  transition: 0.2s ease;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  margin: 0;
+}
+
+div.character-name p.hide + p {
+  margin: -1em 0 0;
+  transition: 0.2s ease;
 }
 
 div#sidebar form {
@@ -124,22 +159,6 @@ div.create-character.character-name input {
 /*****************************************************/
 /*********      Journey circle section      *********/
 /***************************************************/
-
-#journey-title input[type='text'] {
-  min-width: 80%;
-  color: rgb(41, 41, 41);
-  font-weight: bold;
-  font-family: serif;
-  text-align: center;
-  border: none;
-  margin: 0.6em 0 0;
-  font-size: 1.4em
-}
-
-#journey-title input[type='text']:focus {
-  outline: none;
-  color:rgb(0, 47, 255);
-}
 
 #journey-title p {
   margin-top: 0em;

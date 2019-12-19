@@ -113,7 +113,7 @@ class LoadMenuItems {
   }
 
   static loadToCardsFromPointState() {
-    document.querySelector('div.create-character input').value = pointState.character.name;
+    document.querySelector('div.create-character input').value = pointState.character.name || "Character";
     document.querySelector('#journey-title input[type="text"]').value = pointState.journey.name || "Journey";
     for (const cardContainer of document.querySelectorAll('div.point-container')) {
       const pointType = cardContainer.classList[1];
