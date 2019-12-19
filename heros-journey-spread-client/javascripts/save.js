@@ -1,14 +1,35 @@
 const apiTalkLibrary = (function() {
   return {
     updatePersistedPoint: function() {
-      const configObj = new APIConfigObj('PATCH', {description: this.description});
-      fetch(`${SAVE_POINT}/${this.id}`, configObj)
+      console.log(this.pointInState.description)
+      const configObj = new APIConfigObj('PATCH', {
+        description: this.pointInState.description,
+        pointNum: this.pointNum,
+        cards: this.pointInState.cards
+      });
+      fetch(`${POINTS}/${this.pointInState.id}`, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        console.log('saved description to database')
-        console.log(obj)
+        console.log('updated')
       })
     },
+
+    createNewPointUnderResource: function() {
+      const configObj = new APIConfigObj('POST', {
+        resourceType: this.resourceType,
+        resourceId: pointState[this.resourceType].id,
+        pointNum: this.pointNum,
+        cards: this.pointInState.cards,
+        description: this.pointInState.description
+      });
+
+      fetch(POINTS, configObj)
+      .then(resp => resp.json())
+      .then(obj => {
+        console.log('saved')
+        this.pointInState.id = obj.id;
+      })
+    }
 
 
   }  
@@ -33,13 +54,20 @@ const pointDescSaveToPointState = function(textArea) {
     const pointInState = pointState[resourceType][pointNum];
     pointInState.description = textArea.value;
     console.log("saved to pointState")
+    console.log(`point text ${textArea.value}`)
     console.log(pointState[resourceType])
 
     if (pointInState.id) {
-      apiTalkLibrary.updatePersistedPoint.call(pointInState)
+      apiTalkLibrary.updatePersistedPoint.call({
+        pointInState: pointInState,
+        pointNum: pointNum
+      })
     } else if (pointState[resourceType].id) {
-      console.log("new point, same resource")
-      // Update parent resource
+      apiTalkLibrary.createNewPointUnderResource.call({
+        pointInState: pointInState,
+        resourceType: resourceType,
+        pointNum: pointNum
+      })
     }
   })
 }

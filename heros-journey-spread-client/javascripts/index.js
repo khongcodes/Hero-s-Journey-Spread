@@ -2,9 +2,9 @@ const BASE_URL = 'http://localhost:3000';
 const GET_CARD = `${BASE_URL}/cards`;
 const RANDOM_CARD = `${GET_CARD}/random/1`;
 const RANDOM_THREE = `${GET_CARD}/random/3`;
-const LOAD_CHARACTERS = `${BASE_URL}/characters`
-const LOAD_JOURNEYS = `${BASE_URL}/journeys`
-const SAVE_POINT = `${BASE_URL}/points`
+const CHARACTERS = `${BASE_URL}/characters`
+const JOURNEYS = `${BASE_URL}/journeys`
+const POINTS = `${BASE_URL}/points`
 
 let modalActive = false;
 let activeLoadMenuType = 'character';

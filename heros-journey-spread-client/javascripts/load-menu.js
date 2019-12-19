@@ -95,7 +95,7 @@ class LoadMenuItems {
   static loadToPointState(callback) {
     pointStateInitialize();
     const resourceId = event.target.parentNode.parentNode.classList[3];
-    const loadResource = (activeLoadMenuType === 'character' ? LOAD_CHARACTERS : LOAD_JOURNEYS);
+    const loadResource = (activeLoadMenuType === 'character' ? CHARACTERS : JOURNEYS);
     fetch(`${loadResource}/${resourceId}`)
     .then(resp => resp.json())
     .then(obj => {
@@ -198,7 +198,7 @@ const loadMenuOpens = function() {
 
 
 const getActiveMenuItems = function() {
-  const loadResource = (activeLoadMenuType === 'character' ? LOAD_CHARACTERS : LOAD_JOURNEYS);
+  const loadResource = (activeLoadMenuType === 'character' ? CHARACTERS : JOURNEYS);
   fetch(loadResource)
   .then(resp => resp.json())
   .then(obj => {
@@ -211,6 +211,7 @@ const getActiveMenuItems = function() {
       });
     } else {
       sortedItems = obj.sort(LoadMenuItems.sortUpdatedAt).map(a => {
+        sortedPoints = a.points.sort(LoadMenuItems.sortUpdatedAt)
         return new LoadJourneyItems(a)
       });
     };
@@ -232,7 +233,7 @@ const getActiveMenuItems = function() {
           item.node.querySelector('img').src = (obj.card_type === 'major' ? `assets/card-images/major/${obj.value}.jpg` : `assets/card-images/minor/${obj.suit[0].toUpperCase() + obj.suit.slice(1)}/${obj.value}.jpg`);
         })
 
-        if (item.points[0].querent_ref.split(" ")[1] === "inverted") {
+        if (item.points[0].querent_ref.split(", ")[1].split(" ")[1] === "inverted") {
           item.node.querySelector('img').classList.add('inverted-card')
         }
         item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
