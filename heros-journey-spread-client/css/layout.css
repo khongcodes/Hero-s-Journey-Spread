@@ -153,6 +153,7 @@ div.create-character.character-name input {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  margin: 0;
 }
 
 #journey-title input[type='submit'] {

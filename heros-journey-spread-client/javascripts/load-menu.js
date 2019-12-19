@@ -6,7 +6,6 @@ const loadLibrary = (function() {
   return {
     makeImage: function() {
       const cardImage = document.createElement('img');
-      // cardImage.src = 'assets/card-images/x-small.jpg';
       return cardImage;
     },
 
@@ -57,6 +56,7 @@ const capitalized = function() {
 }
 
 
+
 //////////////////////////////////////////////////////////////////
 /////////////////    load classes
 /////////////////////////////////////////////////////////////////
@@ -91,17 +91,13 @@ class LoadMenuItems {
     }
   }
 
-  static loadToPointState() {
+  static loadToPointState(callback) {
     pointStateInitialize();
     const resourceId = event.target.parentNode.parentNode.classList[3];
     const loadResource = (activeLoadMenuType === 'character' ? LOAD_CHARACTERS : LOAD_JOURNEYS);
     fetch(`${loadResource}/${resourceId}`)
     .then(resp => resp.json())
     .then(obj => {
-      
-      console.log(obj)
-      console.log(activeLoadMenuType)
-      
       // querent_ref example:
       // "p1, 4 inverted, 45 upright, 16 upright"
 
@@ -113,12 +109,37 @@ class LoadMenuItems {
         LoadMenuItems.pushPoints.call(pointState.character, obj.character.points);
       }
     })
+    .then(obj => callback())
   }
 
   static loadToCardsFromPointState() {
-    
-    document.querySelectorAll('.img-overlay-container');
-    // document.querySelector('div.create-character input').value = 'test test'
+    document.querySelector('div.create-character input').value = pointState.character.name;
+    document.querySelector('#journey-title input[type="text"]').value = pointState.journey.name || "Journey";
+    for (const cardContainer of document.querySelectorAll('div.point-container')) {
+      const pointType = cardContainer.classList[1];
+      const pointName = cardContainer.classList[2];
+      const pointCards = pointState[pointType][pointName].cards;
+      const drawn = pointCards.length === 1 || pointCards.length === 2;
+      
+      cardContainer.children[0].removeChild(cardContainer.querySelector('img'));
+      
+      if (drawn) {
+        fetch(`${GET_CARD}/${pointCards[0].id}`)
+        .then(resp => resp.json())
+        .then(card => {
+          cardContainer.children[0].prepend(menuLibrary.makeImage(Object.assign({}, card, {
+            drawn: drawn,
+            state: pointCards[0].state
+          })));
+          cardContainer.children[0].classList.add('drawn-card');
+          cardContainer.querySelector('img').classList.add('card');
+
+        });
+      } else {
+        cardContainer.children[0].prepend(menuLibrary.makeImage({drawn:drawn}))
+        cardContainer.querySelector('img').classList.add('card');
+      }
+    }
   }
 }
 
@@ -206,8 +227,7 @@ const getActiveMenuItems = function() {
         item.node.querySelector('img').classList.add('inverted-card')
       }
       item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
-        LoadMenuItems.loadToPointState();
-        LoadMenuItems.loadToCardsFromPointState();
+        LoadMenuItems.loadToPointState(LoadMenuItems.loadToCardsFromPointState);
         document.getElementById('modal').click();
       });
     }

@@ -50,7 +50,7 @@ const menuLibrary = (function() {
       if (!configObj.drawn) {
         cardImage.src = 'assets/card-images/x.jpg';
         cardImage.alt = 'card-back';
-        cardImage.className = 'points-menu draw-card';
+        cardImage.className = 'draw-card';
       } else {
         if (configObj.card_type === 'major') {
           cardImage.src = `assets/card-images/major/${configObj.value}.jpg`;
@@ -58,7 +58,7 @@ const menuLibrary = (function() {
           cardImage.src = `assets/card-images/minor/${configObj.suit}/${configObj.value}.jpg`;
         }
         cardImage.alt = `${configObj.name}`;
-        cardImage.className = 'points-menu drawn-card';
+        cardImage.className = 'drawn-card';
         
         if (configObj.state === 'inverted') {
           cardImage.classList.add('inverted-card');
@@ -178,6 +178,7 @@ const cardState = function() {
 // look for card-container div among parent and child nodes of event target
 // used in characterPoint card select - when there is more than one card
 const getCardClicked = function(node) {
+  console.log(node)
   if (([...node.childNodes]!==undefined && [...node.childNodes].length!==0) && [...node.childNodes].map(child => /card-container/.test(child.className)).includes(true)) {
     node = node.querySelector('.card-container');
   } else {
@@ -265,6 +266,7 @@ const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
 const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
   const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
   cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
+  cardContainer.querySelector('img').classList.add('points-menu')
   menuLibrary.placeCardOverlay.call(cardContainer);
   menuLibrary.placeCardTextOverlay.call(cardContainer, 'Click to draw a card');
   cardContainer.addEventListener('click', changeJourneyPointStage0to1, {once:true});
@@ -279,7 +281,7 @@ const changeJourneyPointStage0to1 = function() {
     const configObj = Object.assign({}, card[0], {
       drawn: true,
       state: cardState(),
-      point_type: 'journey'
+      point_type: 'journey',
     })
     
     pointState.journey[currentPoint].cards.push({
@@ -288,12 +290,13 @@ const changeJourneyPointStage0to1 = function() {
     })
     
     clearChildren(cardContainer);
-    cardContainer.appendChild(menuLibrary.makeImage(configObj))
+    cardContainer.appendChild(menuLibrary.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu');
     menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
     menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
 
     const journeyPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
-    journeyPointImageContainer.removeChild(journeyPointImageContainer.querySelector('img.card'));
+    journeyPointImageContainer.removeChild(journeyPointImageContainer.querySelector('img'));
     journeyPointImageContainer.prepend(menuLibrary.makeImage(configObj));
     journeyPointImageContainer.childNodes[0].classList.remove('points-menu');
     journeyPointImageContainer.childNodes[0].classList.add('card');
@@ -312,10 +315,11 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
     const configObj = Object.assign({}, obj, {
       drawn: true,
       state: pointState.journey[currentPoint].cards[0].state,
-      point_type: 'journey'
+      point_type: 'journey',
     })
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu')
     menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
     menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
   })
@@ -329,6 +333,7 @@ const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
 const loadCharacterPointStage0 = function(pointMenuNode, nodeClicked) {
   const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('div.column.c2'));
   cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
+  cardContainer.querySelector('img').classList.add('points-menu')
   menuLibrary.placeCardOverlay.call(cardContainer);
   menuLibrary.placeCardTextOverlay.call(cardContainer, 'Draw three\nChoose one');
   cardContainer.addEventListener('click', changeCharacterPointStage0to1, {once:true});
@@ -344,7 +349,7 @@ const changeCharacterPointStage0to1 = function() {
     for (const card of cards) {
       const configObj = Object.assign({}, card, {
         drawn: true,
-        state: cardState()
+        state: cardState(),
       });
 
       pointState.character[currentPoint].cards.push({
@@ -354,6 +359,7 @@ const changeCharacterPointStage0to1 = function() {
 
       const cardContainer = menuLibrary.placeCardContainer.call(document.querySelector(`div.column.c${cards.indexOf(card)+1}`), configObj.id);
       cardContainer.appendChild(menuLibrary.makeImage(configObj));
+      cardContainer.querySelector('img').classList.add('points-menu')
       menuLibrary.placeCardOverlay.call(cardContainer);
       menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
       cardContainer.addEventListener('click', changeCharacterPointStage1to2);
@@ -369,13 +375,14 @@ const loadCharacterPointStage1 = function(pointMenuNode, nodeClicked) {
     .then(card => {
       const configObj = Object.assign({}, card, {
         drawn: true,
-        state: pointState.character[currentPoint].cards.find(c => c.id === card.id).state,
+        state: pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10)).state,
         point_type: 'character'
       })
 
-      const whichColumn = pointState.character[currentPoint].cards.indexOf(pointState.character[currentPoint].cards.find(c => c.id === card.id)) + 1;
+      const whichColumn = pointState.character[currentPoint].cards.indexOf(pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10))) + 1;
       const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector(`div.column.c${whichColumn}`), configObj.id);
       cardContainer.appendChild(menuLibrary.makeImage(configObj));
+      cardContainer.querySelector('img').classList.add('points-menu');
       menuLibrary.placeCardOverlay.call(cardContainer);
       menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
       cardContainer.addEventListener('click', changeCharacterPointStage1to2, {once:true});
@@ -387,7 +394,7 @@ const changeCharacterPointStage1to2 = function(event) {
   const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
   const currentPoint = document.querySelector('div.points-menu.container').classList[3];
   const cardKeep = getCardClicked(event.target).classList[2];
-  pointState.character[currentPoint].cards = pointState.character[currentPoint].cards.filter(card => card.id === parseInt(cardKeep, 10));
+  pointState.character[currentPoint].cards = pointState.character[currentPoint].cards.filter(card => parseInt(card.id,10) === parseInt(cardKeep, 10));
 
   for (const node of [document.querySelector('div.points-menu.column.c1'), document.querySelector('div.points-menu.column.c3')]) {
     clearChildren(node);
@@ -398,6 +405,7 @@ const changeCharacterPointStage1to2 = function(event) {
   fetch(`${GET_CARD}/${cardKeep}`)
   .then(resp => resp.json())
   .then(card => {
+    console.log(card)
     const configObj = Object.assign({}, card, {
       drawn: true,
       state: pointState.character[currentPoint].cards[0].state,
@@ -405,11 +413,12 @@ const changeCharacterPointStage1to2 = function(event) {
     });
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu')
     menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
     menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
 
     const characterPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
-    characterPointImageContainer.removeChild(characterPointImageContainer.querySelector('img.card'));
+    characterPointImageContainer.removeChild(characterPointImageContainer.querySelector('img'));
     characterPointImageContainer.prepend(menuLibrary.makeImage(configObj));
     characterPointImageContainer.childNodes[0].classList.remove('points-menu');
     characterPointImageContainer.childNodes[0].classList.add('card');
@@ -430,6 +439,7 @@ const loadCharacterPointStage2 = function(pointMenuNode, nodeClicked) {
     });
 
     cardContainer.appendChild(menuLibrary.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu');
     menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
     menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
   })
