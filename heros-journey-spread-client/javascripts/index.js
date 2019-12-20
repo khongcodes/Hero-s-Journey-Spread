@@ -51,15 +51,16 @@ const pointStateInitialize = function() {
   for (let i=1; i<=4; i++) {
     Object.assign(pointState.character, new PointStatePointMaker(i, "character"))
   }
+  Object.assign(pointState.character, {id:'', name:''});
+  justJourneyInitialize();
+};
 
+const justJourneyInitialize = function() {
   for (let i=1; i<=12; i++) {
     Object.assign(pointState.journey, new PointStatePointMaker(i, "journey"))
-  }
-  
-  for (const hasNameAndId of [pointState.journey, pointState.character]) {
-    Object.assign(hasNameAndId, {id:'', name:''})
-  }
-};
+  };
+  Object.assign(pointState.journey, {id:'', name:''});
+}
 
 const modalCanOpen = function() {
   modalActive = true;

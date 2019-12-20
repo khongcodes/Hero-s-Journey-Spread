@@ -141,7 +141,13 @@ class LoadMenuItems {
         cardContainer.querySelector('img').classList.add('card');
       }
     }
-    popupMessage(`${capitalized.call(activeLoadMenuType)} loaded`);
+    let message;
+    if (!pointState[activeLoadMenuType].id) {
+      message = `New ${activeLoadMenuType} loaded`;
+    } else {
+      message = `${capitalized.call(activeLoadMenuType)} loaded`;
+    }
+    popupMessage(message);
   }
 }
 
@@ -254,7 +260,12 @@ const getActiveMenuItems = function() {
     lastImageContainer.querySelector('img').src = 'assets/card-images/x-small.jpg';
     lastImageContainer.appendChild(loadLibrary.makePlusOverlay());
     lastImageContainer.addEventListener('click', () => {
-      pointStateInitialize();
+      if (activeLoadMenuType==='journey') {
+        justJourneyInitialize();
+      } else {
+        pointStateInitialize();
+      }
+      // if loading journey, don't reset character too
       LoadMenuItems.loadToCardsFromPointState();
       document.getElementById('modal').click();
     }, {once:true})
