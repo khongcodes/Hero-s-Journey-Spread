@@ -210,7 +210,7 @@ const getActiveMenuItems = function() {
         
       });
     } else {
-      sortedItems = obj.sort(LoadMenuItems.sortUpdatedAt).map(a => {
+      sortedItems = [...obj].sort(LoadMenuItems.sortUpdatedAt).map(a => {
         sortedPoints = a.points.sort(LoadMenuItems.sortUpdatedAt)
         return new LoadJourneyItems(a)
       });

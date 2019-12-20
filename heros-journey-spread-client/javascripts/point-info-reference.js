@@ -1,37 +1,43 @@
 // // pointState should look like
 // const pointState1 = {
   
-//   character: {
-//     id: "",
-//     name: "",
-//     p1: {
-//       cards: [],
-//       description: ""
-//     },
-//     p2: {
-//       cards: [],
-//       description: ""
-//     },
-//     // ...
-//     p4: {
-//       cards: [],
-//       description: ""
-//     }
+// character: {
+//   id: int/string,
+//   name: "",
+//   p1: {
+//     id: int/string,
+//     cards: [],
+//     description: ""
 //   },
+//   p2: {
+//     id: int/string,
+//     cards: [],
+//     description: ""
+//   },
+//   // ...
+//   p4: {
+//     id: int/string,
+//     cards: [],
+//     description: ""
+//   }
+// },
 
 //   journey: {
-//     id: "",
+//     id: int/string,
 //     name: "",
 //     point1: {
+//       id: int/string,
 //       cards: [],
 //       description: ""
 //     },
 //     point2: {
+//       id: int/string,
 //       cards: [],
 //       description: ""
 //     },
 //     // ...
 //     point12: {
+//       id: int/string,
 //       cards: [],
 //       description: ""
 //     },

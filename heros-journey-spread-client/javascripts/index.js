@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
   nameInputUpdatesPointState();
   disappearNameHelpText();
   saveButtonsSave();
-
 });
 
 //////////////////////////////////////////////////////////////////
@@ -79,6 +78,10 @@ const clearChildren = function(node) {
     node.removeChild(node.lastChild);
   }
 };
+
+const popupmessage = function(string) {
+  
+}
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////////       Functions in main program

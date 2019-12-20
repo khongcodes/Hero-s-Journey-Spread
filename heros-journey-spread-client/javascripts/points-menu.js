@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////
-/////////////////    BEGINNING functional library for points-menu
+/////////////////    Functional library for points-menu
 /////////////////////////////////////////////////////////////////
 
 const menuLibrary = (function() {
@@ -150,7 +150,8 @@ const menuLibrary = (function() {
       formHolder.appendChild(descriptionForm);
       this.appendChild(formHolder);
 
-      pointDescSaveToPointState.call(descriptionSubmit, descriptionInput);
+      textAreaChangeSaveToPointState.call(descriptionInput);
+      pointDescSaveToPointState.call(descriptionSubmit);
     },
 
 

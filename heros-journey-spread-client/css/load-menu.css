@@ -35,7 +35,7 @@ div.load-menu.menu-container {
     1fr [right-margin-end]
     1.6em [right-end];
 
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.068);
+    box-shadow: 1px 1px 1px 1px #00000011;
     animation: slide-down 0.2s ease;
 }
 
