@@ -14,7 +14,7 @@ const apiTalkLibrary = (function() {
       fetch(`${POINTS}/${this.pointInState.id}`, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        console.log('existing point updated')
+        popupMessage('Point updated')
       })
     },
 
@@ -30,7 +30,7 @@ const apiTalkLibrary = (function() {
       fetch(POINTS, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        console.log('new point saved')
+        popupMessage('New point saved')
         this.pointInState.id = obj.id;
       })
     },
@@ -49,7 +49,7 @@ const apiTalkLibrary = (function() {
       fetch(`${BASE_URL}/${this.resourceType}s`, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        console.log(`new ${this.resourceType} saved`);
+        popupMessage(`${this.resourceType} ${this.resource.name} saved`);
         // status message
         callback.call(Object.assign({}, obj, {resource: this.resourceType}));
       });
@@ -69,8 +69,7 @@ const apiTalkLibrary = (function() {
       fetch(`${BASE_URL}/${this.resourceType}s/${pointState[this.resourceType].id}`, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        console.log(obj)
-        console.log('resource updated')
+        popupMessage(`${this.resourceType} ${this.resource.name} updated`);
         callback.call(Object.assign({}, obj, {resource: this.resourceType}));
       });
     },

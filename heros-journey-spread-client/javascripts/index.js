@@ -79,8 +79,13 @@ const clearChildren = function(node) {
   }
 };
 
-const popupmessage = function(string) {
-  
+const popupMessage = function(string) {
+  const popup = document.querySelector('.popup')
+  popup.innerText = string;
+  popup.className = 'popup visible';
+  setTimeout(() => {
+    popup.className = 'popup invisible'
+  }, 1000)
 }
 
 //////////////////////////////////////////////////////////////////

@@ -141,6 +141,7 @@ class LoadMenuItems {
         cardContainer.querySelector('img').classList.add('card');
       }
     }
+    popupMessage(`${capitalized.call(activeLoadMenuType)} loaded`);
   }
 }
 
