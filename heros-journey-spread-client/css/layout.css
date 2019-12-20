@@ -86,16 +86,23 @@ div.popup {
   color:white;
   margin: 0 auto;
   border-radius: 0.4em;
-}
-
-div.popup.invisible {
-  opacity: 0;
-  transition: 1s ease;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 div.popup.visible {
   opacity: 1;
   transition: 0.2s ease;
+}
+
+div.popup.fadeout {
+  opacity: 0;
+  transition: 1s ease;
+}
+
+div.popup.invisible {
+  display: none;
 }
 
 /*****************************************************/

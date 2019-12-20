@@ -85,8 +85,9 @@ const popupMessage = function(string) {
   popup.innerText = string;
   popup.className = 'popup visible';
   setTimeout(() => {
-    popup.className = 'popup invisible'
-  }, 1000)
+    popup.className = 'popup fadeout';
+    setTimeout(() => popup.className = 'popup invisible', 800)
+  }, 800)
 }
 
 //////////////////////////////////////////////////////////////////

@@ -183,8 +183,5 @@ const nonPointResourceButton = function(event) {
   } else {
     console.log("update loaded resource")
     apiTalkLibrary.updateNonPointResource.call(configObj, apiTalkLibrary.assignIdsToPointState);
-
-    // apiTalkLibrary.updateNonPointResource(resourceType);
   }
-  // once saved, update pointState
 }
