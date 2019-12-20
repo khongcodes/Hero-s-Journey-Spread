@@ -2,6 +2,10 @@
 
 ## About
 
+![screenshot 1](https://imgur.com/7Xy9kdx)
+![screenshot 2](https://imgur.com/BQedlNx)
+![screenshot 3](https://i.imgur.com/XSyXF9y.png)
+
 This is a short story-telling game, in which you draw tarot cards in sequence along with a 12-point version of Campbell's Hero's Journey.
 
 To play, click on the facedown cards. You will be presented with a text prompt - a question about your character, or information about this point of the Hero's Journey. You may answer it, but you aren't required to - a text area is provided for you to save notes if you want.
@@ -11,7 +15,8 @@ It is not required to create a character when playing through a journey, but it 
 You can save and load both characters and journeys. Loading a new character will clear the current journey, regardless of if it is saved! Loading a new journey will not clear your current character - one character may go on many journeys.
 
 ## Future updates
-
+ 
+- add element to each card description/meaning
 - Make it so duplicate cards can't be drawn
 - Make it so each point can have up to 2 cards - you can draw another to provide additional context for the first
 - Display character point text next to card thumbnail
