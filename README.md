@@ -2,8 +2,8 @@
 
 ## About
 
-![screenshot 1](https://imgur.com/7Xy9kdx)
-![screenshot 2](https://imgur.com/BQedlNx)
+![screenshot 1](https://i.imgur.com/7Xy9kdx.png)
+![screenshot 2](https://i.imgur.com/BQedlNx.png)
 ![screenshot 3](https://i.imgur.com/XSyXF9y.png)
 
 This is a short story-telling game, in which you draw tarot cards in sequence along with a 12-point version of Campbell's Hero's Journey.
