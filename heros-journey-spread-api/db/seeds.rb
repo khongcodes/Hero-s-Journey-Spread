@@ -486,7 +486,7 @@ DATA = {
 
 def main
   make_cards
-  make_test_subjects
+  # make_test_subjects
 end
 
 # assign card_type and value here
