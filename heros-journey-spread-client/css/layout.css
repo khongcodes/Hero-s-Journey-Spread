@@ -25,7 +25,18 @@ div#title-area {
   grid-area: top-end/left-end/title-end/sidebar-end;
   text-align:center;
   color:black;
+  font-size: 0.9em;
+  padding: 0 2em;
   /* background-color:rgb(255, 225, 230); */
+}
+
+div#title-area a {
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+div#title-area a:hover {
+  text-decoration: underline;
 }
 
 div#sidebar {
@@ -53,6 +64,10 @@ div#main {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.37);
 }
+
+/*****************************************************/
+/**********        Pop up section         ***********/
+/***************************************************/
 
 div.popup {
   position: fixed;
@@ -83,6 +98,10 @@ div.popup.visible {
   transition: 0.2s ease;
 }
 
+/*****************************************************/
+/********       Load-meu tab section         ********/
+/***************************************************/
+
 div.load-menu.tab {
   position: fixed;
   height: 1.6em;
@@ -108,6 +127,9 @@ div.load-menu.tab.inactive:hover {
   transition: 0.2s;
 }
 
+/*****************************************************/
+/*********         Resource Names         ***********/
+/***************************************************/
 
 div#view-wrapper input[type="text"] {
   min-width: 80%;
