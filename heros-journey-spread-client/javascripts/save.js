@@ -95,7 +95,7 @@ const saveAPITalk = (function() {
 
     updateNonPointResource: function(callback) {
       const pointsWithCards = saveAPITalk.getPointsWithCards.call(this);
-      // output of this is akin to 
+      // pointsWithCards will look like 
       // {p1:{...}, p2{...}, p3{...}}
 
       const configObj = new APIConfigObj('PATCH', {
