@@ -1,8 +1,268 @@
 //////////////////////////////////////////////////////////////////
-/////////////////    Functional library for points-menu
+///////        Points-Menu Procedures
 /////////////////////////////////////////////////////////////////
 
-const menuLibrary = (function() {
+const characterOrJourneyPointsMenu = function(event, nodeClicked) {
+  let pointMenuNode = document.querySelector('div.points-menu');
+  if ([...event.target.classList].includes('character')) {;
+    pointMenuNode.classList.add('character', nodeClicked.classList[2])
+    loadCharacterPointContent(pointMenuNode, nodeClicked);
+  } else {
+    // add current point to classList of menu so eventhandler can know what point to reference
+    pointMenuNode.classList.add('journey', nodeClicked.classList[2])
+    loadJourneyPointContent(pointMenuNode, nodeClicked);
+  };
+  return pointMenuNode;
+};
+
+const unloadPointsMenuNode = function(menu) {
+  if ([...menu.classList].includes('character')) {
+    menu.querySelector('div.points-menu.header-container').removeChild(menu.querySelector('p'));
+  } else {
+    menu.querySelector('h2.points-menu.header-content').innerText = "";
+    menu.querySelector('p.points-menu.info-content').innerText = ""
+  }
+  menu.className = 'points-menu container'
+
+  for (const column of menu.getElementsByClassName('column')) {
+    indexUtility.clearChildren.call(column)
+  }
+};
+
+// DEPENDS ON CLASSLIST STAYING IN SAME ORDER
+const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
+  let pointTitle = pointMenuNode.querySelector('h2.points-menu.header-content');
+  pointTitle.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].title;
+  pointsMenuElements.placeInfoContent.call(pointMenuNode.querySelector('.column.c1'), nodeClicked);
+
+  switch (pointState.journey[nodeClicked.classList[2]].cards.length) {
+    case 0:
+      loadJourneyPointStage0(pointMenuNode, nodeClicked);
+      break;
+    case 1:
+      loadJourneyPointStage1(pointMenuNode, nodeClicked);
+      break;
+    // future feature - draw another card for additional context, case 2
+  };
+};
+
+const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
+  let pointTitle = pointMenuNode.querySelector('h2.points-menu.header-content');
+  pointTitle.innerText = CHARACTERPOINTSDATA[nodeClicked.classList[2]].title;
+  pointsMenuElements.placeInfoSubHeader.call(pointMenuNode.querySelector('.points-menu.header-container'), CHARACTERPOINTSDATA[nodeClicked.classList[2]].info);
+
+  switch (pointState.character[nodeClicked.classList[2]].cards.length) {
+    case 0:
+      loadCharacterPointStage0(pointMenuNode, nodeClicked);
+      break;
+    case 3:
+      loadCharacterPointStage1(pointMenuNode, nodeClicked);
+      break;
+    case 1:
+      loadCharacterPointStage2(pointMenuNode, nodeClicked);
+      break;
+    // future feature - draw another card for additional context, case 2
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////
+///////////////     Procedures for Journey Points
+/////////////////////////////////////////////////////////////////////////
+
+const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = pointsMenuElements.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+  cardContainer.appendChild(pointsMenuElements.makeImage({drawn: false}));
+  cardContainer.querySelector('img').classList.add('points-menu')
+  pointsMenuElements.placeCardOverlay.call(cardContainer);
+  pointsMenuElements.placeCardTextOverlay.call(cardContainer, 'Click to draw a card');
+  cardContainer.addEventListener('click', changeJourneyPointStage0to1, {once:true});
+}
+
+const changeJourneyPointStage0to1 = function() {
+  const cardContainer = document.querySelector('div.points-menu.card-container');
+  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+  fetch(RANDOM_CARD)
+  .then(resp => resp.json())
+  .then(card => {
+    const configObj = Object.assign({}, card[0], {
+      drawn: true,
+      state: cardState(),
+      pointType: 'journey',
+      currentPoint: currentPoint
+    })
+    
+    pointState.journey[currentPoint].cards.push({
+      id: card[0].id,
+      state: configObj.state,
+    })
+    
+    indexUtility.clearChildren.call(cardContainer);
+    cardContainer.appendChild(pointsMenuElements.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu');
+    pointsMenuElements.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
+    pointsMenuElements.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
+
+    const journeyPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
+    journeyPointImageContainer.removeChild(journeyPointImageContainer.querySelector('img'));
+    journeyPointImageContainer.prepend(pointsMenuElements.makeImage(configObj));
+    journeyPointImageContainer.childNodes[0].classList.remove('points-menu');
+    journeyPointImageContainer.childNodes[0].classList.add('card');
+    journeyPointImageContainer.classList.add('drawn-card');
+    
+  })
+}
+
+const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = pointsMenuElements.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+
+  const currentPoint = pointMenuNode.classList[3];
+  fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0].id}`)
+  .then(resp => resp.json())
+  .then(obj => {
+    const configObj = Object.assign({}, obj, {
+      drawn: true,
+      state: pointState.journey[currentPoint].cards[0].state,
+      pointType: 'journey',
+      currentPoint: currentPoint
+
+    })
+
+    cardContainer.appendChild(pointsMenuElements.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu');
+    pointsMenuElements.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
+    pointsMenuElements.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
+    document.querySelector('.points-menu.description-form textarea').innerText = pointState.journey[currentPoint].description;
+  })
+};
+
+/////////////////////////////////////////////////////////////////////////
+///////////////     Procedures for Character Points
+/////////////////////////////////////////////////////////////////////////
+
+const loadCharacterPointStage0 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = pointsMenuElements.placeCardContainer.call(pointMenuNode.querySelector('div.column.c2'));
+  cardContainer.appendChild(pointsMenuElements.makeImage({drawn: false}));
+  cardContainer.querySelector('img').classList.add('points-menu')
+  pointsMenuElements.placeCardOverlay.call(cardContainer);
+  pointsMenuElements.placeCardTextOverlay.call(cardContainer, 'Draw three\nChoose one');
+  cardContainer.addEventListener('click', changeCharacterPointStage0to1, {once:true});
+}
+
+const changeCharacterPointStage0to1 = function() {
+  indexUtility.clearChildren.call(document.querySelector('div.points-menu.column.c2'));
+  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+
+  fetch(RANDOM_THREE)
+  .then(resp => resp.json())
+  .then(cards => {
+    for (const card of cards) {
+      const configObj = Object.assign({}, card, {
+        drawn: true,
+        state: cardState(),
+      });
+
+      pointState.character[currentPoint].cards.push({
+        id: card.id,
+        state: configObj.state,
+      });
+
+      const cardContainer = pointsMenuElements.placeCardContainer.call(document.querySelector(`div.column.c${cards.indexOf(card)+1}`), configObj.id);
+      cardContainer.appendChild(pointsMenuElements.makeImage(configObj));
+      cardContainer.querySelector('img').classList.add('points-menu')
+      pointsMenuElements.placeCardOverlay.call(cardContainer);
+      pointsMenuElements.place3CardTextOverlay.call(cardContainer, configObj);
+      cardContainer.addEventListener('click', changeCharacterPointStage1to2);
+    }
+  });
+}
+
+const loadCharacterPointStage1 = function(pointMenuNode, nodeClicked) {
+  const currentPoint = nodeClicked.classList[2];
+  for (const card of pointState.character[currentPoint].cards) {
+    fetch(`${GET_CARD}/${card.id}`)
+    .then(resp => resp.json())
+    .then(card => {
+      const configObj = Object.assign({}, card, {
+        drawn: true,
+        state: pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10)).state,
+        pointType: 'character'
+      })
+
+      const whichColumn = pointState.character[currentPoint].cards.indexOf(pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10))) + 1;
+      const cardContainer = pointsMenuElements.placeCardContainer.call(pointMenuNode.querySelector(`div.column.c${whichColumn}`), configObj.id);
+      cardContainer.appendChild(pointsMenuElements.makeImage(configObj));
+      cardContainer.querySelector('img').classList.add('points-menu');
+      pointsMenuElements.placeCardOverlay.call(cardContainer);
+      pointsMenuElements.place3CardTextOverlay.call(cardContainer, configObj);
+      cardContainer.addEventListener('click', changeCharacterPointStage1to2, {once:true});
+    })
+  }
+}
+
+const changeCharacterPointStage1to2 = function(event) {
+  const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
+  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
+  const cardKeep = getCardClicked(event.target).classList[2];
+  pointState.character[currentPoint].cards = pointState.character[currentPoint].cards.filter(card => parseInt(card.id,10) === parseInt(cardKeep, 10));
+
+  for (const node of [document.querySelector('div.points-menu.column.c1'), document.querySelector('div.points-menu.column.c3')]) {
+    indexUtility.clearChildren.call(node);
+  }
+  cardContainer.className = 'points-menu card-container';
+  indexUtility.clearChildren.call(cardContainer);
+
+  fetch(`${GET_CARD}/${cardKeep}`)
+  .then(resp => resp.json())
+  .then(card => {
+    console.log(card)
+    const configObj = Object.assign({}, card, {
+      drawn: true,
+      state: pointState.character[currentPoint].cards[0].state,
+      pointType: 'character',
+      currentPoint: currentPoint
+    });
+
+    cardContainer.appendChild(pointsMenuElements.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu')
+    pointsMenuElements.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
+    pointsMenuElements.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
+
+    const characterPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
+    characterPointImageContainer.removeChild(characterPointImageContainer.querySelector('img'));
+    characterPointImageContainer.prepend(pointsMenuElements.makeImage(configObj));
+    characterPointImageContainer.childNodes[0].classList.remove('points-menu');
+    characterPointImageContainer.childNodes[0].classList.add('card');
+    characterPointImageContainer.classList.add('drawn-card');
+    return card
+  })
+}
+
+const loadCharacterPointStage2 = function(pointMenuNode, nodeClicked) {
+  const cardContainer = pointsMenuElements.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
+  const currentPoint = nodeClicked.classList[2];
+  fetch(`${GET_CARD}/${pointState.character[currentPoint].cards[0].id}`)
+  .then(resp => resp.json())
+  .then(card => {
+    const configObj = Object.assign({}, card, {
+      drawn: true,
+      state: pointState.character[currentPoint].cards[0].state,
+      pointType: 'character',
+      currentPoint: currentPoint
+    });
+
+    cardContainer.appendChild(pointsMenuElements.makeImage(configObj));
+    cardContainer.querySelector('img').classList.add('points-menu');
+    pointsMenuElements.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
+    pointsMenuElements.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
+  })
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+/////     pointsMenuElements - Functional library for making DOM elements, defined in points-menu.js
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const pointsMenuElements = (function() {
   const nameIncludeState = function(configObj) {
     return (configObj.state ==='upright' ? configObj.name : `${configObj.name}, Inverted`);
   };
@@ -150,20 +410,18 @@ const menuLibrary = (function() {
       formHolder.appendChild(descriptionForm);
       this.appendChild(formHolder);
 
-      textAreaChangeSaveToPointState.call(descriptionInput);
-      pointDescSaveToPointState.call(descriptionSubmit);
+      savePointState.textAreaChange.call(descriptionInput);
+      savePointState.saveButtonClick.call(descriptionSubmit);
     },
-
 
 
   }
 })();
 
 
-
-//////////////////////////////////////////////////////////////////
-///////////////////////////       Points-menu utilities
-/////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////       pointsMenuUtility - Funcitonal menu of useful utilities, defined in points-menu.js
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 const cardState = function() {
@@ -182,7 +440,6 @@ const cardState = function() {
 // look for card-container div among parent and child nodes of event target
 // used in characterPoint card select - when there is more than one card
 const getCardClicked = function(node) {
-  console.log(node)
   if (([...node.childNodes]!==undefined && [...node.childNodes].length!==0) && [...node.childNodes].map(child => /card-container/.test(child.className)).includes(true)) {
     node = node.querySelector('.card-container');
   } else {
@@ -191,267 +448,4 @@ const getCardClicked = function(node) {
     }
   }
   return node;
-}
-
-
-//////////////////////////////////////////////////////////////////
-///////////////////////////       points-menu stage controller
-/////////////////////////////////////////////////////////////////
-
-
-// enter from INDEX.JS
-const characterOrJourneyPointsMenu = function(event, nodeClicked) {
-  let pointMenuNode = document.querySelector('div.points-menu');
-  if ([...event.target.classList].includes('character')) {;
-    pointMenuNode.classList.add('character', nodeClicked.classList[2])
-    loadCharacterPointContent(pointMenuNode, nodeClicked);
-  } else {
-    // add current point to classList of menu so eventhandler can know what point to reference
-    pointMenuNode.classList.add('journey', nodeClicked.classList[2])
-    loadJourneyPointContent(pointMenuNode, nodeClicked);
-  };
-  return pointMenuNode;
-};
-
-const unloadPointsMenuNode = function(menu) {
-  if ([...menu.classList].includes('character')) {
-    menu.querySelector('div.points-menu.header-container').removeChild(menu.querySelector('p'));
-  } else {
-    menu.querySelector('h2.points-menu.header-content').innerText = "";
-    menu.querySelector('p.points-menu.info-content').innerText = ""
-  }
-  menu.className = 'points-menu container'
-
-  for (const column of menu.getElementsByClassName('column')) {
-    clearChildren(column)
-  }
-};
-
-// DEPENDS ON CLASSLIST STAYING IN SAME ORDER
-const loadJourneyPointContent = function(pointMenuNode, nodeClicked) {
-  let pointTitle = pointMenuNode.querySelector('h2.points-menu.header-content');
-  pointTitle.innerText = JOURNEYPOINTSDATA[nodeClicked.classList[2]].title;
-  menuLibrary.placeInfoContent.call(pointMenuNode.querySelector('.column.c1'), nodeClicked);
-
-  switch (pointState.journey[nodeClicked.classList[2]].cards.length) {
-    case 0:
-      loadJourneyPointStage0(pointMenuNode, nodeClicked);
-      break;
-    case 1:
-      loadJourneyPointStage1(pointMenuNode, nodeClicked);
-      break;
-    // future feature - draw another card for additional context, case 2
-  };
-};
-
-const loadCharacterPointContent = function(pointMenuNode, nodeClicked) {
-  let pointTitle = pointMenuNode.querySelector('h2.points-menu.header-content');
-  pointTitle.innerText = CHARACTERPOINTSDATA[nodeClicked.classList[2]].title;
-  menuLibrary.placeInfoSubHeader.call(pointMenuNode.querySelector('.points-menu.header-container'), CHARACTERPOINTSDATA[nodeClicked.classList[2]].info);
-
-  switch (pointState.character[nodeClicked.classList[2]].cards.length) {
-    case 0:
-      loadCharacterPointStage0(pointMenuNode, nodeClicked);
-      break;
-    case 3:
-      loadCharacterPointStage1(pointMenuNode, nodeClicked);
-      break;
-    case 1:
-      loadCharacterPointStage2(pointMenuNode, nodeClicked);
-      break;
-    // future feature - draw another card for additional context, case 2
-  }
-}
-
-///////////////////////////////////////////////////////////////////
-////////////////////////////////    journey points menu operations
-////////////////////////////////////////////////////////////////
-
-const loadJourneyPointStage0 = function(pointMenuNode, nodeClicked) {
-  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
-  cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
-  cardContainer.querySelector('img').classList.add('points-menu')
-  menuLibrary.placeCardOverlay.call(cardContainer);
-  menuLibrary.placeCardTextOverlay.call(cardContainer, 'Click to draw a card');
-  cardContainer.addEventListener('click', changeJourneyPointStage0to1, {once:true});
-}
-
-const changeJourneyPointStage0to1 = function() {
-  const cardContainer = document.querySelector('div.points-menu.card-container');
-  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
-  fetch(RANDOM_CARD)
-  .then(resp => resp.json())
-  .then(card => {
-    const configObj = Object.assign({}, card[0], {
-      drawn: true,
-      state: cardState(),
-      pointType: 'journey',
-      currentPoint: currentPoint
-    })
-    
-    pointState.journey[currentPoint].cards.push({
-      id: card[0].id,
-      state: configObj.state,
-    })
-    
-    clearChildren(cardContainer);
-    cardContainer.appendChild(menuLibrary.makeImage(configObj));
-    cardContainer.querySelector('img').classList.add('points-menu');
-    menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
-    menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
-
-    const journeyPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
-    journeyPointImageContainer.removeChild(journeyPointImageContainer.querySelector('img'));
-    journeyPointImageContainer.prepend(menuLibrary.makeImage(configObj));
-    journeyPointImageContainer.childNodes[0].classList.remove('points-menu');
-    journeyPointImageContainer.childNodes[0].classList.add('card');
-    journeyPointImageContainer.classList.add('drawn-card');
-    
-  })
-}
-
-const loadJourneyPointStage1 = function(pointMenuNode, nodeClicked) {
-  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
-
-  const currentPoint = pointMenuNode.classList[3];
-  fetch(`${GET_CARD}/${pointState.journey[currentPoint].cards[0].id}`)
-  .then(resp => resp.json())
-  .then(obj => {
-    const configObj = Object.assign({}, obj, {
-      drawn: true,
-      state: pointState.journey[currentPoint].cards[0].state,
-      pointType: 'journey',
-      currentPoint: currentPoint
-
-    })
-
-    cardContainer.appendChild(menuLibrary.makeImage(configObj));
-    cardContainer.querySelector('img').classList.add('points-menu');
-    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
-    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
-    document.querySelector('.points-menu.description-form textarea').innerText = pointState.journey[currentPoint].description;
-  })
-};
-
-
-/////////////////////////////////////////////////////////////
-//////////////////////////////     CHARACTER POINTS MENU WORK
-/////////////////////////////////////////////////////////////
-
-const loadCharacterPointStage0 = function(pointMenuNode, nodeClicked) {
-  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('div.column.c2'));
-  cardContainer.appendChild(menuLibrary.makeImage({drawn: false}));
-  cardContainer.querySelector('img').classList.add('points-menu')
-  menuLibrary.placeCardOverlay.call(cardContainer);
-  menuLibrary.placeCardTextOverlay.call(cardContainer, 'Draw three\nChoose one');
-  cardContainer.addEventListener('click', changeCharacterPointStage0to1, {once:true});
-}
-
-const changeCharacterPointStage0to1 = function() {
-  clearChildren(document.querySelector('div.points-menu.column.c2'));
-  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
-
-  fetch(RANDOM_THREE)
-  .then(resp => resp.json())
-  .then(cards => {
-    for (const card of cards) {
-      const configObj = Object.assign({}, card, {
-        drawn: true,
-        state: cardState(),
-      });
-
-      pointState.character[currentPoint].cards.push({
-        id: card.id,
-        state: configObj.state,
-      });
-
-      const cardContainer = menuLibrary.placeCardContainer.call(document.querySelector(`div.column.c${cards.indexOf(card)+1}`), configObj.id);
-      cardContainer.appendChild(menuLibrary.makeImage(configObj));
-      cardContainer.querySelector('img').classList.add('points-menu')
-      menuLibrary.placeCardOverlay.call(cardContainer);
-      menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
-      cardContainer.addEventListener('click', changeCharacterPointStage1to2);
-    }
-  });
-}
-
-const loadCharacterPointStage1 = function(pointMenuNode, nodeClicked) {
-  const currentPoint = nodeClicked.classList[2];
-  for (const card of pointState.character[currentPoint].cards) {
-    fetch(`${GET_CARD}/${card.id}`)
-    .then(resp => resp.json())
-    .then(card => {
-      const configObj = Object.assign({}, card, {
-        drawn: true,
-        state: pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10)).state,
-        pointType: 'character'
-      })
-
-      const whichColumn = pointState.character[currentPoint].cards.indexOf(pointState.character[currentPoint].cards.find(c => parseInt(c.id,10) === parseInt(card.id,10))) + 1;
-      const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector(`div.column.c${whichColumn}`), configObj.id);
-      cardContainer.appendChild(menuLibrary.makeImage(configObj));
-      cardContainer.querySelector('img').classList.add('points-menu');
-      menuLibrary.placeCardOverlay.call(cardContainer);
-      menuLibrary.place3CardTextOverlay.call(cardContainer, configObj);
-      cardContainer.addEventListener('click', changeCharacterPointStage1to2, {once:true});
-    })
-  }
-}
-
-const changeCharacterPointStage1to2 = function(event) {
-  const cardContainer = document.querySelector('.points-menu.column.c2 div.card-container');
-  const currentPoint = document.querySelector('div.points-menu.container').classList[3];
-  const cardKeep = getCardClicked(event.target).classList[2];
-  pointState.character[currentPoint].cards = pointState.character[currentPoint].cards.filter(card => parseInt(card.id,10) === parseInt(cardKeep, 10));
-
-  for (const node of [document.querySelector('div.points-menu.column.c1'), document.querySelector('div.points-menu.column.c3')]) {
-    clearChildren(node);
-  }
-  cardContainer.className = 'points-menu card-container';
-  clearChildren(cardContainer);
-
-  fetch(`${GET_CARD}/${cardKeep}`)
-  .then(resp => resp.json())
-  .then(card => {
-    console.log(card)
-    const configObj = Object.assign({}, card, {
-      drawn: true,
-      state: pointState.character[currentPoint].cards[0].state,
-      pointType: 'character',
-      currentPoint: currentPoint
-    });
-
-    cardContainer.appendChild(menuLibrary.makeImage(configObj));
-    cardContainer.querySelector('img').classList.add('points-menu')
-    menuLibrary.placeCardDescription.call(document.querySelector('div.points-menu.column.c3'), configObj);
-    menuLibrary.placeDescriptionForm.call(document.querySelector('div.points-menu.column.c1'), configObj);
-
-    const characterPointImageContainer = document.querySelector(`.point-container.${currentPoint} .img-overlay-container`);
-    characterPointImageContainer.removeChild(characterPointImageContainer.querySelector('img'));
-    characterPointImageContainer.prepend(menuLibrary.makeImage(configObj));
-    characterPointImageContainer.childNodes[0].classList.remove('points-menu');
-    characterPointImageContainer.childNodes[0].classList.add('card');
-    characterPointImageContainer.classList.add('drawn-card');
-    return card
-  })
-}
-
-const loadCharacterPointStage2 = function(pointMenuNode, nodeClicked) {
-  const cardContainer = menuLibrary.placeCardContainer.call(pointMenuNode.querySelector('.column.c2'));
-  const currentPoint = nodeClicked.classList[2];
-  fetch(`${GET_CARD}/${pointState.character[currentPoint].cards[0].id}`)
-  .then(resp => resp.json())
-  .then(card => {
-    const configObj = Object.assign({}, card, {
-      drawn: true,
-      state: pointState.character[currentPoint].cards[0].state,
-      pointType: 'character',
-      currentPoint: currentPoint
-    });
-
-    cardContainer.appendChild(menuLibrary.makeImage(configObj));
-    cardContainer.querySelector('img').classList.add('points-menu');
-    menuLibrary.placeCardDescription.call(pointMenuNode.querySelector('.column.c3'), configObj);
-    menuLibrary.placeDescriptionForm.call(pointMenuNode.querySelector('.column.c1'), configObj);
-  })
 }

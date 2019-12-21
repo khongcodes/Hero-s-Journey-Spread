@@ -10,85 +10,38 @@ let modalActive = false;
 let activeLoadMenuType = 'character';
 const pointsModal = document.querySelector('div#modal');
 
-// Example of pointState
-// point0: {
-//   cards: [
-//     {id:45, state:'upright'},
-//     {id:26, state:'inverted'}
-//   ],
-//   description: "user inputted text"
-// },
 const pointState = {
   character: {},
   journey: {}
 }
 
+// partial example of pointState once initialized:
+// journey: {
+//   point0: {
+//     cards: [
+//       {id:45, state:'upright'},
+//       {id:26, state:'inverted'}
+//     ],
+//     id: (an integer or string of an integer)
+//     description: "user inputted text"
+//   },
+//   point1: {
+//     cards: [
+//       {...}
+//     ],
+//     ...
+//   }
+// }
+
+
 document.addEventListener('DOMContentLoaded', () => {
-  pointStateInitialize();
+  PointStateMaker.initialize();
   cardsOpenPointMenuModal();
   loadMenuResponds();
   nameInputUpdatesPointState();
   disappearNameHelpText();
   saveButtonsSave();
 });
-
-//////////////////////////////////////////////////////////////////
-///////////////////////////       Utilities
-/////////////////////////////////////////////////////////////////
-
-class PointStatePointMaker {
-  constructor(num, type){
-    const key = (type==='character' ? `p${num}` : `point${num}`)
-    this[key] = {
-      id: "",
-      cards: [],
-      description: ""
-    }
-  }
-}
-
-const pointStateInitialize = function() {
-  for (let i=1; i<=4; i++) {
-    Object.assign(pointState.character, new PointStatePointMaker(i, "character"))
-  }
-  Object.assign(pointState.character, {id:'', name:''});
-  justJourneyInitialize();
-};
-
-const justJourneyInitialize = function() {
-  for (let i=1; i<=12; i++) {
-    Object.assign(pointState.journey, new PointStatePointMaker(i, "journey"))
-  };
-  Object.assign(pointState.journey, {id:'', name:''});
-}
-
-const modalCanOpen = function() {
-  modalActive = true;
-  pointsModal.style.display = 'block';
-}
-
-const modalCanClose = function(event) {
-  if (event.target === pointsModal && modalActive === true) {
-    modalActive = false;
-    pointsModal.style.display = 'none';
-  };
-}
-
-const clearChildren = function(node) {
-  while (node.lastChild) {
-    node.removeChild(node.lastChild);
-  }
-};
-
-const popupMessage = function(string) {
-  const popup = document.querySelector('.popup')
-  popup.innerText = string;
-  popup.className = 'popup visible';
-  setTimeout(() => {
-    popup.className = 'popup fadeout';
-    setTimeout(() => popup.className = 'popup invisible', 800)
-  }, 800)
-}
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////////       Functions in main program
@@ -99,14 +52,14 @@ const cardsOpenPointMenuModal = function() {
   
   for (const node of cardContainerNodes) {
     node.addEventListener('click', function(event) {
-      // enter [points-menu.js:197] on charcterOrJourneyPointsMenu
+      // JUMP TO [points-menu.js:5] on charcterOrJourneyPointsMenu()
       let pointMenuNode = characterOrJourneyPointsMenu(event, node);
 
       pointMenuNode.style.display = 'block';
       pointMenuNode.classList.add("visible");
-      modalCanOpen();
+      indexUtility.modalCanOpen();
       document.getElementById('modal').addEventListener('click', event => {
-        modalCanClose(event);
+        indexUtility.modalCanClose(event);
         unloadPointsMenuNode(pointMenuNode);
         pointMenuNode.style.display = 'none';
         pointMenuNode.classList.remove("visible");
@@ -118,9 +71,10 @@ const cardsOpenPointMenuModal = function() {
 const loadMenuResponds = function() {
   document.querySelector('.load-menu.tab.inactive').addEventListener('click', function() {
     if (!modalActive) {
-      // enter [load-menu.js:170] on loadMenuOpens()
+      // JUMP TO [load-menu.js:5] on loadMenuOpens()
       loadMenuOpens();
-      modalCanOpen();
+
+      indexUtility.modalCanOpen();
       document.getElementById('modal').addEventListener('click', loadMenuCloses, {once:true})
     }
   });
@@ -155,7 +109,74 @@ const disappearNameHelpText = function() {
 const saveButtonsSave = function() {
   const characterButton = document.querySelector('div#sidebar form input[type="submit"]');
   const journeyButton = document.querySelector('div#main form input[type="submit"]');
-  // enter [save.js:1] on resourceSaves()
+  // JUMP TO [save.js:5] on resourceSaves()
   characterButton.addEventListener('click', nonPointResourceButton)
   journeyButton.addEventListener('click', nonPointResourceButton)
 }
+
+
+//////////////////////////////////////////////////////////////////
+///////////////////////////       Classes
+/////////////////////////////////////////////////////////////////
+
+class PointStateMaker {
+  constructor(num, type){
+    const key = (type==='character' ? `p${num}` : `point${num}`)
+    this[key] = {
+      id: "",
+      cards: [],
+      description: ""
+    }
+  }
+
+  static initializeJourney() {
+    for (let i=1; i<=12; i++) {
+      Object.assign(pointState.journey, new PointStateMaker(i, "journey"))
+    };
+    Object.assign(pointState.journey, {id:'', name:''});
+  }
+
+  static initialize() {
+    PointStateMaker.initializeJourney();
+    for (let i=1; i<=4; i++) {
+      Object.assign(pointState.character, new PointStateMaker(i, "character"))
+    }
+    Object.assign(pointState.character, {id:'', name:''});
+  }
+}
+
+//////////////////////////////////////////////////////////////////
+///////////////////////////       Functional Libraries
+/////////////////////////////////////////////////////////////////
+
+const indexUtility = (function() {
+  return {
+    modalCanOpen: function() {
+      modalActive = true;
+      pointsModal.style.display = 'block';
+    },
+
+    modalCanClose: function() {
+      if (event.target === pointsModal && modalActive === true) {
+        modalActive = false;
+        pointsModal.style.display = 'none';
+      };
+    },
+
+    clearChildren: function() {
+      while (this.lastChild) {
+        this.removeChild(this.lastChild);
+      }
+    },
+
+    popupMessage: function(string) {
+      const popup = document.querySelector('.popup')
+      popup.innerText = string;
+      popup.className = 'popup visible';
+      setTimeout(() => {
+        popup.className = 'popup fadeout';
+        setTimeout(() => popup.className = 'popup invisible', 800)
+      }, 800)
+    }
+  }
+})();

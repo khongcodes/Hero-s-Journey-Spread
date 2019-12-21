@@ -1,8 +1,46 @@
 //////////////////////////////////////////////////////////////////
-////////////    Functional library for save functions
+////////////    Save Procedures
 /////////////////////////////////////////////////////////////////
 
-const apiTalkLibrary = (function() {
+const nonPointResourceButton = function(event) {
+  event.preventDefault();
+  const resourceType = event.target.value.split(" ")[1].toLowerCase();
+
+  const configObj = {
+    resourceType: resourceType,
+    resource: pointState[resourceType],
+    otherResourceId: pointState[(resourceType==='character' ? 'journey' : 'character')].id
+  }
+  
+  if (!pointState[resourceType].id) {
+    saveAPITalk.postNonPointResource.call(configObj, savePointState.assignIdsToPointState);
+
+  } else {
+    saveAPITalk.updateNonPointResource.call(configObj, savePointState.assignIdsToPointState);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////
+////       Class for creating configObjs for posting/updating to API
+///////////////////////////////////////////////////////////////////////////
+
+class APIConfigObj {
+  constructor(method, object) {
+    this.method = method;
+    this.headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    };
+    this.body = JSON.stringify(object);
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+////       saveAPITalk - functional library for posting and upating to API, defined in save.js
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const saveAPITalk = (function() {
   return {
     updatePersistedPoint: function() {
       console.log(this.pointInState.description)
@@ -14,7 +52,7 @@ const apiTalkLibrary = (function() {
       fetch(`${POINTS}/${this.pointInState.id}`, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        popupMessage('Point updated')
+        indexUtility.popupMessage('Point updated')
       })
     },
 
@@ -30,13 +68,13 @@ const apiTalkLibrary = (function() {
       fetch(POINTS, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        popupMessage('New point saved')
+        indexUtility.popupMessage('New point saved')
         this.pointInState.id = obj.id;
       })
     },
 
     postNonPointResource: function(callback) {
-      const pointsWithCards = apiTalkLibrary.getPointsWithCards.call(this);
+      const pointsWithCards = saveAPITalk.getPointsWithCards.call(this);
       // output of this is akin to 
       // {p1:{...}, p2{...}, p3{...}}
 
@@ -49,14 +87,14 @@ const apiTalkLibrary = (function() {
       fetch(`${BASE_URL}/${this.resourceType}s`, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        popupMessage(`${this.resourceType} ${this.resource.name} saved`);
+        indexUtility.popupMessage(`${this.resourceType} ${this.resource.name} saved`);
         // status message
         callback.call(Object.assign({}, obj, {resource: this.resourceType}));
       });
     },
 
     updateNonPointResource: function(callback) {
-      const pointsWithCards = apiTalkLibrary.getPointsWithCards.call(this);
+      const pointsWithCards = saveAPITalk.getPointsWithCards.call(this);
       // output of this is akin to 
       // {p1:{...}, p2{...}, p3{...}}
 
@@ -69,7 +107,7 @@ const apiTalkLibrary = (function() {
       fetch(`${BASE_URL}/${this.resourceType}s/${pointState[this.resourceType].id}`, configObj)
       .then(resp => resp.json())
       .then(obj => {
-        popupMessage(`${this.resourceType} ${this.resource.name} updated`);
+        indexUtility.popupMessage(`${this.resourceType} ${this.resource.name} updated`);
         callback.call(Object.assign({}, obj, {resource: this.resourceType}));
       });
     },
@@ -83,8 +121,17 @@ const apiTalkLibrary = (function() {
       }
       return pointsWithCards;
     },
+  }  
+})();
 
-    assignIdsToPointState: function() {
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+////       savePointState - functional library for updating pointState, defined in save.js
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const savePointState = (function() {
+  return {
+    assignIds: function() {
       pointState[this.resource].id = this.id;
       pointState[this.resource].name = this.name;
       for (const point of this.points) {
@@ -100,88 +147,44 @@ const apiTalkLibrary = (function() {
         
       //   pointState.journey.id = this.journeys.sort(LoadMenuItems.sortUpdatedAt)[0].id;
       // }
-    }
+    },
 
+    textAreaChange: function() {
+      this.addEventListener('change', () => {
+        const resourceType = document.querySelector('div.points-menu.container').classList[2];
+        const pointNum = document.querySelector('div.points-menu.container').classList[3];
+        const pointInState = pointState[resourceType][pointNum];
+        pointInState.description = this.value;
+        console.log('saved to pointstate')
+        console.log(pointInState);
+      });
+    },
 
-  }  
+    saveButtonClick: function() {
+      this.addEventListener('click', event => {
+        event.preventDefault();
+    
+        const resourceType = document.querySelector('div.points-menu.container').classList[2];
+        const pointNum = document.querySelector('div.points-menu.container').classList[3];
+        const pointInState = pointState[resourceType][pointNum];
+    
+        if (pointInState.id) {
+          saveAPITalk.updatePersistedPoint.call({
+            pointInState: pointInState,
+            pointNum: pointNum
+          });
+        } else if (pointState[resourceType].id) {
+          saveAPITalk.createNewPointUnderResource.call({
+            pointInState: pointInState,
+            resourceType: resourceType,
+            pointNum: pointNum
+          });
+        }
+        // document.getElementById('modal').click();
+        // 'Save story point' does not save point if resource (Character or Journey) has not been persisted by pressing 'save' button
+        // they do, however, save to the global-scope object pointState
+      })
+    },
+
+  }
 })();
-
-
-//////////////////////////////////////////////////////////////////
-////////////    Classes
-/////////////////////////////////////////////////////////////////
-
-class APIConfigObj {
-  constructor(method, object) {
-    this.method = method;
-    this.headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    };
-    this.body = JSON.stringify(object);
-  }
-}
-
-
-//////////////////////////////////////////////////////////////////
-////////////    Procedures
-/////////////////////////////////////////////////////////////////
-
-const textAreaChangeSaveToPointState = function() {
-  this.addEventListener('change', () => {
-    const resourceType = document.querySelector('div.points-menu.container').classList[2];
-    const pointNum = document.querySelector('div.points-menu.container').classList[3];
-    const pointInState = pointState[resourceType][pointNum];
-    pointInState.description = this.value;
-    console.log('saved to pointstate')
-    console.log(pointInState);
-  });
-};
-
-const pointDescSaveToPointState = function() {
-  this.addEventListener('click', event => {
-    event.preventDefault();
-
-    const resourceType = document.querySelector('div.points-menu.container').classList[2];
-    const pointNum = document.querySelector('div.points-menu.container').classList[3];
-    const pointInState = pointState[resourceType][pointNum];
-
-    if (pointInState.id) {
-      apiTalkLibrary.updatePersistedPoint.call({
-        pointInState: pointInState,
-        pointNum: pointNum
-      });
-      console.log('popupmessage point updated in database');
-    } else if (pointState[resourceType].id) {
-      apiTalkLibrary.createNewPointUnderResource.call({
-        pointInState: pointInState,
-        resourceType: resourceType,
-        pointNum: pointNum
-      });
-      console.log('popupmessage new point saved to database');
-    }
-    // document.getElementById('modal').click();
-    // 'Save story point' does not save point if resource (Character or Journey) has not been persisted by pressing 'save' button
-    // they do, however, save to the global-scope object pointState
-  })
-}
-
-const nonPointResourceButton = function(event) {
-  event.preventDefault();
-  const resourceType = event.target.value.split(" ")[1].toLowerCase();
-
-  const configObj = {
-    resourceType: resourceType,
-    resource: pointState[resourceType],
-    otherResourceId: pointState[(resourceType==='character' ? 'journey' : 'character')].id
-  }
-  
-  if (!pointState[resourceType].id) {
-    console.log("post a new resource")
-    apiTalkLibrary.postNonPointResource.call(configObj, apiTalkLibrary.assignIdsToPointState);
-
-  } else {
-    console.log("update loaded resource")
-    apiTalkLibrary.updateNonPointResource.call(configObj, apiTalkLibrary.assignIdsToPointState);
-  }
-}
