@@ -79,7 +79,7 @@ const getActiveMenuItems = function() {
     }
 
     const configObj = {
-      paragraphText: [`Create new ${activeLoadMenuType}`]
+      paragraphText: [`Create a new ${activeLoadMenuType}`, `(Clear current ${activeLoadMenuType})`]
     };
 
     cardsContainer.appendChild(loadElement.makeCard(configObj));
@@ -88,9 +88,18 @@ const getActiveMenuItems = function() {
     lastImageContainer.appendChild(loadElement.makePlusOverlay());
     lastImageContainer.addEventListener('click', () => {
       if (activeLoadMenuType==='journey') {
+        // characters can have many journeys, therefore only clear journey if character is loaded or not loaded
         PointStateMaker.initializeJourney();
-      } else {
+
+      } else if (!!pointState.character.id && !!pointState.journey.id){
+        // if both Character and Journey have been persisted, they are associated, and forbid user from breaking that association
+        // by trying to create a new character for a journey that already has one
         PointStateMaker.initialize();
+        loadWarning = "Existing character can not be separated from their journey!\nNew character and journey loaded";
+
+      } else {
+        // allow character to be re-initialized if neither have been persisted, or if only journey has been persisted
+        PointStateMaker.initializeCharacter();
       }
       // if loading journey, don't reset character too
       LoadMenuItems.loadToCardsFromPointState();
@@ -207,12 +216,16 @@ class LoadMenuItems {
       }
     }
     let message;
-    if (!pointState[activeLoadMenuType].id) {
+    if (loadWarning) {
+      message = loadWarning;
+    } else if (!pointState[activeLoadMenuType].id) {
       message = `New ${activeLoadMenuType} loaded`;
     } else {
       message = `${loadUtility.capitalized.call(activeLoadMenuType)} loaded`;
     }
+    
     indexUtility.popupMessage(message);
+    loadWarning = '';
   }
 }
 
@@ -270,7 +283,7 @@ const loadElement = (function() {
 
       for (const string of configObj.paragraphText) {
         menuCard.lastChild.appendChild(document.createElement('p'));
-        menuCard.lastChild.firstChild.innerText = string;
+        menuCard.lastChild.lastChild.innerText = string;
       }
 
       return menuCard;

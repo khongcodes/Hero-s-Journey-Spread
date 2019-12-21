@@ -9,6 +9,7 @@ const POINTS = `${BASE_URL}/points`
 let modalActive = false;
 let activeLoadMenuType = 'character';
 const pointsModal = document.querySelector('div#modal');
+let loadWarning;
 
 const pointState = {
   character: {},
@@ -38,9 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
   PointStateMaker.initialize();
   cardsOpenPointMenuModal();
   loadMenuResponds();
+  saveButtonsSave();
   nameInputUpdatesPointState();
   disappearNameHelpText();
-  saveButtonsSave();
 });
 
 //////////////////////////////////////////////////////////////////
@@ -80,6 +81,14 @@ const loadMenuResponds = function() {
   });
 }
 
+const saveButtonsSave = function() {
+  const characterButton = document.querySelector('div#sidebar form input[type="submit"]');
+  const journeyButton = document.querySelector('div#main form input[type="submit"]');
+  // JUMP TO [save.js:5] on resourceSaves()
+  characterButton.addEventListener('click', nonPointResourceButton)
+  journeyButton.addEventListener('click', nonPointResourceButton)
+}
+
 const nameInputUpdatesPointState = function() {
   for (const element of  document.querySelectorAll('input[type="text"]')) {
     element.addEventListener('change', () => {
@@ -106,14 +115,6 @@ const disappearNameHelpText = function() {
   
 }
 
-const saveButtonsSave = function() {
-  const characterButton = document.querySelector('div#sidebar form input[type="submit"]');
-  const journeyButton = document.querySelector('div#main form input[type="submit"]');
-  // JUMP TO [save.js:5] on resourceSaves()
-  characterButton.addEventListener('click', nonPointResourceButton)
-  journeyButton.addEventListener('click', nonPointResourceButton)
-}
-
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////////       Classes
@@ -136,14 +137,19 @@ class PointStateMaker {
     Object.assign(pointState.journey, {id:'', name:''});
   }
 
-  static initialize() {
-    PointStateMaker.initializeJourney();
+  static initializeCharacter() {
     for (let i=1; i<=4; i++) {
       Object.assign(pointState.character, new PointStateMaker(i, "character"))
     }
     Object.assign(pointState.character, {id:'', name:''});
   }
+
+  static initialize() {
+    this.initializeJourney();
+    this.initializeCharacter();
+  };
 }
+
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////////       Functional Libraries
