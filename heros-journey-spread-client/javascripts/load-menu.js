@@ -37,51 +37,35 @@ const getActiveMenuItems = function() {
   .then(resp => resp.json())
   .then(obj => {
     let sortedItems, sortedPoints;
-    if (activeLoadMenuType === 'character') {
-      sortedItems = [...obj].sort(LoadMenuItems.sortUpdatedAt).map(a => {
-        sortedPoints = a.points.sort(LoadMenuItems.sortUpdatedAt)
-        return new LoadCharacterItems(a);
-        
-      });
-    } else {
-      sortedItems = [...obj].sort(LoadMenuItems.sortUpdatedAt).map(a => {
-        sortedPoints = a.points.sort(LoadMenuItems.sortUpdatedAt)
-        return new LoadJourneyItems(a)
-      });
-    };
+    sortedItems = [...obj].sort(LoadMenuItems.sortUpdatedAt).map(a => {
+      sortedPoints = a.points.sort(LoadMenuItems.sortUpdatedAt)
+      return (activeLoadMenuType === 'character' ? new LoadCharacterItems(a) : new LoadJourneyItems(a));
+    });
 
     const cardsContainer = document.querySelector('div.load-menu.cards-container');
     for (const item of sortedItems) {
       cardsContainer.appendChild(item.node);
       if (item.points.length === 0) {
         item.node.querySelector('img').src = 'assets/card-images/x.jpg';
-        item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
-          LoadMenuItems.loadToPointState(LoadMenuItems.loadToCardsFromPointState);
-          document.getElementById('modal').click();
-        });
-
       } else {
         fetch(`${GET_CARD}/${item.points[0].cards[0].id}`)
         .then(resp => resp.json())
         .then(obj => {
           item.node.querySelector('img').src = (obj.card_type === 'major' ? `assets/card-images/major/${obj.value}.jpg` : `assets/card-images/minor/${obj.suit[0].toUpperCase() + obj.suit.slice(1)}/${obj.value}.jpg`);
         })
-
         if (item.points[0].querent_ref.split(", ")[1].split(" ")[1] === "inverted") {
           item.node.querySelector('img').classList.add('inverted-card')
         }
-        item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
-          LoadMenuItems.loadToPointState(LoadMenuItems.loadToCardsFromPointState);
-          document.getElementById('modal').click();
-        });
       }
-      
+      item.node.querySelector('.load-menu.menu-card-content.img-container').addEventListener('click', () => {
+        LoadMenuItems.loadToPointState(LoadMenuItems.loadToCardsFromPointState);
+        document.getElementById('modal').click();
+      });
     }
 
     const configObj = {
       paragraphText: [`Create a new ${activeLoadMenuType}`, `(Clear current ${activeLoadMenuType})`]
     };
-
     cardsContainer.appendChild(loadElement.makeCard(configObj));
     const lastImageContainer = cardsContainer.querySelector('.load-menu.menu-card:last-child .img-container');
     lastImageContainer.querySelector('img').src = 'assets/card-images/x-small.jpg';
@@ -175,10 +159,11 @@ class LoadMenuItems {
     .then(resp => resp.json())
     .then(obj => {
 
-      // copy just id and name properties of returned obj
+      // copy just id and name properties of returned obj.
       Object.assign(pointState[activeLoadMenuType], (({id, name}) => ({id, name}))(obj));
       LoadMenuItems.pushPoints.call(pointState[activeLoadMenuType], obj.points);
 
+      // load character along with journey if it is associated with one.
       if (activeLoadMenuType==='journey' && obj.hasOwnProperty('character')) {
         Object.assign(pointState.character, (({id, name}) => ({id, name}))(obj.character));
         LoadMenuItems.pushPoints.call(pointState.character, obj.character.points);

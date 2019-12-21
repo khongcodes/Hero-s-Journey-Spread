@@ -18,12 +18,8 @@ const characterOrJourneyPointsMenu = function(event, nodeClicked) {
 const unloadPointsMenuNode = function(menu) {
   if ([...menu.classList].includes('character')) {
     menu.querySelector('div.points-menu.header-container').removeChild(menu.querySelector('p'));
-  } else {
-    menu.querySelector('h2.points-menu.header-content').innerText = "";
-    menu.querySelector('p.points-menu.info-content').innerText = ""
   }
   menu.className = 'points-menu container'
-
   for (const column of menu.getElementsByClassName('column')) {
     indexUtility.clearChildren.call(column)
   }
