@@ -13,10 +13,10 @@ const nonPointResourceButton = function(event) {
   }
   
   if (!pointState[resourceType].id) {
-    saveAPITalk.postNonPointResource.call(configObj, savePointState.assignIdsToPointState);
+    saveAPITalk.postNonPointResource.call(configObj, savePointState.assignIds);
 
   } else {
-    saveAPITalk.updateNonPointResource.call(configObj, savePointState.assignIdsToPointState);
+    saveAPITalk.updateNonPointResource.call(configObj, savePointState.assignIds);
   }
 }
 
