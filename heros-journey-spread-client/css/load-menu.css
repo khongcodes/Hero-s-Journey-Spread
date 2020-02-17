@@ -41,6 +41,7 @@ div.load-menu.menu-container {
 
 div.load-menu.active-container {
   grid-area: top-end/left-margin-end/bar2-end/right-margin-end;
+  overflow-x: auto;
 }
 
 div.load-menu.active-container h4{

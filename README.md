@@ -6,6 +6,8 @@
 ![screenshot 2](https://i.imgur.com/BQedlNx.png)
 ![screenshot 3](https://i.imgur.com/XSyXF9y.png)
 
+[Video demo](https://youtu.be/N3AwkQx0Efo)
+
 This is a short story-telling game, in which you draw tarot cards in sequence along with a 12-point version of Campbell's Hero's Journey.
 
 To play, click on the facedown cards. You will be presented with a text prompt - a question about your character, or information about this point of the Hero's Journey. You may answer it, but you aren't required to - a text area is provided for you to save notes if you want.
