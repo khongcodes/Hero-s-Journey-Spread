@@ -8,7 +8,8 @@ div#view-wrapper {
   position:absolute;
   margin: 0 auto;
   width: 98vw;
-  height:100vw;
+  height: 100vh;
+  min-height: 950px;
   display: grid;
   grid-template:
     [top-end]
@@ -16,7 +17,7 @@ div#view-wrapper {
     10fr [main-end]
     1fr [bottom-end] /
     [left-end]
-    380px [sidebar-end]
+    26em [sidebar-end]
     4fr [col-1-end]
     4fr [right-end];
 }
